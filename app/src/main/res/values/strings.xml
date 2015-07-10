@@ -3,4 +3,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!--Order-->
+    <string name="order_total_money">합계</string>
+    <string name="order_pay">결제</string>
 </resources>
