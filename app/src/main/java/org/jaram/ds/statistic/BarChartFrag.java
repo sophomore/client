@@ -1,10 +1,10 @@
-package org.jaram.ds;
+package org.jaram.ds.statistic;
 
-import android.support.v4.app.Fragment;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +17,9 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
+
+import org.jaram.ds.R;
+
 
 /**
  * Created by ka123ak on 2015-07-09.
@@ -55,7 +58,7 @@ public class BarChartFrag extends Fragment implements OnChartGestureListener {
         XAxis xAxis = mChart.getXAxis();
         xAxis.setEnabled(false);
 
-        mChart.setBackgroundColor(Color.BLACK);
+        mChart.setBackgroundColor(Color.BLUE);
         FrameLayout parent = (FrameLayout) view.findViewById(R.id.parentLayout);
         parent.addView(mChart);
 

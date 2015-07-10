@@ -1,23 +1,38 @@
-package org.jaram.ds;
+package org.jaram.ds.statistic;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.jaram.ds.statistic.BarChartFrag;
-import org.jaram.ds.statistic.DrawerFrag;
+import org.jaram.ds.R;
 
-public class Intro extends FragmentActivity {
 
+
+public class StatisticMain extends FragmentActivity {
+
+
+    DrawerFrag drawerFrag;
+    BarChartFrag barChartFrag;
+
+    float startX;
+    float startY;
+    float endX;
+    float endY;
+    float diffX, diffY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(this,org.jaram.ds.statistic.StatisticMain.class);
-        startActivity(intent);
+
+        setContentView(R.layout.activity_intro);
+        if (savedInstanceState == null) {
+            barChartFrag = new BarChartFrag();
+            getSupportFragmentManager().beginTransaction().add(R.id.chart, barChartFrag).commit();
+
+        }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -25,6 +40,7 @@ public class Intro extends FragmentActivity {
         getMenuInflater().inflate(R.menu.menu_intro, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -40,6 +56,5 @@ public class Intro extends FragmentActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

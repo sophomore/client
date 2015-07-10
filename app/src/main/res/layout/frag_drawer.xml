@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="200dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -23,10 +24,29 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="3">
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:numColumns="3"
+        android:id="@+id/gridView"
+        >
 
-    </GridLayout>
+    </GridView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView" />
+    </LinearLayout>
+
 </LinearLayout>
