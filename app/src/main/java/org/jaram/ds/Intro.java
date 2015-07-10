@@ -1,9 +1,12 @@
 package org.jaram.ds;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.jaram.ds.order.OrderManager;
 
 
 public class Intro extends Activity {
@@ -12,6 +15,9 @@ public class Intro extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+
+        startActivity(new Intent(Intro.this, OrderManager.class));
+        finish();
     }
 
     @Override
