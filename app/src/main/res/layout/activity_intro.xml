@@ -1,4 +1,4 @@
-<android.support.v4.widget.DrawerLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,19 +7,11 @@
     android:id="@+id/drawerLayout"
     >
 
-    <FrameLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/chart"
+        android:id="@+id/textView"
         />
 
-    <fragment
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="start"
-        android:id="@+id/drawer"
-        class="org.jaram.ds.statistic.DrawerFrag"
-        >
-    </fragment>
-</android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>

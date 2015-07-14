@@ -6,9 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.jaram.ds.statistic.BarChartFrag;
-import org.jaram.ds.statistic.DrawerFrag;
-
 public class Intro extends FragmentActivity {
 
 
@@ -17,6 +14,7 @@ public class Intro extends FragmentActivity {
         super.onCreate(savedInstanceState);
         Intent intent = new Intent(this,org.jaram.ds.statistic.StatisticMain.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

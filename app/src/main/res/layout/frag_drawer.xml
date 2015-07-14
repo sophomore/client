@@ -7,7 +7,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="wrap_content">
 
         <Button
             android:layout_width="0dp"
@@ -26,27 +26,20 @@
 
     <GridView
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:numColumns="3"
         android:id="@+id/gridView"
         >
 
     </GridView>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <DatePicker
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/datepic"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false"
+        />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView" />
-    </LinearLayout>
 
 </LinearLayout>

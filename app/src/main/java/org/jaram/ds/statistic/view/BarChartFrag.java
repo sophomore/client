@@ -1,4 +1,4 @@
-package org.jaram.ds.statistic;
+package org.jaram.ds.statistic.view;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -16,15 +16,31 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 
 import org.jaram.ds.R;
+import org.jaram.ds.data.Data;
+import org.jaram.ds.data.struct.Menu;
+import org.jaram.ds.data.struct.Order;
+import org.jaram.ds.data.struct.OrderMenu;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
  * Created by ka123ak on 2015-07-09.
  */
 public class BarChartFrag extends Fragment implements OnChartGestureListener {
+
+    private HashMap<Menu, Integer> totalPrice;
+    private ArrayList<OrderMenu> orderMenus;
+    private ArrayList<Order> orderArrayList;
+    Typeface tf;
+
     public static Fragment newInstance() { return new BarChartFrag();}
 
     private BarChart mChart;
@@ -37,16 +53,29 @@ public class BarChartFrag extends Fragment implements OnChartGestureListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_bar,container,false);
-
+        totalPrice = new HashMap<Menu,Integer>();
+        //데이터 가져오기
+        orderArrayList = Data.orderList;
+        for(Order i : orderArrayList){
+            for(OrderMenu j : i.menus.keySet()){
+                if(totalPrice.get(j.menu)==null){
+                    totalPrice.put(j.menu,i.menus.get(j));
+                } else{
+                    totalPrice.put(j.menu,totalPrice.get(j.menu)+i.menus.get(j));
+                }
+            }
+        }
         //차트 객체 구현
         mChart = new BarChart(getActivity());
         mChart.setDescription("");
 
         mChart.setHighlightEnabled(false);
         mChart.setDrawBarShadow(false);
+        mChart.setDrawValueAboveBar(true);
 
-        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(),"OpenSans-Light.ttf");
+        tf = Typeface.createFromAsset(getActivity().getAssets(),"OpenSans-Light.ttf");
 
+        mChart.setData(generateBarData());
         Legend l = mChart.getLegend();
         l.setTypeface(tf);
 
@@ -56,7 +85,10 @@ public class BarChartFrag extends Fragment implements OnChartGestureListener {
         mChart.getAxisRight().setEnabled(false);
 
         XAxis xAxis = mChart.getXAxis();
-        xAxis.setEnabled(false);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTypeface(tf);
+        xAxis.setDrawGridLines(false);
+        xAxis.setSpaceBetweenLabels(1);
 
         mChart.setBackgroundColor(Color.BLUE);
         FrameLayout parent = (FrameLayout) view.findViewById(R.id.parentLayout);
@@ -65,6 +97,34 @@ public class BarChartFrag extends Fragment implements OnChartGestureListener {
 
         return view;
 
+    }
+
+    protected BarData generateBarData(){
+        ArrayList<BarDataSet> sets = new ArrayList<BarDataSet>();
+        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+
+        int j = 0;
+        ArrayList<String>menuName = new ArrayList<String>();
+        for(Menu i : totalPrice.keySet()){
+
+            menuName.add(i.name);
+            entries.add(new BarEntry((float) (j + 1), j));
+
+            j++;
+
+        }
+        BarDataSet barDataSet = new BarDataSet(entries,"DataSet");
+        barDataSet.setBarSpacePercent(30f);
+        sets.add(barDataSet);
+
+        String d [] = new String [15];
+        for(int i =0 ;i<15;i++){
+            d[i]=String.valueOf(i+1);
+        }
+        BarData data = new BarData(d,sets);
+        data.setValueTextSize(10f);
+        data.setValueTypeface(tf);
+        return data;
     }
 
     @Override

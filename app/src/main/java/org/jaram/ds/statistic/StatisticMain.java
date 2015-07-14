@@ -6,7 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.jaram.ds.R;
-
+import org.jaram.ds.statistic.view.BarChartFrag;
+import org.jaram.ds.statistic.view.DrawerFrag;
 
 
 public class StatisticMain extends FragmentActivity {
@@ -25,7 +26,7 @@ public class StatisticMain extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_intro);
+        setContentView(R.layout.activity_statistic);
         if (savedInstanceState == null) {
             barChartFrag = new BarChartFrag();
             getSupportFragmentManager().beginTransaction().add(R.id.chart, barChartFrag).commit();

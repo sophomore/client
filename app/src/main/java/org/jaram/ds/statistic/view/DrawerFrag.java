@@ -1,4 +1,4 @@
-package org.jaram.ds.statistic;
+package org.jaram.ds.statistic.view;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ public class DrawerFrag extends Fragment {
 
     String unit[] = {"시간","일","요일","월","분기","년"};
     GridView gridView;
-
+    DatePicker datePicker;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +40,16 @@ public class DrawerFrag extends Fragment {
                 Toast.makeText(getActivity(),"버튼눌림",Toast.LENGTH_LONG).show();
             }
         });
+        datePicker = (DatePicker) view.findViewById(R.id.datepic);
+        datePicker.init(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),
+                new DatePicker.OnDateChangedListener(){
+
+                    @Override
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        String msg = String.format("%d /%d /%d",year,monthOfYear,dayOfMonth);
+                        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT);
+                    }
+                });
         return view;
     }
     class SimpleAdapter extends BaseAdapter {
