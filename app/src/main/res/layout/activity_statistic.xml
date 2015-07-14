@@ -19,7 +19,7 @@
         android:orientation="vertical"
         android:layout_gravity="start"
         android:id="@+id/drawer"
-        class="org.jaram.ds.statistic.view.DrawerFrag"
+        class = "org.jaram.ds.statistic.view.DrawerFrag"
         >
     </fragment>
 </android.support.v4.widget.DrawerLayout>

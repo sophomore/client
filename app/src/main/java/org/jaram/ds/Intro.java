@@ -15,6 +15,9 @@ public class Intro extends FragmentActivity {
         Intent intent = new Intent(this,org.jaram.ds.statistic.StatisticMain.class);
         startActivity(intent);
         finish();
+//        Intent intent = new Intent(this,org.jaram.ds.statistic.StatisticMain.class);
+//        startActivity(intent);
+
     }
 
     @Override

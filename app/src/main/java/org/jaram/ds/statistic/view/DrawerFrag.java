@@ -27,7 +27,7 @@ public class DrawerFrag extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_drawer,container,false);
+        View view = inflater.inflate(R.layout.fragment_drawer,container,false);
         gridView = (GridView) view.findViewById(R.id.gridView);
         SimpleAdapter simpleAdapter = new SimpleAdapter();
         gridView.setAdapter(simpleAdapter);
