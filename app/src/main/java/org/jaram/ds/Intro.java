@@ -15,8 +15,9 @@ public class Intro extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(this,org.jaram.ds.statistic.StatisticMain.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this,org.jaram.ds.statistic.StatisticMain.class);
+//        startActivity(intent);
+
     }
 
     @Override
