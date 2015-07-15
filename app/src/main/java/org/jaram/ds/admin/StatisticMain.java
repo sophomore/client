@@ -1,4 +1,4 @@
-package org.jaram.ds.statistic;
+package org.jaram.ds.admin;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -6,8 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.jaram.ds.R;
-import org.jaram.ds.statistic.view.BarChartFrag;
-import org.jaram.ds.statistic.view.DrawerFrag;
+import org.jaram.ds.admin.view.BarChartFrag;
+import org.jaram.ds.admin.view.DrawerFrag;
 
 
 public class StatisticMain extends FragmentActivity {
