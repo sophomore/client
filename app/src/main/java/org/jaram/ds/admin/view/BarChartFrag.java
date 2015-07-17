@@ -1,4 +1,4 @@
-package org.jaram.ds.statistic.view;
+package org.jaram.ds.admin.view;
 
 import android.graphics.Color;
 import android.graphics.Typeface;

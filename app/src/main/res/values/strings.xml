@@ -7,4 +7,9 @@
     <!--Order-->
     <string name="order_total_money">합계</string>
     <string name="order_pay">결제</string>
+
+    <!--Statistic-->
+    <string name="statistic_count">갯수</string>
+    <string name="statistic_sales">매출</string>
+    <string name="statistic_today">일</string>
 </resources>
