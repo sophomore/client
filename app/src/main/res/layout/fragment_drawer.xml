@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="360dp"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="#fff"
+    android:id="@+id/drawerLayout">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -13,14 +14,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/statistic_count"
-            android:id="@+id/button"
+            android:id="@+id/countbtn"
             android:layout_weight="1" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/statistic_sales"
-            android:id="@+id/button2"
+            android:id="@+id/salesbtn"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -122,6 +123,26 @@
             android:layout_height="wrap_content"
             android:text="일"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="분석"
+            android:id="@+id/analysis"
+            android:layout_weight="1"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="초기화"
+            android:id="@+id/reset"
+            android:layout_weight="1"/>
     </LinearLayout>
 
 
