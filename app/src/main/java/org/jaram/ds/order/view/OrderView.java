@@ -33,9 +33,7 @@ public class OrderView extends Fragment {
 
 //        Order order = new Order();
         Order order = Data.orderList.get(new Random().nextInt(Data.orderList.size()-1));
-        MenuListAdapter adapter = new MenuListAdapter(order.menus);
-
-        Log.d("orderView", "adapter");
+        MenuListAdapter adapter = new MenuListAdapter(order.menuList);
 
         menuListView.setAdapter(adapter);
         menuListView.setItemAnimator(new DefaultItemAnimator());
