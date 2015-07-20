@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jaram.ds.R;
 
@@ -24,7 +25,7 @@ import java.util.GregorianCalendar;
 public class DrawerFrag extends Fragment {
 
     String unit[] = {"시간","일","요일","월","분기","년"};
-
+    TextView byear,bmonth,bday, lyear,lmonth,lday;
     int year, month,day;
     View view;
     @Nullable
@@ -40,13 +41,23 @@ public class DrawerFrag extends Fragment {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        final Button countbtn = (Button) view.findViewById(R.id.countbtn);
+        final Button salesbtn = (Button) view.findViewById(R.id.salesbtn);
+        countbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+
         beforeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView year = (TextView)view.findViewById(R.id.ByearText);
-                TextView month = (TextView)view.findViewById(R.id.BmonthText);
-                TextView day = (TextView) view.findViewById(R.id.BdayText);
-                DialogFragment beforeDialog = new DatePickerFrag(year,month,day);
+                byear = (TextView)view.findViewById(R.id.ByearText);
+                bmonth = (TextView)view.findViewById(R.id.BmonthText);
+                bday = (TextView) view.findViewById(R.id.BdayText);
+                DialogFragment beforeDialog = new DatePickerFrag(byear,bmonth,bday);
                 beforeDialog.show(getActivity().getFragmentManager(),"datePicker");
             }
         });
@@ -54,11 +65,30 @@ public class DrawerFrag extends Fragment {
         laterbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView year = (TextView)view.findViewById(R.id.LyearText);
-                TextView month = (TextView)view.findViewById(R.id.LmonthText);
-                TextView day = (TextView) view.findViewById(R.id.LdayText);
-                DialogFragment beforeDialog = new DatePickerFrag(year,month,day);
+                lyear = (TextView)view.findViewById(R.id.LyearText);
+                lmonth = (TextView)view.findViewById(R.id.LmonthText);
+                lday = (TextView) view.findViewById(R.id.LdayText);
+                DialogFragment beforeDialog = new DatePickerFrag(lyear,lmonth,lday);
                 beforeDialog.show(getActivity().getFragmentManager(),"datePicker");
+            }
+        });
+        Button analysisbtn = (Button) view.findViewById(R.id.analysis);
+        analysisbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        Button resetbtn = (Button) view.findViewById(R.id.reset);
+        resetbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                byear.setText("");
+                bmonth.setText("");
+                bday.setText("");
+                lyear.setText("");
+                lmonth.setText("");
+                lday.setText("");
             }
         });
         return view;

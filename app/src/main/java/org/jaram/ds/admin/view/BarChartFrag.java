@@ -1,6 +1,7 @@
 package org.jaram.ds.admin.view;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,7 +37,7 @@ import java.util.HashMap;
  */
 public class BarChartFrag extends Fragment implements OnChartGestureListener {
 
-    private HashMap<Menu, Integer> totalPrice;
+    private HashMap<Menu, Integer> menuCount;
     private ArrayList<OrderMenu> orderMenus;
     private ArrayList<Order> orderArrayList;
     Typeface tf;
@@ -54,18 +55,7 @@ public class BarChartFrag extends Fragment implements OnChartGestureListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_bar,container,false);
-        totalPrice = new HashMap<Menu,Integer>();
-        //데이터 가져오기
-        orderArrayList = Data.orderList;
-        for(Order i : orderArrayList){
-            for(OrderMenu j : i.menus.keySet()){
-                if(totalPrice.get(j.menu)==null){
-                    totalPrice.put(j.menu,i.menus.get(j));
-                } else{
-                    totalPrice.put(j.menu,totalPrice.get(j.menu)+i.menus.get(j));
-                }
-            }
-        }
+
 
         //차트 객체 구현
         mChart = new BarChart(getActivity());
@@ -105,30 +95,59 @@ public class BarChartFrag extends Fragment implements OnChartGestureListener {
         ArrayList<BarDataSet> sets = new ArrayList<BarDataSet>();
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
-        int j = 0;
-        ArrayList<String>menuName = new ArrayList<String>();
-        for(Menu i : totalPrice.keySet()){
 
-            menuName.add(i.name);
-            entries.add(new BarEntry((float) (j + 1), j));
+        ArrayList<String>menuName = getMenuNameList();
 
-            j++;
-
-        }
-        BarDataSet barDataSet = new BarDataSet(entries,"DataSet");
-        barDataSet.setBarSpacePercent(30f);
-        sets.add(barDataSet);
 
         String d [] = new String [15];
         for(int i =0 ;i<15;i++){
             d[i]=String.valueOf(i+1);
         }
-        BarData data = new BarData(d,sets);
+        BarData data = setEntries(menuName);
         data.setValueTextSize(10f);
         data.setValueTypeface(tf);
         return data;
     }
 
+    public ArrayList<String> getMenuNameList(){
+        ArrayList<String> menuName = new ArrayList<String>();
+        for(Menu i : Data.menuList){
+            menuName.add(i.name);
+        }
+        return menuName;
+    }
+
+    public BarData setEntries(ArrayList<String> menuName){
+
+        ArrayList<Order> orderList = Data.orderList;
+        HashMap<String, Integer> totalCountPerMenu = new HashMap<String, Integer>();
+        for(Order i : orderList){
+            for(OrderMenu j : i.menus.keySet()){
+                if(totalCountPerMenu.containsKey(j.menu.name)){
+                    totalCountPerMenu.put(j.menu.name,totalCountPerMenu.get(j.menu.name)+ i.menus.get(j));
+                } else{
+                    totalCountPerMenu.put(j.menu.name,i.menus.get(j));
+                }
+            }
+        }
+        ArrayList<BarDataSet> barDataSets = new ArrayList<BarDataSet>();
+        for(int i=0;i<menuName.size();i++){
+            ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+            for(int j=0;j<7;j++){
+                entries.add(new BarEntry(j+i,j));
+            }
+            BarDataSet barDataSet = new BarDataSet(entries,menuName.get(i));
+            barDataSet.setColor(Color.rgb(255,128,128));
+            barDataSets.add(barDataSet);
+
+        }
+        String days[] = {"월","화","수","목","금","토","일"};
+
+        BarData barData = new BarData(days,barDataSets);
+
+        return barData;
+
+    }
     @Override
     public void onChartLongPressed(MotionEvent me) {
         Toast.makeText(getActivity(),"onChartLongPressed 실행됨",Toast.LENGTH_LONG).show();
