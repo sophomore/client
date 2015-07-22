@@ -13,10 +13,11 @@ public class Order {
     public int _id;
     public Date date;
     public ArrayList<OrderMenu> menuList = new ArrayList<OrderMenu>();
-    //public int totalPrice;
+    public int totalPrice = 0;
 
     public void addMenu(Menu menu, OrderMenu.Pay pay) {
         menuList.add(new OrderMenu(menu, pay));
+        totalPrice += menu.price;
     }
 
     public void removeMenu(Menu menu) throws OrderException {
@@ -24,6 +25,7 @@ public class Order {
             OrderMenu orderMenu = menuList.get(i);
             if (orderMenu.menu.equals(menu) && orderMenu.pay == OrderMenu.Pay.CREDIT) {
                 menuList.remove(i);
+                totalPrice -= menu.price;
                 return;
             }
         }

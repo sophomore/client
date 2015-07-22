@@ -41,13 +41,8 @@ public class Data {
         for (int i=0; i<8; i++) {
             Order order = new Order();
             order._id = i;
-            for (int j=0; j<menuList.size(); j++) {
-                OrderMenu menu = new OrderMenu();
-                menu.menu = menuList.get(j);
-                int count = random.nextInt(6);
-                if (count != 0) {
-                    order.menus.put(menu, count);
-                }
+            for (int j = random.nextInt(6); j<7; j++) {
+                order.menuList.add(new OrderMenu(menuList.get(random.nextInt(menuList.size()-1)), OrderMenu.Pay.CREDIT));
             }
             order.date = new Date();
             orderList.add(order);
