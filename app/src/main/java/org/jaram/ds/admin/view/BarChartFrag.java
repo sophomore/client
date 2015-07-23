@@ -122,11 +122,11 @@ public class BarChartFrag extends Fragment implements OnChartGestureListener {
         ArrayList<Order> orderList = Data.orderList;
         HashMap<String, Integer> totalCountPerMenu = new HashMap<String, Integer>();
         for(Order i : orderList){
-            for(OrderMenu j : i.menus.keySet()){
+            for(OrderMenu j : i.menuList){
                 if(totalCountPerMenu.containsKey(j.menu.name)){
-                    totalCountPerMenu.put(j.menu.name,totalCountPerMenu.get(j.menu.name)+ i.menus.get(j));
+                    totalCountPerMenu.put(j.menu.name,totalCountPerMenu.get(j.menu.name)+ j.menu.price);
                 } else{
-                    totalCountPerMenu.put(j.menu.name,i.menus.get(j));
+                    totalCountPerMenu.put(j.menu.name,j.menu.price);
                 }
             }
         }

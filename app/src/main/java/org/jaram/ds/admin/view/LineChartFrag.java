@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,26 +71,26 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
 
         mChart.getAxisRight().setEnabled(false);
 
-        LimitLine ll1 = new LimitLine(130f, "Upper Limit");
-        ll1.setLineWidth(4f);
-        ll1.enableDashedLine(10f, 10f, 0f);
+        LimitLine ll1 = new LimitLine(100000f, "Upper Limit");
+        ll1.setLineWidth(2f);
+        ll1.enableDashedLine(5f, 5f, 0f);
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
-        ll1.setTextSize(10f);
+        ll1.setTextSize(3f);
 
-        LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
-        ll2.setLineWidth(4f);
-        ll2.enableDashedLine(10f, 10f, 0f);
+        LimitLine ll2 = new LimitLine(-30000f, "Lower Limit");
+        ll2.setLineWidth(2f);
+        ll2.enableDashedLine(5f, 5f, 0f);
         ll2.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
-        ll2.setTextSize(10f);
+        ll2.setTextSize(3f);
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.addLimitLine(ll1);
         leftAxis.addLimitLine(ll2);
-        leftAxis.setAxisMaxValue(220f);
-        leftAxis.setAxisMinValue(-50f);
+        leftAxis.setAxisMaxValue(3000000f);
+        leftAxis.setAxisMinValue(0f);
         leftAxis.setStartAtZero(false);
-        leftAxis.enableGridDashedLine(10f, 10f, 0f);
+        leftAxis.enableGridDashedLine(5f, 5f, 0f);
 
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
@@ -101,58 +102,69 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
         return view;
 
     }
-    public ArrayList<String> getMenuNameList(){
-        ArrayList<String> menuName = new ArrayList<String>();
+    public String[] getMenuNameList(){
+        String[] menuName = new String[Data.menuList.size()];
+        int j=0;
         for(Menu i : Data.menuList){
-            menuName.add(i.name);
+            menuName[j]=i.name;
+            j++;
         }
         return menuName;
     }
 
-    public LineData setLineData(ArrayList<String> menuName){
+    public LineData setLineData(String[] menuName){
         ArrayList<Order> orderList = Data.orderList;
-        HashMap<String, Integer> totalCountPerMenu = new HashMap<String, Integer>();
+        int totalPricePerMenu[] = new int[menuName.length];
         for(Order i : orderList){
-            for(OrderMenu j : i.menus.keySet()){
-                if(totalCountPerMenu.containsKey(j.menu.name)){
-                    totalCountPerMenu.put(j.menu.name,totalCountPerMenu.get(j.menu.name)+ i.menus.get(j));
-                } else{
-                    totalCountPerMenu.put(j.menu.name,i.menus.get(j));
+            for(OrderMenu j : i.menuList){
+                for(int k=0;k<menuName.length;k++) {
+                    if (j.menu.name == menuName[k]) {
+                        totalPricePerMenu[k] += totalPricePerMenu[k] + j.menu.price;
+                    }
                 }
+
             }
         }
         ArrayList<LineDataSet> lineDataSets = new ArrayList<LineDataSet>();
 
-            ArrayList<Entry> entries = new ArrayList<Entry>();
-            for(int j=0;j<7;j++){
-                entries.add(new Entry(j+100,j));
-            }
-            LineDataSet lineDataSet = new LineDataSet(entries,"DataSet");
-            lineDataSet.enableDashedLine(10f, 5f, 0f);
-            lineDataSet.setColor(Color.BLACK);
-            lineDataSet.setCircleColor(Color.BLACK);
-            lineDataSet.setLineWidth(1f);
-            lineDataSet.setCircleSize(3f);
-            lineDataSet.setDrawCircleHole(false);
-            lineDataSet.setValueTextSize(9f);
-            lineDataSet.setFillAlpha(65);
-            lineDataSet.setFillColor(Color.BLACK);
+        ArrayList<Entry> entries = new ArrayList<Entry>();
+        for(int j=0;j<menuName.length;j++) {
+
+            entries.add(new Entry(totalPricePerMenu[j], j));
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(entries,"MenuCount");
+        lineDataSet.enableDashedLine(10f, 5f, 0f);
+        lineDataSet.setColor(Color.BLACK);
+        lineDataSet.setCircleColor(Color.BLACK);
+        lineDataSet.setLineWidth(1f);
+        lineDataSet.setCircleSize(3f);
+        lineDataSet.setDrawCircleHole(false);
+        lineDataSet.setValueTextSize(9f);
+        lineDataSet.setFillAlpha(65);
+        lineDataSet.setFillColor(Color.BLACK);
+        lineDataSets.add(lineDataSet);
 
 
-            lineDataSets.add(lineDataSet);
 
 
-        String days[] = {"월","화","수","목","금","토","일"};
+        String xVals[] = new String[menuName.length];
 
-        LineData lineData = new LineData(days,lineDataSets);
+        for(int i=0;i<menuName.length;i++){
+
+            xVals[i] =menuName[i];
+
+        }
+        Log.d("checkCount",entries.size()+"");
+        Log.d("checkCount",menuName.length+"");
+        LineData lineData = new LineData(xVals,lineDataSets);
 
         return lineData;
     }
     protected LineData generateChart(){
 
-        String xVals[] ={"월","화","수","목","금","토","일"};
 
-        ArrayList<String> menuName = getMenuNameList();
+        String[] menuName = getMenuNameList();
         LineData data = setLineData(menuName);
 
         return data;
