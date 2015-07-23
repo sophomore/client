@@ -2,12 +2,16 @@ package org.jaram.ds.admin;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import org.jaram.ds.R;
 import org.jaram.ds.admin.view.BarChartFrag;
 import org.jaram.ds.admin.view.DrawerFrag;
+import org.jaram.ds.admin.view.LineChartFrag;
 
 
 public class StatisticMain extends FragmentActivity {
@@ -15,6 +19,7 @@ public class StatisticMain extends FragmentActivity {
 
     DrawerFrag drawerFrag;
     BarChartFrag barChartFrag;
+    LineChartFrag lineChartFrag;
 
     float startX;
     float startY;
@@ -29,9 +34,14 @@ public class StatisticMain extends FragmentActivity {
         setContentView(R.layout.activity_statistic);
         if (savedInstanceState == null) {
             barChartFrag = new BarChartFrag();
-            getSupportFragmentManager().beginTransaction().add(R.id.chart, barChartFrag).commit();
+            lineChartFrag = new LineChartFrag();
+
+            getSupportFragmentManager().beginTransaction().add(R.id.chart, lineChartFrag).commit();
 
         }
+        DrawerLayout drawerLayout = (DrawerLayout)findViewById(R.id.statistic);
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.drawer);
+
     }
 
 

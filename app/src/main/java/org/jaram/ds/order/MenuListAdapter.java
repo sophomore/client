@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
+import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.data.struct.OrderMenu;
 
 import java.util.ArrayList;
@@ -21,40 +22,47 @@ import java.util.Set;
  */
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> {
 
-    private HashMap<OrderMenu, Integer> menus;
     private ArrayList<OrderMenu> orderMenus;
-    public MenuListAdapter(HashMap<OrderMenu, Integer> menus) {
-        if (menus == null) {
+    private ArrayList<Menu> menuList;
+    private HashMap<Menu, Integer> menuCount;
+    public MenuListAdapter(ArrayList<OrderMenu> orderMenus) {
+        if (menuList == null) {
             throw new IllegalArgumentException("list null");
         }
-        this.menus = menus;
-        orderMenus = new ArrayList<OrderMenu>();
-        for (OrderMenu menu : menus.keySet()) {
-            orderMenus.add(menu);
+        this.orderMenus = orderMenus;
+        menuCount = new HashMap<Menu, Integer>();
+        for (int i=0; i<orderMenus.size(); i++) {
+            Menu menu = orderMenus.get(i).menu;
+            int count = 0;
+            if (menuCount.containsKey(menu)) {
+                count = menuCount.get(menu);
+            }
+            count++;
+            menuCount.put(menu, count);
         }
-
-        Log.d("MenuListAdapter", "adapter");
+        this.menuList = new ArrayList<Menu>();
+        for (Menu menu : menuCount.keySet()) {
+            menuList.add(menu);
+        }
     }
 
     @Override
     public MenuViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.menulist_item, parent, false);
-        Log.d("MenuListAdapter", "onCreateViewHolder");
         return new MenuViewHolder(item);
     }
 
     @Override
     public void onBindViewHolder(MenuViewHolder holder, int position) {
-        holder.nameView.setText(orderMenus.get(position).menu.name);
-        holder.priceView.setText(orderMenus.get(position).menu.price+"원");
-        holder.countView.setText(menus.get(orderMenus.get(position))+"개");
-        holder.totalPriceView.setText("총 "+orderMenus.get(position).menu.price * menus.get(orderMenus.get(position))+"원");
-        Log.d("MenuListAdapter", "onBindViewHolder");
+        holder.nameView.setText(menuList.get(position).name);
+        holder.priceView.setText(menuList.get(position).price+"원");
+        holder.countView.setText(menuCount.get(menuList.get(position))+"개");
+        holder.totalPriceView.setText("총 "+orderMenus.get(position).menu.price * menuCount.get(menuList.get(position))+"원");
     }
 
     @Override
     public int getItemCount() {
-        return menus.size();
+        return menuList.size();
     }
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
@@ -70,7 +78,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
                 public void onClick(View v) {
                 }
             });
-            Log.d("MenuListAdapter", "ViewHolder");
         }
     }
 }
