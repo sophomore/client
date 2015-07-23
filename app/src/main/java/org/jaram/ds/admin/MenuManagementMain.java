@@ -1,28 +1,19 @@
 package org.jaram.ds.admin;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
+import android.support.v4.app.FragmentActivity;
 
 import org.jaram.ds.R;
 
 /**
  * Created by KimMyoungSoo on 2015. 7. 15..
  */
-public class MenuManagementMain extends Fragment{
-    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+public class MenuManagementMain extends FragmentActivity {
 
-        View view = inflater.inflate(R.layout.fragment_menu_management, container, false);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_menu_management);
 
-        ListView listView = (ListView) view.findViewById(R.id.)
-
-
-
-
-        return view;
     }
-
 }
