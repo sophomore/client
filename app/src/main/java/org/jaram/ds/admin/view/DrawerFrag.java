@@ -31,7 +31,7 @@ public class DrawerFrag extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_drawer,container,false);
+        view = inflater.inflate(R.layout.fragment_drawer, container, false);
         GridView gridView = (GridView) view.findViewById(R.id.gridView);
         SetGridView(gridView, view);
 
@@ -57,8 +57,9 @@ public class DrawerFrag extends Fragment {
                 byear = (TextView)view.findViewById(R.id.ByearText);
                 bmonth = (TextView)view.findViewById(R.id.BmonthText);
                 bday = (TextView) view.findViewById(R.id.BdayText);
-                DialogFragment beforeDialog = new DatePickerFrag(byear,bmonth,bday);
+                DialogFragment beforeDialog = new DatePickerFrag(byear,bmonth,bday,"startDate");
                 beforeDialog.show(getActivity().getFragmentManager(),"datePicker");
+
             }
         });
         Button laterbtn = (Button)view.findViewById(R.id.laterBtn);
@@ -68,14 +69,17 @@ public class DrawerFrag extends Fragment {
                 lyear = (TextView)view.findViewById(R.id.LyearText);
                 lmonth = (TextView)view.findViewById(R.id.LmonthText);
                 lday = (TextView) view.findViewById(R.id.LdayText);
-                DialogFragment beforeDialog = new DatePickerFrag(lyear,lmonth,lday);
+                DialogFragment beforeDialog = new DatePickerFrag(lyear,lmonth,lday,"finishDate");
                 beforeDialog.show(getActivity().getFragmentManager(),"datePicker");
+
             }
         });
         Button analysisbtn = (Button) view.findViewById(R.id.analysis);
         analysisbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int []startDate = getArguments().getIntArray("startDate");
+                int []finishDate = getArguments().getIntArray("finishDate");
 
             }
         });

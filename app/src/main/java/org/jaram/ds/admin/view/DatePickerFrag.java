@@ -12,13 +12,17 @@ import java.util.Calendar;
 /**
  * Created by ka123ak on 2015-07-15.
  */
+
+
 public class DatePickerFrag extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     TextView yearText,monthText,dayText;
-    public DatePickerFrag(TextView yearText,TextView monthText, TextView dayText){
+    String form;
+    public DatePickerFrag(TextView yearText,TextView monthText, TextView dayText,String form){
         this.yearText = yearText;
         this.monthText = monthText;
         this.dayText = dayText;
+        this.form = form;
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -38,5 +42,12 @@ public class DatePickerFrag extends DialogFragment implements DatePickerDialog.O
         this.yearText.setText(String.format("%d",year));
         this.monthText.setText(String.format("%d",monthOfYear+1));
         this.dayText.setText(String.format("%d",dayOfMonth));
+        Bundle arguments = new Bundle();
+        int date[] = new int[3];
+        date[0] = year;
+        date[1] = monthOfYear;
+        date[2] = dayOfMonth;
+        arguments.putIntArray(form,date);
     }
+
 }

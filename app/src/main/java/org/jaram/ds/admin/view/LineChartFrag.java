@@ -33,20 +33,28 @@ import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 /**
  * Created by ohyongtaek on 15. 7. 18..
  */
+
+
 public class LineChartFrag extends Fragment implements OnChartGestureListener{
 
 
     Typeface tf;
     private LineChart mChart;
+    int []startDate;
+    int []finishDate;
     public static Fragment newInstance() { return new LineChartFrag();}
 
     public LineChartFrag(){
 
+    }
+    public LineChartFrag(int []startDate,int []finishDate){
+        this.startDate = startDate;
+        this.finishDate = finishDate;
     }
 
     @Nullable
@@ -71,6 +79,8 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
 
         mChart.getAxisRight().setEnabled(false);
 
+
+
         LimitLine ll1 = new LimitLine(100000f, "Upper Limit");
         ll1.setLineWidth(2f);
         ll1.enableDashedLine(5f, 5f, 0f);
@@ -87,13 +97,14 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.addLimitLine(ll1);
         leftAxis.addLimitLine(ll2);
-        leftAxis.setAxisMaxValue(3000000f);
+        leftAxis.setAxisMaxValue(300000f);
         leftAxis.setAxisMinValue(0f);
         leftAxis.setStartAtZero(false);
         leftAxis.enableGridDashedLine(5f, 5f, 0f);
 
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
+
 
         mChart.getAxisRight().setEnabled(false);
         FrameLayout parent = (FrameLayout) view.findViewById(R.id.parentLayout);
@@ -114,49 +125,52 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
 
     public LineData setLineData(String[] menuName){
         ArrayList<Order> orderList = Data.orderList;
-        int totalPricePerMenu[] = new int[menuName.length];
+        int totalPricePerMenu[][] = new int[menuName.length][31];
         for(Order i : orderList){
             for(OrderMenu j : i.menuList){
-                for(int k=0;k<menuName.length;k++) {
-                    if (j.menu.name == menuName[k]) {
-                        totalPricePerMenu[k] += totalPricePerMenu[k] + j.menu.price;
+                for(int l =0; l<31;l++) {
+                    if(l== i.date.getDate()) {
+                        for (int k = 0; k < menuName.length; k++) {
+                            if (j.menu.name == menuName[k]) {
+                                totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                            }
+                        }
+                        break;
                     }
+
                 }
 
             }
         }
         ArrayList<LineDataSet> lineDataSets = new ArrayList<LineDataSet>();
 
-        ArrayList<Entry> entries = new ArrayList<Entry>();
+
         for(int j=0;j<menuName.length;j++) {
-
-            entries.add(new Entry(totalPricePerMenu[j], j));
+            ArrayList<Entry> entries = new ArrayList<Entry>();
+            for(int k=0; k<31;k++) {
+                entries.add(new Entry(totalPricePerMenu[j][k], k));
+            }
+            LineDataSet lineDataSet = new LineDataSet(entries,menuName[j]);
+            lineDataSet.enableDashedLine(10f, 5f, 0f);
+            lineDataSet.setColor(Color.BLACK);
+            lineDataSet.setCircleColor(Color.BLACK);
+            lineDataSet.setLineWidth(1f);
+            lineDataSet.setCircleSize(3f);
+            lineDataSet.setDrawCircleHole(false);
+            lineDataSet.setValueTextSize(9f);
+            lineDataSet.setFillAlpha(65);
+            lineDataSet.setFillColor(Color.BLACK);
+            lineDataSets.add(lineDataSet);
         }
 
-        LineDataSet lineDataSet = new LineDataSet(entries,"MenuCount");
-        lineDataSet.enableDashedLine(10f, 5f, 0f);
-        lineDataSet.setColor(Color.BLACK);
-        lineDataSet.setCircleColor(Color.BLACK);
-        lineDataSet.setLineWidth(1f);
-        lineDataSet.setCircleSize(3f);
-        lineDataSet.setDrawCircleHole(false);
-        lineDataSet.setValueTextSize(9f);
-        lineDataSet.setFillAlpha(65);
-        lineDataSet.setFillColor(Color.BLACK);
-        lineDataSets.add(lineDataSet);
 
+        String xVals[] = new String[31];
 
+        for(int i=0;i<31;i++){
 
-
-        String xVals[] = new String[menuName.length];
-
-        for(int i=0;i<menuName.length;i++){
-
-            xVals[i] =menuName[i];
+            xVals[i] =i+"";
 
         }
-        Log.d("checkCount",entries.size()+"");
-        Log.d("checkCount",menuName.length+"");
         LineData lineData = new LineData(xVals,lineDataSets);
 
         return lineData;
