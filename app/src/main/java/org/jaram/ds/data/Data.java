@@ -48,5 +48,6 @@ public class Data {
             orderList.add(order);
         }
         Log.d("Data", "Static constructor");
+
     }
 }
