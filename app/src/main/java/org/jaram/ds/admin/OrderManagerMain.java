@@ -1,8 +1,12 @@
 package org.jaram.ds.admin;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.jaram.ds.R;
+import org.jaram.ds.admin.view.Search_orderFrag;
 
 /**
  * Created by cheonyujung on 15. 7. 23..
@@ -13,12 +17,10 @@ public class OrderManagerMain extends FragmentActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_statistic);
+        setContentView(R.layout.activity_ordermanager);
         if (savedInstanceState == null) {
             search_orderFrag = new Search_orderFrag();
-            //getSupportFragmentManager().beginTransaction().add(R.id.search, search_orderFrag).commit();
-
-
+            //getSupportFragmentManager().beginTransaction().add(R.id.order_search, search_orderFrag).commit();
         }
     }
     @Override

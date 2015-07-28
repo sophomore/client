@@ -7,7 +7,8 @@
         android:layout_height = "wrap_content"
         android:layout_weight= "3"
         android:background="#ffffff"
-        android:padding = "40dp">
+        android:padding = "40dp"
+        android:id = "@+id/order_search">
         <TextView
             android:text = "검색"
             android:id = "@+id/searchtext"
@@ -22,12 +23,13 @@
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:text = "기간"
-            android:textSize = "20sp"
+            android:textSize = "15sp"
             android:textColor = "#000"/>
         <EditText
             android:id="@+id/edit_time1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below = "@+id/periodtext"
             android:onClick="showDatePickerDialog"/>
         <TextView
             android:id = "@+id/during"
@@ -48,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text = "메뉴"
-            android:textSize = "20sp"
+            android:textSize = "15sp"
             android:textColor = "#000"/>
         <EditText
             android:id = "@+id/menublank"
@@ -56,7 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/menutext"
             android:layout_alignTop="@+id/menutext"
-            android:layout_alignBottom="@+id/menutext" />
+            android:layout_alignBottom="@+id/menutext"
+            android:hint = "메뉴를 입력하세요"/>
         <!--android:hint= "메뉴를 입력해주세요"-->
         <TextView
             android:id = "@+id/checktext"
@@ -64,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text= "결제수단"
-            android:textSize = "20sp"
+            android:textSize = "15sp"
             android:textColor= "#000"/>
         <RadioGroup
             android:id = "@+id/radiogroup"
@@ -99,11 +102,11 @@
         </RadioGroup>>
         <Button
             android:id = "@+id/search_button"
-            android:layout_below="@+id/radiogroup"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_gravity = "center"
+
             android:text = "검색"
-            />
+            android:layout_below="@+id/radiogroup"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 </LinearLayout>

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import org.jaram.ds.R;
+
 import java.util.Calendar;
 
 /**
@@ -29,7 +31,6 @@ public class Search_orderFrag extends Fragment {
         view = inflater.inflate(R.layout.fragment_search, container, true);
         //FrameLayout frameLayout  = (FrameLayout) view.findViewById(R.id.search);
         super.onCreate(savedInstanceState);
-        //setView(R.layout.activity_ordermanager);
         mDateDisplay = (TextView) view.findViewById(R.id.edit_time1);
         mDateDisplay2 = (TextView) view.findViewById(R.id.edit_time2);
         mDateDisplay.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#0f0">
+    <fragment
+        android:name = "org.jaram.ds.admin.view.Search_orderFrag"
+        android:layout_height="match_parent"
+        android:layout_width="300dp"
+        android:id = "@+id/order_search"
+        android:orientation="horizontal"
+        class = "org.jaram.ds.admin.view.Search_orderFrag"/>
+
+    <fragment
+        android:name = "org.jaram.ds.order.view.OrderView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/orderview"
+        class = "org.jaram.ds.admin.view.Order_viewFrag"
+        >
+    </fragment>
 
 </LinearLayout>
