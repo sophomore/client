@@ -45,7 +45,6 @@ public class Data {
                 order.menuList.add(new OrderMenu(menuList.get(random.nextInt(menuList.size()-1)), OrderMenu.Pay.CREDIT));
             }
             order.date = new Date();
-            Log.d("data",order.date.getDate()+"");
             orderList.add(order);
         }
         Log.d("Data", "Static constructor");

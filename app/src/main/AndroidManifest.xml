@@ -16,18 +16,18 @@
             android:name=".admin.StatisticMain"
             android:label="statistic">
 
-
-        </activity>
-        <activity
-            android:name=".admin.MenuManagementMain"
-            android:label="MenuManage"
-            >
             <intent-filter>
 
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".admin.MenuManagementMain"
+            android:label="MenuManage"
+            >
+
         </activity>
 
     </application>

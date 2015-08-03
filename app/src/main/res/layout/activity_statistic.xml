@@ -13,13 +13,12 @@
         android:id="@+id/chart"
         />
 
-    <fragment
+    <FrameLayout
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="start"
         android:id="@+id/drawer"
-        class = "org.jaram.ds.admin.view.DrawerFrag"
         >
-    </fragment>
+    </FrameLayout>
 </android.support.v4.widget.DrawerLayout>

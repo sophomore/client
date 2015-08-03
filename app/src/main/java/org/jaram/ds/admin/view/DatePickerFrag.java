@@ -4,8 +4,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -18,7 +20,7 @@ public class DatePickerFrag extends DialogFragment implements DatePickerDialog.O
 
     TextView yearText,monthText,dayText;
     String form;
-    public DatePickerFrag(TextView yearText,TextView monthText, TextView dayText,String form){
+    public DatePickerFrag(TextView yearText,TextView monthText, TextView dayText){
         this.yearText = yearText;
         this.monthText = monthText;
         this.dayText = dayText;
@@ -43,11 +45,9 @@ public class DatePickerFrag extends DialogFragment implements DatePickerDialog.O
         this.monthText.setText(String.format("%d",monthOfYear+1));
         this.dayText.setText(String.format("%d",dayOfMonth));
         Bundle arguments = new Bundle();
-        int date[] = new int[3];
-        date[0] = year;
-        date[1] = monthOfYear;
-        date[2] = dayOfMonth;
-        arguments.putIntArray(form,date);
+        String date = year+""+(monthOfYear+1)+""+dayOfMonth+"";
+
+
     }
 
 }
