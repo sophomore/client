@@ -10,50 +10,32 @@
         <activity
             android:name=".Intro"
             android:label="@string/app_name" >
-<<<<<<< HEAD
+            <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
-        </activity>
-        <activity
-<<<<<<< HEAD
-            android:name=".admin.OrderManagerMain"
-            android:label="OrderManager">
-             <intent-filter>
-=======
-            android:name=".admin.StatisticMain"
-            android:label="statistic">
->>>>>>> 8f7fd9f9fc3a8e4c25de33a5b12675c7e76c5a75
-
-=======
->>>>>>> d60a226898f5e46e6d754d9ed1f6f04d1f3636a8
-            <intent-filter>
-
-<<<<<<< HEAD
-                 <category android:name="android.intent.category.LAUNCHER" />
-              </intent-filter>
-=======
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".order.OrderManager"
-            android:label="statistic">
+
+            android:name=".admin.OrderManagerMain"
+            android:label="OrderManager">
         </activity>
         <activity
+
+            android:name=".order.OrderManager"
+            android:label="orderManager">
+        </activity>
+
+        <activity
             android:name=".admin.StatisticMain"
-            android:label="statistic"></activity>
+            android:label="statistic">
+
+        </activity>
         <activity
             android:name=".admin.MenuManagementMain"
             android:label="MenuManage"
             >
-<<<<<<< HEAD
-
->>>>>>> 8f7fd9f9fc3a8e4c25de33a5b12675c7e76c5a75
-=======
->>>>>>> d60a226898f5e46e6d754d9ed1f6f04d1f3636a8
         </activity>
 
     </application>
