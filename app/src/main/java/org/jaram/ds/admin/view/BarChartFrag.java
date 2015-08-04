@@ -55,7 +55,7 @@ public class BarChartFrag extends Fragment implements OnChartGestureListener {
 
         View view = inflater.inflate(R.layout.fragment_bar,container,false);
 
-//
+
         //차트 객체 구현
         mChart = new BarChart(getActivity());
         mChart.setDescription("");
