@@ -1,7 +1,6 @@
 package org.jaram.ds.admin.view;
 
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -56,35 +55,35 @@ public class BarChartFrag extends Fragment implements OnChartGestureListener {
 
         View view = inflater.inflate(R.layout.fragment_bar,container,false);
 
-//
-//        //차트 객체 구현
-//        mChart = new BarChart(getActivity());
-//        mChart.setDescription("");
-//
-//        mChart.setHighlightEnabled(false);
-//        mChart.setDrawBarShadow(false);
-//        mChart.setDrawValueAboveBar(true);
-//
-//        tf = Typeface.createFromAsset(getActivity().getAssets(),"OpenSans-Light.ttf");
-//
-//        mChart.setData(generateBarData());
-//        Legend l = mChart.getLegend();
-//        l.setTypeface(tf);
-//
-//        YAxis leftAxis = mChart.getAxisLeft();
-//        leftAxis.setTypeface(tf);
-//
-//        mChart.getAxisRight().setEnabled(false);
-//
-//        XAxis xAxis = mChart.getXAxis();
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        xAxis.setTypeface(tf);
-//        xAxis.setDrawGridLines(false);
-//        xAxis.setSpaceBetweenLabels(1);
-//
-//        mChart.setBackgroundColor(Color.BLUE);
-//        FrameLayout parent = (FrameLayout) view.findViewById(R.id.parentLayout);
-//        parent.addView(mChart);
+
+        //차트 객체 구현
+        mChart = new BarChart(getActivity());
+        mChart.setDescription("");
+
+        mChart.setHighlightEnabled(false);
+        mChart.setDrawBarShadow(false);
+        mChart.setDrawValueAboveBar(true);
+
+        tf = Typeface.createFromAsset(getActivity().getAssets(),"OpenSans-Light.ttf");
+
+        mChart.setData(generateBarData());
+        Legend l = mChart.getLegend();
+        l.setTypeface(tf);
+
+        YAxis leftAxis = mChart.getAxisLeft();
+        leftAxis.setTypeface(tf);
+
+        mChart.getAxisRight().setEnabled(false);
+
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTypeface(tf);
+        xAxis.setDrawGridLines(false);
+        xAxis.setSpaceBetweenLabels(1);
+
+        mChart.setBackgroundColor(Color.BLUE);
+        FrameLayout parent = (FrameLayout) view.findViewById(R.id.parentLayout);
+        parent.addView(mChart);
 
 
         return view;

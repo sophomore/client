@@ -29,14 +29,10 @@ import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-//<<<<<<< HEAD
-//=======
 import java.util.Calendar;
 import java.util.Date;
 
-//>>>>>>> 8f7fd9f9fc3a8e4c25de33a5b12675c7e76c5a75
 
 /**
  * Created by ohyongtaek on 15. 7. 18..

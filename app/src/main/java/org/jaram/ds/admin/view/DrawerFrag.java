@@ -11,14 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.GridView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +31,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by ka123ak on 2015-07-09.
  */
+
 public class DrawerFrag extends Fragment {
 
     String unit[] = {"시간","일","요일","월","분기","년"};
