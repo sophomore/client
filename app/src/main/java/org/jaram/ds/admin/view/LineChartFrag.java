@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,22 +32,42 @@ import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
+import java.util.Date;
+
 
 /**
  * Created by ohyongtaek on 15. 7. 18..
  */
+
+
 public class LineChartFrag extends Fragment implements OnChartGestureListener{
 
 
     Typeface tf;
-    private LineChart mChart;
-    public static Fragment newInstance() { return new LineChartFrag();}
+    protected LineChart mChart;
+    Date startDate;
+
+
+    public static LineChartFrag newInstance(String start,String diffDays) {
+        LineChartFrag lineChartFrag = new LineChartFrag();
+        Bundle argument = new Bundle();
+        argument.putString("start",start);
+        argument.putString("diff",diffDays);
+        lineChartFrag.setArguments(argument);
+
+
+        return lineChartFrag;
+    }
 
     public LineChartFrag(){
 
     }
+
+
 
     @Nullable
     @Override
@@ -54,109 +75,159 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
         View view = inflater.inflate(R.layout.fragment_bar,container,false);
 
 
-//        mChart = new LineChart(getActivity());
-//        mChart.setDescription("");
-//
-//        mChart.setHighlightEnabled(false);
-//        mChart.setDrawGridBackground(false);
-//        mChart.setTouchEnabled(true);
-//
-//        mChart.setData(generateChart());
-//        tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
-//
-//        Legend l = mChart.getLegend();
-//        l.setTypeface(tf);
-//
-//
-//        mChart.getAxisRight().setEnabled(false);
-//
-//        LimitLine ll1 = new LimitLine(130f, "Upper Limit");
-//        ll1.setLineWidth(4f);
-//        ll1.enableDashedLine(10f, 10f, 0f);
-//        ll1.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
-//        ll1.setTextSize(10f);
-//
-//        LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
-//        ll2.setLineWidth(4f);
-//        ll2.enableDashedLine(10f, 10f, 0f);
-//        ll2.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
-//        ll2.setTextSize(10f);
-//
-//        YAxis leftAxis = mChart.getAxisLeft();
-//        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-//        leftAxis.addLimitLine(ll1);
-//        leftAxis.addLimitLine(ll2);
-//        leftAxis.setAxisMaxValue(220f);
-//        leftAxis.setAxisMinValue(-50f);
-//        leftAxis.setStartAtZero(false);
-//        leftAxis.enableGridDashedLine(10f, 10f, 0f);
-//
-//        // limit lines are drawn behind data (and not on top)
-//        leftAxis.setDrawLimitLinesBehindData(true);
-//
-//        mChart.getAxisRight().setEnabled(false);
-//        FrameLayout parent = (FrameLayout) view.findViewById(R.id.parentLayout);
-//        parent.addView(mChart);
+        mChart = new LineChart(getActivity());
+        mChart.setDescription("");
+
+        mChart.setHighlightEnabled(false);
+        mChart.setDrawGridBackground(false);
+        mChart.setTouchEnabled(true);
+
+        int diffDays = getDiffDays();
+        mChart.setData(generateChart(LineChartFrag.getMenuNameList(),diffDays));
+
+
+        tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
+
+        Legend l = mChart.getLegend();
+        l.setTypeface(tf);
+
+
+        mChart.getAxisRight().setEnabled(false);
+
+
+
+        LimitLine ll1 = new LimitLine(100000f, "Upper Limit");
+        ll1.setLineWidth(2f);
+        ll1.enableDashedLine(5f, 5f, 0f);
+        ll1.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
+        ll1.setTextSize(3f);
+
+        LimitLine ll2 = new LimitLine(-30000f, "Lower Limit");
+        ll2.setLineWidth(2f);
+        ll2.enableDashedLine(5f, 5f, 0f);
+        ll2.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
+        ll2.setTextSize(3f);
+
+        YAxis leftAxis = mChart.getAxisLeft();
+        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
+        leftAxis.addLimitLine(ll1);
+        leftAxis.addLimitLine(ll2);
+        leftAxis.setAxisMaxValue(300000f);
+        leftAxis.setAxisMinValue(0f);
+        leftAxis.setStartAtZero(false);
+        leftAxis.enableGridDashedLine(5f, 5f, 0f);
+
+        // limit lines are drawn behind data (and not on top)
+        leftAxis.setDrawLimitLinesBehindData(true);
+
+
+        mChart.getAxisRight().setEnabled(false);
+        FrameLayout parent = (FrameLayout) view.findViewById(R.id.parentLayout);
+        parent.addView(mChart);
 
         return view;
 
     }
-//    public ArrayList<String> getMenuNameList(){
-//        ArrayList<String> menuName = new ArrayList<String>();
-//        for(Menu i : Data.menuList){
-//            menuName.add(i.name);
-//        }
-//        return menuName;
-//    }
-//
-//    public LineData setLineData(ArrayList<String> menuName){
-//        ArrayList<Order> orderList = Data.orderList;
-//        HashMap<String, Integer> totalCountPerMenu = new HashMap<String, Integer>();
-//        for(Order i : orderList){
-//            for(OrderMenu j : i.menus.keySet()){
-//                if(totalCountPerMenu.containsKey(j.menu.name)){
-//                    totalCountPerMenu.put(j.menu.name,totalCountPerMenu.get(j.menu.name)+ i.menus.get(j));
-//                } else{
-//                    totalCountPerMenu.put(j.menu.name,i.menus.get(j));
-//                }
-//            }
-//        }
-//        ArrayList<LineDataSet> lineDataSets = new ArrayList<LineDataSet>();
-//
-//            ArrayList<Entry> entries = new ArrayList<Entry>();
-//            for(int j=0;j<7;j++){
-//                entries.add(new Entry(j+100,j));
-//            }
-//            LineDataSet lineDataSet = new LineDataSet(entries,"DataSet");
-//            lineDataSet.enableDashedLine(10f, 5f, 0f);
-//            lineDataSet.setColor(Color.BLACK);
-//            lineDataSet.setCircleColor(Color.BLACK);
-//            lineDataSet.setLineWidth(1f);
-//            lineDataSet.setCircleSize(3f);
-//            lineDataSet.setDrawCircleHole(false);
-//            lineDataSet.setValueTextSize(9f);
-//            lineDataSet.setFillAlpha(65);
-//            lineDataSet.setFillColor(Color.BLACK);
-//
-//
-//            lineDataSets.add(lineDataSet);
-//
-//
-//        String days[] = {"월","화","수","목","금","토","일"};
-//
-//        LineData lineData = new LineData(days,lineDataSets);
-//
-//        return lineData;
-//    }
-//    protected LineData generateChart(){
-//
-//        String xVals[] ={"월","화","수","목","금","토","일"};
-//
-//        ArrayList<String> menuName = getMenuNameList();
-//        LineData data = setLineData(menuName);
-//
-//        return data;
-//    }
+    public static String[] getMenuNameList(){
+        String[] menuName = new String[Data.menuList.size()];
+        int j=0;
+        for(Menu i : Data.menuList){
+            menuName[j]=i.name;
+            j++;
+        }
+        return menuName;
+    }
+
+    public int getDiffDays(){
+        return Integer.parseInt(getArguments().getString("diff"));
+    }
+    public Calendar getStartDate() throws ParseException {
+        String start = getArguments().getString("start");
+        Calendar cal = Calendar.getInstance();
+        String []date = start.split("/");
+        cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
+        return cal;
+    }
+
+    public LineData generateChart(String[] menuName,int diffDays){
+        Calendar date = null;
+
+        try {
+            date = getStartDate();
+
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        if(date != null) {
+            Calendar date2 = (Calendar) date.clone();
+
+            ArrayList<Order> orderList = Data.orderList;
+            int totalPricePerMenu[][] = new int[menuName.length][diffDays];
+            for (Order i : orderList) {
+                for (OrderMenu j : i.menuList) {
+                    date2 = (Calendar) date.clone();
+                    for (int l = 0; l < diffDays; l++) {
+
+                        Calendar orderDate = Calendar.getInstance();
+                        orderDate.setTime(i.date);
+                        Log.d("time",orderDate.getTime()+"!");
+                        Log.d("time",orderDate.get(Calendar.YEAR)+"");
+                        Log.d("time",orderDate.get(Calendar.MONTH)+"");
+                        Log.d("time",orderDate.get(Calendar.DATE)+ "");
+                        if (date2.get(Calendar.YEAR) == orderDate.get(Calendar.YEAR) && date2.get(Calendar.MONTH)==orderDate.get(Calendar.MONTH) && date2.get(Calendar.DATE) == orderDate.get(Calendar.DATE)) {
+                            Log.d("suc","성공");
+                            for (int k = 0; k < menuName.length; k++) {
+                                if (j.menu.name == menuName[k]) {
+                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                }
+                            }
+                            break;
+                        } else {
+                            date2.add(Calendar.DATE, 1);
+                        }
+                    }
+                }
+            }
+            ArrayList<LineDataSet> lineDataSets = new ArrayList<LineDataSet>();
+
+
+            for (int j = 0; j < menuName.length; j++) {
+                ArrayList<Entry> entries = new ArrayList<Entry>();
+                for (int k = 0; k < diffDays; k++) {
+                    entries.add(new Entry(totalPricePerMenu[j][k], k));
+                }
+                LineDataSet lineDataSet = new LineDataSet(entries, menuName[j]);
+                lineDataSet.enableDashedLine(10f, 5f, 0f);
+                lineDataSet.setColor(Color.BLACK);
+                lineDataSet.setCircleColor(Color.BLACK);
+                lineDataSet.setLineWidth(1f);
+                lineDataSet.setCircleSize(3f);
+                lineDataSet.setDrawCircleHole(false);
+                lineDataSet.setValueTextSize(9f);
+                lineDataSet.setFillAlpha(65);
+                lineDataSet.setFillColor(Color.BLACK);
+                lineDataSets.add(lineDataSet);
+            }
+
+
+            String xVals[] = new String[diffDays];
+
+            for (int i = 0; i < diffDays; i++) {
+
+                xVals[i] = date.getTime().getMonth()+"/"+date.getTime().getDate() + "";
+                Log.d("date",date.getTime().getMonth()+"");
+                date.add(Calendar.DATE,1);
+
+            }
+            LineData lineData = new LineData(xVals, lineDataSets);
+            return lineData;
+        }
+        else{
+            Log.d("asd","실패");
+            return null;
+        }
+    }
 
     @Override
     public void onChartLongPressed(MotionEvent motionEvent) {

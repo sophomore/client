@@ -23,7 +23,11 @@
         </activity>
         <activity
             android:name=".admin.StatisticMain"
-            android:label="statistic">
+            android:label="statistic"></activity>
+        <activity
+            android:name=".admin.MenuManagementMain"
+            android:label="MenuManage"
+            >
         </activity>
 
     </application>
