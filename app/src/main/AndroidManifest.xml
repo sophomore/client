@@ -15,14 +15,32 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </activity>
         <activity
+<<<<<<< HEAD
             android:name=".admin.OrderManagerMain"
             android:label="OrderManager">
              <intent-filter>
+=======
+            android:name=".admin.StatisticMain"
+            android:label="statistic">
+>>>>>>> 8f7fd9f9fc3a8e4c25de33a5b12675c7e76c5a75
 
-                 <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
 
+<<<<<<< HEAD
                  <category android:name="android.intent.category.LAUNCHER" />
               </intent-filter>
+=======
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".admin.MenuManagementMain"
+            android:label="MenuManage"
+            >
+
+>>>>>>> 8f7fd9f9fc3a8e4c25de33a5b12675c7e76c5a75
         </activity>
 
     </application>

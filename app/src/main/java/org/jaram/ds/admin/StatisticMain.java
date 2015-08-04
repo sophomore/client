@@ -14,7 +14,7 @@ import org.jaram.ds.admin.view.DrawerFrag;
 import org.jaram.ds.admin.view.LineChartFrag;
 
 
-public class StatisticMain extends FragmentActivity {
+public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnalysisListener{
 
 
     DrawerFrag drawerFrag;
@@ -28,19 +28,19 @@ public class StatisticMain extends FragmentActivity {
     float diffX, diffY;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_statistic);
         if (savedInstanceState == null) {
             barChartFrag = new BarChartFrag();
             lineChartFrag = new LineChartFrag();
-
-            getSupportFragmentManager().beginTransaction().add(R.id.chart, lineChartFrag).commit();
-
+            drawerFrag = new DrawerFrag();
+            getSupportFragmentManager().beginTransaction().add(R.id.drawer,drawerFrag).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.chart,barChartFrag).commit();
         }
-        DrawerLayout drawerLayout = (DrawerLayout)findViewById(R.id.statistic);
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.drawer);
+
+
 
     }
 
@@ -68,4 +68,12 @@ public class StatisticMain extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void createChart(String start, String diffDays) {
+        LineChartFrag lineChartFrag = LineChartFrag.newInstance(start,diffDays);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.chart, lineChartFrag)
+                .commit();
+
+    }
 }
