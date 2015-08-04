@@ -26,7 +26,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     private ArrayList<Menu> menuList;
     private HashMap<Menu, Integer> menuCount;
     public MenuListAdapter(ArrayList<OrderMenu> orderMenus) {
-        if (menuList == null) {
+        if (orderMenus == null) {
             throw new IllegalArgumentException("list null");
         }
         this.orderMenus = orderMenus;

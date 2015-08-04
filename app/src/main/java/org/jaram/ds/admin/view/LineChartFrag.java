@@ -74,8 +74,6 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
         View view = inflater.inflate(R.layout.fragment_bar,container,false);
 
 
-
-
         mChart = new LineChart(getActivity());
         mChart.setDescription("");
 

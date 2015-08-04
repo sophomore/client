@@ -30,7 +30,7 @@ public class Data {
             category.name = "category "+(i+1);
             categoryList.add(category);
         }
-        for (int i=0; i<15; i++) {
+        for (int i=0; i<30; i++) {
             Menu menu = new Menu();
             menu._id = i;
             menu.category = categoryList.get(random.nextInt(5));
@@ -38,16 +38,16 @@ public class Data {
             menu.price = 5000+1000*(random.nextInt(3));
             menuList.add(menu);
         }
-        for (int i=0; i<8; i++) {
+        for (int i=0; i<300; i++) {
             Order order = new Order();
             order._id = i;
-            for (int j = random.nextInt(6); j<7; j++) {
+            for (int j = random.nextInt(5); j<7; j++) {
                 order.menuList.add(new OrderMenu(menuList.get(random.nextInt(menuList.size()-1)), OrderMenu.Pay.CREDIT));
             }
-            order.date = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.set(2015-random.nextInt(2), 12-random.nextInt(11), 30-random.nextInt(29), 24-random.nextInt(24), 60-random.nextInt(60), 60-random.nextInt(60));
+            order.date = cal.getTime();
             orderList.add(order);
         }
-        Log.d("Data", "Static constructor");
-
     }
 }
