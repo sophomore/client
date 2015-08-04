@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.jaram.ds.R;
+import org.jaram.ds.admin.view.Order_viewFrag;
 import org.jaram.ds.admin.view.Search_orderFrag;
 
 /**
@@ -13,6 +14,7 @@ import org.jaram.ds.admin.view.Search_orderFrag;
  */
 public class OrderManagerMain extends FragmentActivity {
     Search_orderFrag search_orderFrag;
+    Order_viewFrag order_viewFrag;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,7 @@ public class OrderManagerMain extends FragmentActivity {
         setContentView(R.layout.activity_ordermanager);
         if (savedInstanceState == null) {
             search_orderFrag = new Search_orderFrag();
+            order_viewFrag = new Order_viewFrag();
             //getSupportFragmentManager().beginTransaction().add(R.id.order_search, search_orderFrag).commit();
         }
     }

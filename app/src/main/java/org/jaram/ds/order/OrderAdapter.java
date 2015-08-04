@@ -21,6 +21,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         mOrderList = list;
     }
 
+    public View getView(int position, View convertView, ViewGroup parent){
+        return convertView;
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.payment_orderitem_layout,parent,false));
