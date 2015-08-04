@@ -56,98 +56,98 @@ public class BarChartFrag extends Fragment implements OnChartGestureListener {
 
         View view = inflater.inflate(R.layout.fragment_bar,container,false);
 
-
-        //차트 객체 구현
-        mChart = new BarChart(getActivity());
-        mChart.setDescription("");
-
-        mChart.setHighlightEnabled(false);
-        mChart.setDrawBarShadow(false);
-        mChart.setDrawValueAboveBar(true);
-
-        tf = Typeface.createFromAsset(getActivity().getAssets(),"OpenSans-Light.ttf");
-
-        mChart.setData(generateBarData());
-        Legend l = mChart.getLegend();
-        l.setTypeface(tf);
-
-        YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setTypeface(tf);
-
-        mChart.getAxisRight().setEnabled(false);
-
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTypeface(tf);
-        xAxis.setDrawGridLines(false);
-        xAxis.setSpaceBetweenLabels(1);
-
-        mChart.setBackgroundColor(Color.BLUE);
-        FrameLayout parent = (FrameLayout) view.findViewById(R.id.parentLayout);
-        parent.addView(mChart);
+//
+//        //차트 객체 구현
+//        mChart = new BarChart(getActivity());
+//        mChart.setDescription("");
+//
+//        mChart.setHighlightEnabled(false);
+//        mChart.setDrawBarShadow(false);
+//        mChart.setDrawValueAboveBar(true);
+//
+//        tf = Typeface.createFromAsset(getActivity().getAssets(),"OpenSans-Light.ttf");
+//
+//        mChart.setData(generateBarData());
+//        Legend l = mChart.getLegend();
+//        l.setTypeface(tf);
+//
+//        YAxis leftAxis = mChart.getAxisLeft();
+//        leftAxis.setTypeface(tf);
+//
+//        mChart.getAxisRight().setEnabled(false);
+//
+//        XAxis xAxis = mChart.getXAxis();
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setTypeface(tf);
+//        xAxis.setDrawGridLines(false);
+//        xAxis.setSpaceBetweenLabels(1);
+//
+//        mChart.setBackgroundColor(Color.BLUE);
+//        FrameLayout parent = (FrameLayout) view.findViewById(R.id.parentLayout);
+//        parent.addView(mChart);
 
 
         return view;
 
     }
 
-    protected BarData generateBarData(){
-        ArrayList<BarDataSet> sets = new ArrayList<BarDataSet>();
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-
-
-        ArrayList<String>menuName = getMenuNameList();
-
-
-        String d [] = new String [15];
-        for(int i =0 ;i<15;i++){
-            d[i]=String.valueOf(i+1);
-        }
-        BarData data = setEntries(menuName);
-        data.setValueTextSize(10f);
-        data.setValueTypeface(tf);
-        return data;
-    }
-
-    public ArrayList<String> getMenuNameList(){
-        ArrayList<String> menuName = new ArrayList<String>();
-        for(Menu i : Data.menuList){
-            menuName.add(i.name);
-        }
-        return menuName;
-    }
-
-    public BarData setEntries(ArrayList<String> menuName){
-
-        ArrayList<Order> orderList = Data.orderList;
-        HashMap<String, Integer> totalCountPerMenu = new HashMap<String, Integer>();
-        for(Order i : orderList){
-            for(OrderMenu j : i.menus.keySet()){
-                if(totalCountPerMenu.containsKey(j.menu.name)){
-                    totalCountPerMenu.put(j.menu.name,totalCountPerMenu.get(j.menu.name)+ i.menus.get(j));
-                } else{
-                    totalCountPerMenu.put(j.menu.name,i.menus.get(j));
-                }
-            }
-        }
-        ArrayList<BarDataSet> barDataSets = new ArrayList<BarDataSet>();
-        for(int i=0;i<menuName.size();i++){
-            ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-            for(int j=0;j<7;j++){
-                entries.add(new BarEntry(j+i,j));
-            }
-            BarDataSet barDataSet = new BarDataSet(entries,menuName.get(i));
-            barDataSet.setColor(Color.rgb(255,128,128));
-            barDataSets.add(barDataSet);
-
-        }
-        String days[] = {"월","화","수","목","금","토","일"};
-
-        BarData barData = new BarData(days,barDataSets);
-
-        return barData;
-
-    }
+//    protected BarData generateBarData(){
+//        ArrayList<BarDataSet> sets = new ArrayList<BarDataSet>();
+//        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+//
+//
+//        ArrayList<String>menuName = getMenuNameList();
+//
+//
+//        String d [] = new String [15];
+//        for(int i =0 ;i<15;i++){
+//            d[i]=String.valueOf(i+1);
+//        }
+//        BarData data = setEntries(menuName);
+//        data.setValueTextSize(10f);
+//        data.setValueTypeface(tf);
+//        return data;
+//    }
+//
+//    public ArrayList<String> getMenuNameList(){
+//        ArrayList<String> menuName = new ArrayList<String>();
+//        for(Menu i : Data.menuList){
+//            menuName.add(i.name);
+//        }
+//        return menuName;
+//    }
+//
+//    public BarData setEntries(ArrayList<String> menuName){
+//
+//        ArrayList<Order> orderList = Data.orderList;
+//        HashMap<String, Integer> totalCountPerMenu = new HashMap<String, Integer>();
+//        for(Order i : orderList){
+//            for(OrderMenu j : i.menus.keySet()){
+//                if(totalCountPerMenu.containsKey(j.menu.name)){
+//                    totalCountPerMenu.put(j.menu.name,totalCountPerMenu.get(j.menu.name)+ i.menus.get(j));
+//                } else{
+//                    totalCountPerMenu.put(j.menu.name,i.menus.get(j));
+//                }
+//            }
+//        }
+//        ArrayList<BarDataSet> barDataSets = new ArrayList<BarDataSet>();
+//        for(int i=0;i<menuName.size();i++){
+//            ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+//            for(int j=0;j<7;j++){
+//                entries.add(new BarEntry(j+i,j));
+//            }
+//            BarDataSet barDataSet = new BarDataSet(entries,menuName.get(i));
+//            barDataSet.setColor(Color.rgb(255,128,128));
+//            barDataSets.add(barDataSet);
+//
+//        }
+//        String days[] = {"월","화","수","목","금","토","일"};
+//
+//        BarData barData = new BarData(days,barDataSets);
+//
+//        return barData;
+//
+//    }
     @Override
     public void onChartLongPressed(MotionEvent me) {
         Toast.makeText(getActivity(),"onChartLongPressed 실행됨",Toast.LENGTH_LONG).show();
