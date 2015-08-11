@@ -40,6 +40,11 @@
             >
         </activity>
 
+        <activity
+            android:name=".admin.ManagementIntro"
+            android:label="ManagementIntro">
+        </activity>
+
     </application>
 
 </manifest>
