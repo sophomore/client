@@ -115,7 +115,7 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.addLimitLine(ll1);
         leftAxis.addLimitLine(ll2);
-        leftAxis.setAxisMaxValue(100000);
+        leftAxis.setAxisMaxValue(30000000);
         leftAxis.setAxisMinValue(0f);
         leftAxis.setStartAtZero(false);
         leftAxis.enableGridDashedLine(5f, 5f, 0f);
@@ -145,6 +145,14 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
         cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
         return cal;
     }
+
+    public Calendar getFinishDate(){
+        String finish = getArguments().getString("finish");
+        Calendar cal = Calendar.getInstance();
+        String []date = finish.split("/");
+        cal.set(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2]));
+        return cal;
+    }
     private Date getStartDate(String startDate) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         return formatter.parse(startDate);
@@ -163,7 +171,20 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
 
         return diffDays;
     }
-
+    public int getQuarter(int month){
+        int quarter =0;
+        if(month>=0 && month<=2){
+            quarter = 0;
+        } else if(month>=3 && month<=5){
+            quarter = 1;
+        } else if(month>=6 && month<=8){
+            quarter = 2;
+        } else{
+            quarter = 3;
+        }
+        return quarter;
+    }
+    //TODO: 갯수일 때와 매출일 때 어떻게 구분해서 넣을지 고민..
     public void setData(ArrayList<String> menuList,int unitType,String startDate,String finishDate){
 
         ArrayList<String> selectList = menuList;
@@ -193,10 +214,16 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
                 mChart.setData(generateDayChart(menuList));
                 break;
             case 3:
+
+                mChart.setData(generateMonthChart(menuList));
                 break;
             case 4:
+
+                mChart.setData(generateQuarterChart(menuList));
                 break;
             case 5:
+
+                mChart.setData(generateYearChart(menuList,startDate,finishDate));
                 break;
 
         }
@@ -413,6 +440,219 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
             }
 
             LineData lineData = new LineData(Days, lineDataSets);
+            return lineData;
+        }
+        else{
+            Log.d("asd","실패");
+            return null;
+        }
+    }
+    public LineData generateMonthChart(ArrayList<String> menuList){
+        Calendar date = null;
+        int months[]= {1,2,3,4,5,6,7,8,9,10,11,12};
+
+        try {
+            date = getStartDate();
+
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        if(date != null) {
+            Calendar date2;
+
+            ArrayList<Order> orderList = Data.orderList;
+            int totalPricePerMenu[][] = new int[menuList.size()][months.length];
+            for (Order i : orderList) {
+                for (OrderMenu j : i.menuList) {
+                    date2 = (Calendar) date.clone();
+                    for (int l = 0; l < months.length; l++) {
+
+                        Calendar orderDate = Calendar.getInstance();
+                        orderDate.setTime(i.date);
+                        Log.d("month", orderDate.get(Calendar.MONTH) + "");
+                        if (orderDate.get(Calendar.MONTH)==l) {
+                            Log.d("suc","성공");
+                            for (int k = 0; k < menuList.size(); k++) {
+                                if (j.menu.name == menuList.get(k)) {
+                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                }
+                            }
+                            break;
+                        } else {
+                            date2.add(Calendar.DATE, 1);
+                        }
+                    }
+                }
+            }
+            ArrayList<LineDataSet> lineDataSets = new ArrayList<LineDataSet>();
+
+
+            for (int j = 0; j < menuList.size(); j++) {
+                ArrayList<Entry> entries = new ArrayList<Entry>();
+                for (int k = 0; k < months.length; k++) {
+                    entries.add(new Entry(totalPricePerMenu[j][k], k));
+                }
+                LineDataSet lineDataSet = new LineDataSet(entries, menuList.get(j));
+                lineDataSet.enableDashedLine(10f, 5f, 0f);
+                lineDataSet.setColor(Color.BLACK);
+                lineDataSet.setCircleColor(Color.BLACK);
+                lineDataSet.setLineWidth(1f);
+                lineDataSet.setCircleSize(3f);
+                lineDataSet.setDrawCircleHole(false);
+                lineDataSet.setValueTextSize(9f);
+                lineDataSet.setFillAlpha(65);
+                lineDataSet.setFillColor(Color.BLACK);
+                lineDataSets.add(lineDataSet);
+            }
+
+
+            String xVals[] = new String[months.length];
+
+            for (int i = 0; i < months.length; i++) {
+
+                xVals[i] = String.format("%s",months[i]);
+                date.add(Calendar.DATE,1);
+
+            }
+            LineData lineData = new LineData(xVals, lineDataSets);
+            return lineData;
+        }
+        else{
+            Log.d("asd","실패");
+            return null;
+        }
+    }
+    public LineData generateQuarterChart(ArrayList<String> menuList){
+        Calendar date = null;
+
+        String []quarters = {"1분기","2분기","3분기","4분기"};
+        try {
+            date = getStartDate();
+
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        if(date != null) {
+            Calendar date2;
+
+            ArrayList<Order> orderList = Data.orderList;
+            int totalPricePerMenu[][] = new int[menuList.size()][quarters.length];
+            for (Order i : orderList) {
+                for (OrderMenu j : i.menuList) {
+                    date2 = (Calendar) date.clone();
+                    for (int l = 0; l < quarters.length; l++) {
+                        Calendar orderDate = Calendar.getInstance();
+                        orderDate.setTime(i.date);
+                        int quarter  = getQuarter(orderDate.get(Calendar.MONTH));
+                        Log.d("quarter",quarter+"");
+                        for (int k = 0; k < menuList.size(); k++) {
+                            if (j.menu.name == menuList.get(k)) {
+                                totalPricePerMenu[k][quarter] += totalPricePerMenu[k][quarter] + j.menu.price;
+                            }
+                        }
+
+                    }
+                }
+            }
+            ArrayList<LineDataSet> lineDataSets = new ArrayList<LineDataSet>();
+
+
+            for (int j = 0; j < menuList.size(); j++) {
+                ArrayList<Entry> entries = new ArrayList<Entry>();
+                for (int k = 0; k < quarters.length; k++) {
+                    entries.add(new Entry(totalPricePerMenu[j][k], k));
+                }
+                LineDataSet lineDataSet = new LineDataSet(entries, menuList.get(j));
+                lineDataSet.enableDashedLine(10f, 5f, 0f);
+                lineDataSet.setColor(Color.BLACK);
+                lineDataSet.setCircleColor(Color.BLACK);
+                lineDataSet.setLineWidth(1f);
+                lineDataSet.setCircleSize(3f);
+                lineDataSet.setDrawCircleHole(false);
+                lineDataSet.setValueTextSize(9f);
+                lineDataSet.setFillAlpha(65);
+                lineDataSet.setFillColor(Color.BLACK);
+                lineDataSets.add(lineDataSet);
+            }
+
+
+            LineData lineData = new LineData(quarters, lineDataSets);
+            return lineData;
+        }
+        else{
+            Log.d("asd","실패");
+            return null;
+        }
+    }
+    public LineData generateYearChart(ArrayList<String> menuList,String startDate, String finishDate){
+        Calendar start = null;
+        Calendar finish = null;
+        try {
+            start = getStartDate();
+            finish = getFinishDate();
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        if(start != null) {
+            Calendar date2;
+
+            int diffYear = finish.get(Calendar.YEAR) - start.get(Calendar.YEAR)+1;
+            ArrayList<Order> orderList = Data.orderList;
+            int totalPricePerMenu[][] = new int[menuList.size()][diffYear];
+            for (Order i : orderList) {
+                for (OrderMenu j : i.menuList) {
+                    date2 = (Calendar) start.clone();
+
+                    for (int l = 0; l < diffYear; l++) {
+
+                        Calendar orderDate = Calendar.getInstance();
+                        orderDate.setTime(i.date);
+                        if (orderDate.get(Calendar.YEAR) == start.get(Calendar.YEAR)+ l) {
+                            Log.d("suc","성공");
+                            for (int k = 0; k < menuList.size(); k++) {
+                                if (j.menu.name == menuList.get(k)) {
+                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                }
+                            }
+                            break;
+                        } else {
+                            date2.add(Calendar.DATE, 1);
+                        }
+                    }
+                }
+            }
+            ArrayList<LineDataSet> lineDataSets = new ArrayList<LineDataSet>();
+
+
+            for (int j = 0; j < menuList.size(); j++) {
+                ArrayList<Entry> entries = new ArrayList<Entry>();
+                for (int k = 0; k < diffYear; k++) {
+                    entries.add(new Entry(totalPricePerMenu[j][k], k));
+                }
+                LineDataSet lineDataSet = new LineDataSet(entries, menuList.get(j));
+                lineDataSet.enableDashedLine(10f, 5f, 0f);
+                lineDataSet.setColor(Color.BLACK);
+                lineDataSet.setCircleColor(Color.BLACK);
+                lineDataSet.setLineWidth(1f);
+                lineDataSet.setCircleSize(3f);
+                lineDataSet.setDrawCircleHole(false);
+                lineDataSet.setValueTextSize(9f);
+                lineDataSet.setFillAlpha(65);
+                lineDataSet.setFillColor(Color.BLACK);
+                lineDataSets.add(lineDataSet);
+            }
+
+
+            String xVals[] = new String[diffYear];
+
+            for (int i = 0; i < diffYear; i++) {
+
+                xVals[i] = String.format("%d",start.get(Calendar.YEAR)+i);
+            }
+            LineData lineData = new LineData(xVals, lineDataSets);
             return lineData;
         }
         else{

@@ -72,7 +72,12 @@ public class DrawerFrag extends Fragment {
         {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                checkedType  = false;
+                if (checkedId == R.id.countbtn){
+                    checkedType = true;
+                } else if(checkedId  == R.id.salesbtn){
+                    checkedType = false;
+                }
+
             }
         });
 
@@ -95,7 +100,7 @@ public class DrawerFrag extends Fragment {
 
             }
         });
-        //TODO: 데이터들을 가져와서 통계자료로 변환하는 작업을 해야됨
+
         Button analysisbtn = (Button) view.findViewById(R.id.analysis);
         analysisbtn.setOnClickListener(new View.OnClickListener() {
             @Override

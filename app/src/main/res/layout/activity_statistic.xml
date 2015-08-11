@@ -15,7 +15,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="200dp"
+        android:layout_width="360dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="start"
