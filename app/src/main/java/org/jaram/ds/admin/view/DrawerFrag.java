@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +41,12 @@ public class DrawerFrag extends Fragment {
     View view;
     int chartKind = 0;
     OnAnalysisListener onAnalysisListener;
+    boolean checkedType = true;
+    int unitType = 0;
+    ArrayList<String> selectedMenu = new ArrayList<String>();
+
     public interface OnAnalysisListener{
-        public void createChart(String start,String diffDays);
+        public void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,9 +58,6 @@ public class DrawerFrag extends Fragment {
         Button beforeBtn = (Button) view.findViewById(R.id.beforeBtn);
         final int year,month,day;
         final GregorianCalendar calendar = new GregorianCalendar();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
 
         byear = (TextView)view.findViewById(R.id.ByearText);
         bmonth = (TextView)view.findViewById(R.id.BmonthText);
@@ -65,12 +67,12 @@ public class DrawerFrag extends Fragment {
         lmonth = (TextView)view.findViewById(R.id.LmonthText);
         lday = (TextView) view.findViewById(R.id.LdayText);
 
-        final Button countbtn = (Button) view.findViewById(R.id.countbtn);
-        final Button salesbtn = (Button) view.findViewById(R.id.salesbtn);
-        countbtn.setOnClickListener(new View.OnClickListener() {
+        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.analysis_type_group);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
             @Override
-            public void onClick(View v) {
-                chartKind = 0;
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                checkedType  = false;
             }
         });
 
@@ -101,21 +103,12 @@ public class DrawerFrag extends Fragment {
                 if (byear.getText() == "" || lyear.getText() == "") {
                     Toast.makeText(getActivity(), "기간을 입력해주세요", Toast.LENGTH_SHORT).show();
                 } else {
-                    String startDate = byear.getText() + "/" + (Integer.parseInt((String) bmonth.getText()) - 1) + "/" + bday.getText();
-                    String finishDate = lyear.getText() + "/" + (Integer.parseInt((String) lmonth.getText()) - 1) + "/" + lday.getText();
+                    String startDate = byear.getText() + "/" + (Integer.parseInt((String) bmonth.getText())) + "/" + bday.getText();
+                    String finishDate = lyear.getText() + "/" + (Integer.parseInt((String) lmonth.getText())) + "/" + lday.getText();
 
-                    long diffDays = 0;
-                    try {
-                        diffDays = lengthOfAnalaysis(startDate, finishDate);
-                        Log.d("diff", diffDays + "");
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    if (chartKind == 0) {
 
-                        onAnalysisListener.createChart(startDate, diffDays + "");
+                    onAnalysisListener.createLineChart(checkedType,selectedMenu,unitType,startDate, finishDate + "");
 
-                    }
                 }
 
             }
@@ -177,7 +170,7 @@ public class DrawerFrag extends Fragment {
     }
 
     private ArrayList<String> setSelectedMenuList(boolean[] mbisSelect, String[] menuList){
-        ArrayList<String> selectedMenu = new ArrayList<String>();
+
         for(int i=0;i<mbisSelect.length;i++){
             if(mbisSelect[i] == true){
                 selectedMenu.add(menuList[i]);
@@ -196,28 +189,13 @@ public class DrawerFrag extends Fragment {
         }
         return menuList;
     }
-    private Date getStartDate(String startDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        return formatter.parse(startDate);
-    }
-    private Date getFinishDate(String finishDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        return formatter.parse(finishDate);
-    }
+
+
     private void SetGridView(ExpandableHeightGridView gridView , View view){
         SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity());
         gridView.setAdapter(simpleAdapter);
     }
-    public long lengthOfAnalaysis(String startDate, String finishDate) throws ParseException {
 
-        Date start = getStartDate(startDate);
-        Date finish = getFinishDate(finishDate);
-        long diff = finish.getTime() - start.getTime();
-        long diffDays = diff/(24*60*60*1000);
-
-
-        return diffDays;
-    }
 
     private void SetSelectedMenuAdapter(ExpandableHeightGridView gridView, View view, ArrayList<String> menuList, final boolean[] mbIsSelect){
         final mSelectedMenuListAdapter adapter = new mSelectedMenuListAdapter(menuList,getActivity());
@@ -309,7 +287,7 @@ public class DrawerFrag extends Fragment {
                     if ((position != mSelectedPosition && mSelectRadiobtn != null)) {
                         mSelectRadiobtn.setChecked(false);
                     }
-
+                    unitType = position;
                     mSelectedPosition = position;
                     mSelectRadiobtn = (RadioButton) v;
                 }

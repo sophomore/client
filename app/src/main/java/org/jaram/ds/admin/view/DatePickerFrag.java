@@ -19,13 +19,13 @@ import java.util.Calendar;
 public class DatePickerFrag extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     TextView yearText,monthText,dayText;
-    String form;
     public DatePickerFrag(TextView yearText,TextView monthText, TextView dayText){
         this.yearText = yearText;
         this.monthText = monthText;
         this.dayText = dayText;
-        this.form = form;
+
     }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Calendar calendar = Calendar.getInstance();
@@ -39,14 +39,12 @@ public class DatePickerFrag extends DialogFragment implements DatePickerDialog.O
         return datePicker;
     }
 
+
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         this.yearText.setText(String.format("%d",year));
         this.monthText.setText(String.format("%d",monthOfYear+1));
         this.dayText.setText(String.format("%d",dayOfMonth));
-        Bundle arguments = new Bundle();
-        String date = year+""+(monthOfYear+1)+""+dayOfMonth+"";
-
 
     }
 

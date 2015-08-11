@@ -14,6 +14,9 @@ import org.jaram.ds.admin.view.BarChartFrag;
 import org.jaram.ds.admin.view.DrawerFrag;
 import org.jaram.ds.admin.view.LineChartFrag;
 
+import java.util.ArrayList;
+import java.util.zip.Inflater;
+
 
 public class StatisticMain extends ActionBarActivity implements DrawerFrag.OnAnalysisListener{
 
@@ -70,10 +73,10 @@ public class StatisticMain extends ActionBarActivity implements DrawerFrag.OnAna
     }
 
     @Override
-    public void createChart(String start, String diffDays) {
-        LineChartFrag lineChartFrag = LineChartFrag.newInstance(start,diffDays);
+    public void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType, String start, String diffDays) {
+        LineChartFrag lineChartFrag = LineChartFrag.newInstance(analysisType,menuList,unitType,start,diffDays);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.chart, lineChartFrag)
+                .replace(R.id.chart,lineChartFrag)
                 .commit();
 
     }
