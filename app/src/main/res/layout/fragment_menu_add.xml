@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_root"
+    android:id="@+id/layout_root_add"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
+
     <TextView
-        android:id="@+id/modifyId"
+        android:id="@+id/addId"
         android:text="매뉴 이름"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/menuModify"
+        android:id="@+id/menuAdd"
         android:layout_width="200dp"
         android:layout_height="35dp"
         android:inputType="text" />
 
     <TextView
-        android:id="@+id/modifyprice"
+        android:id="@+id/addprice"
         android:text="매뉴 가격"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/priceModify"
+        android:id="@+id/priceAdd"
         android:layout_width="200dp"
         android:layout_height="35dp"
         android:inputType="number" />
 
     <TextView
-        android:id="@+id/modifyCategory"
+        android:id="@+id/addCategory"
         android:text="카테고리"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/categoryModify"
+        android:id="@+id/categoryAdd"
         android:layout_width="200dp"
         android:layout_height="35dp" />
 
