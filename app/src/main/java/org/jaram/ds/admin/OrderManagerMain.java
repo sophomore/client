@@ -19,12 +19,15 @@ public class OrderManagerMain extends FragmentActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_ordermanager);
         if (savedInstanceState == null) {
             search_orderFrag = new Search_orderFrag();
             order_viewFrag = new Order_viewFrag();
-            //getSupportFragmentManager().beginTransaction().add(R.id.order_search, search_orderFrag).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.order_search,search_orderFrag).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.order_view, order_viewFrag).commit();
         }
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
