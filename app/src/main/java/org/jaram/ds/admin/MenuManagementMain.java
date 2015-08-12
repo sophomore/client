@@ -2,6 +2,7 @@ package org.jaram.ds.admin;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -31,7 +32,7 @@ public class MenuManagementMain extends FragmentActivity {
                         .setPositiveButton("Yes",new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "삭제되었습니", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "삭제되었습니다", Toast.LENGTH_LONG).show();
                             }
                         }).setNegativeButton("NO", new DialogInterface.OnClickListener(){
                     @Override
@@ -43,6 +44,16 @@ public class MenuManagementMain extends FragmentActivity {
 
             }
         });
+
+        Button categorybutton = (Button) findViewById(R.id.categorizemenu);
+        categorybutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MenuManagementMain.this, CategoryMenagement.class));
+            }
+        });
+
+
 
     }
 
