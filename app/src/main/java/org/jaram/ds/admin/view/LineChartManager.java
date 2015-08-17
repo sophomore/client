@@ -1,6 +1,7 @@
 package org.jaram.ds.admin.view;
 
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -42,104 +43,43 @@ import java.util.Date;
  */
 
 
-public class LineChartFrag extends Fragment implements OnChartGestureListener{
+public class LineChartManager implements OnChartGestureListener{
 
 
     Typeface tf;
     protected LineChart mChart;
     Date startDate;
+    boolean analysisType;
+    ArrayList<String> menuList;
+    int unitType;
+    String start;
+    String end;
+    Activity activity;
+
+    public LineChartManager(Activity activity, boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end){
+        this.analysisType = analysisType;
+        this.menuList = menuList;
+        this.unitType = unitType;
+        this.start = start;
+        this.end = end;
+        this.activity = activity;
 
 
-    public static LineChartFrag newInstance(boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end) {
-        LineChartFrag lineChartFrag = new LineChartFrag();
-        Bundle argument = new Bundle();
-        argument.putString("start",start);
-        argument.putString("finish",end);
-        argument.putStringArrayList("menuList", menuList);
-        argument.putInt("unitType", unitType);
-        argument.putBoolean("analysisType",analysisType);
-        lineChartFrag.setArguments(argument);
-
-
-        return lineChartFrag;
     }
 
-    public LineChartFrag(){
-
+    public LineChart getChart(){
+        return mChart;
     }
 
-
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bar,container,false);
-
-        mChart = new LineChart(getActivity());
-        mChart.setDescription("");
-
-        mChart.setHighlightEnabled(false);
-        mChart.setDrawGridBackground(false);
-        mChart.setTouchEnabled(true);
-
-        String startDate = getArguments().getString("start");
-        String finishDate = getArguments().getString("finish");
-
-        int unitType = getArguments().getInt("unitType");
-        ArrayList<String> menuList = getMenuNameList();
-        setData(menuList,unitType,startDate,finishDate);
-
-        tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
-
-        Legend l = mChart.getLegend();
-        l.setTypeface(tf);
-
-
-        mChart.getAxisRight().setEnabled(false);
-
-
-
-        LimitLine ll1 = new LimitLine(100000f, "Upper Limit");
-        ll1.setLineWidth(2f);
-        ll1.enableDashedLine(5f, 5f, 0f);
-        ll1.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
-        ll1.setTextSize(3f);
-
-        LimitLine ll2 = new LimitLine(-30000f, "Lower Limit");
-        ll2.setLineWidth(2f);
-        ll2.enableDashedLine(5f, 5f, 0f);
-        ll2.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
-        ll2.setTextSize(3f);
-
-        YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.addLimitLine(ll1);
-        leftAxis.addLimitLine(ll2);
-        leftAxis.setAxisMaxValue(30000000);
-        leftAxis.setAxisMinValue(0f);
-        leftAxis.setStartAtZero(false);
-        leftAxis.enableGridDashedLine(5f, 5f, 0f);
-
-        leftAxis.setDrawLimitLinesBehindData(true);
-
-
-        mChart.getAxisRight().setEnabled(false);
-        FrameLayout parent = (FrameLayout) view.findViewById(R.id.parentLayout);
-        parent.addView(mChart);
-
-        return view;
-
+    public void setChart(LineChart lineChart){
+        this.mChart = lineChart;
     }
+
     public ArrayList<String> getMenuNameList(){
-        ArrayList<String> menuName = getArguments().getStringArrayList("menuList");
-        for(int i=0;i<menuName.size();i++){
-            Log.d("asd",menuName.get(i));
-        }
-        return menuName;
+        return menuList;
     }
 
     public Calendar getStartDate() throws ParseException {
-        String start = getArguments().getString("start");
         Calendar cal = Calendar.getInstance();
         String []date = start.split("/");
         cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
@@ -147,9 +87,8 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
     }
 
     public Calendar getFinishDate(){
-        String finish = getArguments().getString("finish");
         Calendar cal = Calendar.getInstance();
-        String []date = finish.split("/");
+        String []date = end.split("/");
         cal.set(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2]));
         return cal;
     }
@@ -185,23 +124,22 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
         return quarter;
     }
     //TODO: 갯수일 때와 매출일 때 어떻게 구분해서 넣을지 고민..
-    public void setData(ArrayList<String> menuList,int unitType,String startDate,String finishDate){
+    public LineData getData(ArrayList<String> menuList,int unitType,String startDate,String finishDate){
 
-        ArrayList<String> selectList = menuList;
 
         switch (unitType){
             case 0:
 
-                mChart.setData(generateTimeChart(menuList));
-                break;
+                return generateTimeChart(menuList);
+
             case 1:
                 try {
                     int diffDays = (int) lengthOfDate(startDate, finishDate);
 
-                    mChart.setData(generateDateChart(menuList,diffDays));
+                    return generateDateChart(menuList,diffDays);
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
                     dialog.setTitle("날짜 오류");
                     dialog.setMessage("날짜를 제대로 입력하였는지 확인해주세요.");
                     dialog.setPositiveButton("Ok",null);
@@ -211,22 +149,24 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
                 break;
             case 2:
 
-                mChart.setData(generateDayChart(menuList));
-                break;
+                return generateDayChart(menuList);
+
             case 3:
 
-                mChart.setData(generateMonthChart(menuList));
-                break;
+                return generateMonthChart(menuList);
+
             case 4:
 
-                mChart.setData(generateQuarterChart(menuList));
-                break;
+                return generateQuarterChart(menuList);
+
             case 5:
 
-                mChart.setData(generateYearChart(menuList,startDate,finishDate));
-                break;
+                return generateYearChart(menuList,startDate,finishDate);
+
 
         }
+
+        return null;
     }
 
 
@@ -326,6 +266,7 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
                 for (OrderMenu j : i.menuList) {
                     Calendar orderDate = Calendar.getInstance();
                     orderDate.setTime(i.date);
+
                     Log.d("time", orderDate.get(Calendar.HOUR_OF_DAY) + "");
                     date2 = (Calendar) date.clone();
                     for (int l = 0; l < timeList.length; l++) {

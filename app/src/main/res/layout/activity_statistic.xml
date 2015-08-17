@@ -7,19 +7,20 @@
     android:id="@+id/statistic"
     >
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/chart"
-        >
-    </FrameLayout>
+        <ListView
+            android:id="@+id/chart_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        </ListView>
+
 
     <FrameLayout
         android:layout_width="360dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="start"
-        android:id="@+id/drawer"
-        >
+        android:id="@+id/drawer">
+
     </FrameLayout>
 </android.support.v4.widget.DrawerLayout>

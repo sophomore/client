@@ -47,6 +47,7 @@ public class DrawerFrag extends Fragment {
 
     public interface OnAnalysisListener{
         public void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end);
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -113,7 +114,6 @@ public class DrawerFrag extends Fragment {
 
 
                     onAnalysisListener.createLineChart(checkedType,selectedMenu,unitType,startDate, finishDate + "");
-
                 }
 
             }
