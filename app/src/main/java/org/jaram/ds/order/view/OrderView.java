@@ -1,8 +1,12 @@
 package org.jaram.ds.order.view;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,6 +36,7 @@ import java.util.Random;
 public class OrderView extends Fragment {
 
     Callbacks callbacks = null;
+    Button paybtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true">
+    <GridLayout
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:rowCount="6"
+        android:columnCount="1"
+        android:layout_centerVertical="true">
+        <Button
+            android:id="@+id/DrawerStat"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="통계"/>
+        <Button
+            android:id="@+id/DrawerMenu"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="메뉴관리"/>
+        <Button
+        android:id="@+id/DrawerOrder"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="주문관리"/>
+        <Button
+        android:id="@+id/DrawerInternet"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="인터넷"/>
+        <Button
+        android:id="@+id/DrawerMusic"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="음악"/>
+        <Button
+        android:id="@+id/DrawerExit"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="앱종료"/>
+
+        </GridLayout>
+
+</RelativeLayout>
