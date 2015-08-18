@@ -29,15 +29,16 @@ public class MenuManagementMain extends FragmentActivity {
         Button deletebutton = (Button) findViewById(R.id.deletemenu);
         deletebutton.setOnClickListener(new View.OnClickListener() {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
             public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
                 builder.setMessage("삭제 하시겠습니까?")
-                        .setPositiveButton("Yes",new DialogInterface.OnClickListener(){
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getApplicationContext(), "삭제되었습니다", Toast.LENGTH_LONG).show();
                             }
-                        }).setNegativeButton("NO", new DialogInterface.OnClickListener(){
+                        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -57,13 +58,14 @@ public class MenuManagementMain extends FragmentActivity {
         });
 
         Button modifybutton = (Button) findViewById(R.id.modifymenu);
-        modifybutton.setOnClickListener(new View.OnClickListener(){
+        modifybutton.setOnClickListener(new View.OnClickListener() {
 
             Context mcontext = getApplicationContext();
             LayoutInflater inflater = (LayoutInflater) mcontext.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.fragment_menu_dialog,(ViewGroup)findViewById(R.id.layout_root));
+            View layout = inflater.inflate(R.layout.fragment_menu_dialog, (ViewGroup) findViewById(R.id.layout_root));
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
+
             @Override
             public void onClick(View v) {
                 builder.setTitle("메뉴 수정");
@@ -75,7 +77,7 @@ public class MenuManagementMain extends FragmentActivity {
                         Toast.makeText(getApplicationContext(), "수정되었습니다.", Toast.LENGTH_LONG).show();
                     }
                 });
-                builder.setNegativeButton("취소",new DialogInterface.OnClickListener(){
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -92,7 +94,7 @@ public class MenuManagementMain extends FragmentActivity {
 
             Context mcontext = getApplicationContext();
             LayoutInflater inflater = (LayoutInflater) mcontext.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.fragment_menu_add,(ViewGroup)findViewById(R.id.layout_root_add));
+            View layout = inflater.inflate(R.layout.fragment_menu_add, (ViewGroup) findViewById(R.id.layout_root_add));
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
 
@@ -101,10 +103,10 @@ public class MenuManagementMain extends FragmentActivity {
                 builder.setTitle("메뉴 추가");
                 builder.setView(layout);
 
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(),"추가되었습니다.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "추가되었습니다.", Toast.LENGTH_LONG).show();
                     }
                 });
 
