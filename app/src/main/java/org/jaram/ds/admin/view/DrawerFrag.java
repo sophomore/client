@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +21,7 @@ import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -47,6 +42,7 @@ public class DrawerFrag extends Fragment {
 
     public interface OnAnalysisListener{
         public void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end);
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -113,7 +109,6 @@ public class DrawerFrag extends Fragment {
 
 
                     onAnalysisListener.createLineChart(checkedType,selectedMenu,unitType,startDate, finishDate + "");
-
                 }
 
             }
