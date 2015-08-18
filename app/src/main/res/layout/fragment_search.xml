@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <RelativeLayout
-        android:layout_width = "wrap_content"
+        android:layout_width = "350dp"
         android:layout_height = "wrap_content"
         android:layout_weight= "3"
         android:background="#ffffff"
@@ -82,11 +82,9 @@
             android:id = "@+id/menublank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/menutext"
-            android:layout_alignTop="@+id/menutext"
-            android:layout_alignBottom="@+id/menutext"
             android:hint = "메뉴를 입력하세요"
-            android:layout_marginBottom = "10dp"/>
+            android:layout_alignBottom="@+id/menutext"
+            android:layout_toRightOf="@+id/menutext"/>
         <TextView
             android:id = "@+id/checktext"
             android:layout_below = "@+id/menutext"

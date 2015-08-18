@@ -16,10 +16,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -34,9 +36,11 @@ public class Search_orderFrag extends Fragment {
     private RadioGroup mRadioGroup;
     private RadioButton mRadioButton;
     private Button search_start;
+    private ArrayList<Integer> selectmenu = new ArrayList<Integer>();
     private int mYear, mMonth, mDay, mHour, mMinute;
     static final int DATE_DIALOG_ID = 0;
     private int mode = 0;
+    private String selectedIndex;
     View view;
     public Search_orderFrag(){
 
@@ -50,6 +54,7 @@ public class Search_orderFrag extends Fragment {
         mDateDisplay3 = (TextView) view.findViewById(R.id.edit_time3);
         mDateDisplay4 = (TextView) view.findViewById(R.id.edit_time4);
         mMenuDisplay = (TextView) view.findViewById(R.id.menublank);
+
         mRadioGroup = (RadioGroup) view.findViewById(R.id.radiogroup);
         mRadioButton = (RadioButton) view.findViewById(mRadioGroup.getCheckedRadioButtonId());
         search_start = (Button) view.findViewById(R.id.search_button);
@@ -57,7 +62,8 @@ public class Search_orderFrag extends Fragment {
             @Override
             public void onClick(View v) {
                 String checktool = mRadioButton.getText().toString();
-                
+                String checkmenu[] = selectedIndex.split(" ");
+                String date1 = (String) mDateDisplay.getText();
             }
         });
         mMenuDisplay.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +71,7 @@ public class Search_orderFrag extends Fragment {
             public void onClick(View v) {
                 int size = Data.menuList.size();
                 String[] menuitem = new String[size];
+                selectmenu.clear();
                 for(int i=0;i< Data.menuList.size(); i++){
                     menuitem[i] = Data.menuList.get(i).name;
                 }
@@ -75,11 +82,30 @@ public class Search_orderFrag extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         //체크박스 선택 시
+                        if (isChecked) {
+                            // if the user checked the item, add it to the selected items
+                            selectmenu.add(which);
+                        }
+                        else if (selectmenu.contains(which)) {
+                            // else if the item is already in the array, remove it
+                            selectmenu.remove(Integer.valueOf(which));
+                        }
                     }
                 }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //확인 버튼 누르고
+                        selectedIndex = "";//선택된 메뉴 String
+                        String selectedText = "";//edittext에 보여줄 메뉴
+
+                        for(Integer i : selectmenu){
+                            selectedIndex += Data.menuList.get(i).name + " ";
+                            selectedText += Data.menuList.get(i).name+ ", ";
+                        }
+                        selectedText = selectedText.substring(0, selectedText.length()-2);
+                        mMenuDisplay.setText(selectedText);
+                        Toast.makeText(view.getContext(), selectedText, Toast.LENGTH_LONG).show();
+
                     }
                 }).setNegativeButton("취소", new DialogInterface.OnClickListener(){
 

@@ -9,7 +9,6 @@ import org.jaram.ds.data.struct.OrderMenu;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 
 /**
@@ -47,6 +46,7 @@ public class Data {
             Calendar cal = Calendar.getInstance();
             cal.set(2015-random.nextInt(2), 12-random.nextInt(11), 30-random.nextInt(29), 24-random.nextInt(24), 60-random.nextInt(60), 60-random.nextInt(60));
             order.date = cal.getTime();
+            Log.d("testDate",order.date.getMonth()+"");
             orderList.add(order);
         }
     }

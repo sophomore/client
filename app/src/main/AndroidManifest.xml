@@ -40,6 +40,15 @@
             >
         </activity>
 
+        <activity
+            android:name=".admin.ManagementIntro"
+            android:label="ManagementIntro">
+        </activity>
+
+        <activity
+            android:name=".admin.CategoryMenagement"
+            android:label="CategoryMenagement">
+        </activity>
     </application>
 
 </manifest>

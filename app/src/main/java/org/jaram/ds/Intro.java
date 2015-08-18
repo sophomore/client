@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+
 import org.jaram.ds.admin.OrderManagerMain;
+
+import org.jaram.ds.admin.ManagementIntro;
+
 import org.jaram.ds.order.OrderManager;
 
 public class Intro extends Activity {
@@ -28,7 +32,8 @@ public class Intro extends Activity {
         adminButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Intro.this, OrderManagerMain.class));
+                startActivity(new Intent(Intro.this, ManagementIntro.class));
+
             }
         });
     }
