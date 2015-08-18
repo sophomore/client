@@ -1,30 +1,36 @@
 package org.jaram.ds.admin;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.jaram.ds.R;
-import org.jaram.ds.admin.view.BarChartFrag;
+import org.jaram.ds.admin.ChartListItem.BarChartItem;
+import org.jaram.ds.admin.ChartListItem.ChartItem;
+import org.jaram.ds.admin.ChartListItem.LineChartItem;
+import org.jaram.ds.admin.view.BarChartManager;
 import org.jaram.ds.admin.view.DrawerFrag;
-import org.jaram.ds.admin.view.LineChartFrag;
+import org.jaram.ds.admin.view.LineChartManager;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
+import java.util.List;
 
 
 public class StatisticMain extends ActionBarActivity implements DrawerFrag.OnAnalysisListener{
 
 
     DrawerFrag drawerFrag;
-    BarChartFrag barChartFrag;
-    LineChartFrag lineChartFrag;
-
+    BarChartManager barChartManager;
+    LineChartManager lineChartManager;
+    ListView chartContainer;
+    ArrayList<ChartItem> list;
+    ChartDataAdapter cda;
     float startX;
     float startY;
     float endX;
@@ -37,17 +43,38 @@ public class StatisticMain extends ActionBarActivity implements DrawerFrag.OnAna
 
         setContentView(R.layout.activity_statistic);
         if (savedInstanceState == null) {
-            barChartFrag = new BarChartFrag();
-            lineChartFrag = new LineChartFrag();
+
+            chartContainer = (ListView)findViewById(R.id.chart_container);
+            list = new ArrayList<ChartItem>();
+            cda = new ChartDataAdapter(getApplicationContext(), list);
+            chartContainer.setAdapter(cda);
             drawerFrag = new DrawerFrag();
             getSupportFragmentManager().beginTransaction().add(R.id.drawer,drawerFrag).commit();
-            getSupportFragmentManager().beginTransaction().add(R.id.chart,barChartFrag).commit();
         }
 
-
-
     }
+    private class ChartDataAdapter extends ArrayAdapter<ChartItem> {
 
+        public ChartDataAdapter(Context context, List<ChartItem> objects) {
+            super(context, 0, objects);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getItem(position).getView(position, convertView, getContext());
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            // return the views type
+            return getItem(position).getItemType();
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 2; // we have 3 different item-types
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,11 +100,16 @@ public class StatisticMain extends ActionBarActivity implements DrawerFrag.OnAna
     }
 
     @Override
-    public void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType, String start, String diffDays) {
-        LineChartFrag lineChartFrag = LineChartFrag.newInstance(analysisType,menuList,unitType,start,diffDays);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.chart,lineChartFrag)
-                .commit();
+    public void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end) {
+        list.clear();
+        lineChartManager = new LineChartManager(this,analysisType, menuList, unitType, start, end);
+        LineChartItem lineChartItem = new LineChartItem(lineChartManager.getData(menuList,unitType,start,end),getApplicationContext());
+        list.add(lineChartItem);
+        barChartManager = new BarChartManager(this,analysisType,menuList,unitType,start,end);
+        BarChartItem barChartItem = new BarChartItem(barChartManager.getData(menuList,unitType,start,end),getApplicationContext());
+        list.add(barChartItem);
+        cda.notifyDataSetChanged();
 
     }
+
 }
