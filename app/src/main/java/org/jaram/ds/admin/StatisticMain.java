@@ -104,7 +104,6 @@ public class StatisticMain extends ActionBarActivity implements DrawerFrag.OnAna
         list.clear();
         lineChartManager = new LineChartManager(this,analysisType, menuList, unitType, start, end);
         LineChartItem lineChartItem = new LineChartItem(lineChartManager.getData(menuList,unitType,start,end),getApplicationContext(),analysisType);
-
         list.add(lineChartItem);
         barChartManager = new BarChartManager(this,analysisType,menuList,unitType,start,end);
         BarChartItem barChartItem = new BarChartItem(barChartManager.getData(menuList,unitType,start,end),getApplicationContext());

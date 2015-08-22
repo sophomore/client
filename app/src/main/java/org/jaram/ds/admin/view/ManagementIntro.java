@@ -10,7 +10,6 @@ import org.jaram.ds.R;
 import org.jaram.ds.admin.MenuManagementMain;
 import org.jaram.ds.admin.OrderManagerMain;
 import org.jaram.ds.admin.StatisticMain;
-import org.jaram.ds.data.struct.TestOrderMenu;
 
 /**
  * Created by KimMyoungSoo on 2015. 8. 4..
@@ -39,8 +38,6 @@ public class ManagementIntro extends ActionBarActivity{
         statisticButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TestOrderMenu testOrderMenu = new TestOrderMenu(null,0,null);
-                testOrderMenu.save();
                 startActivity(new Intent(ManagementIntro.this, StatisticMain.class));
             }
         });

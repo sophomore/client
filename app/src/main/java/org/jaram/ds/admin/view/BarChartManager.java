@@ -39,6 +39,7 @@ public class BarChartManager implements OnChartGestureListener {
     String end;
     private BarChart mChart;
     Activity activity;
+    int[] price = new int[3];
 
     public BarChartManager(Activity activity, boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end) {
         this.analysisType = analysisType;
@@ -308,7 +309,6 @@ public class BarChartManager implements OnChartGestureListener {
 
                     if (orderDate.get(Calendar.DAY_OF_WEEK) == l + 1) {
                         totalPricePerMenu[l] += totalPricePerMenu[l] + i.totalPrice;
-
                     } else {
                         date2.add(Calendar.DATE, 1);
                     }
@@ -518,6 +518,7 @@ public class BarChartManager implements OnChartGestureListener {
     }
 
 
+
     @Override
     public void onChartLongPressed(MotionEvent me) {
         Toast.makeText(activity,"onChartLongPressed 실행됨",Toast.LENGTH_LONG).show();
@@ -531,6 +532,7 @@ public class BarChartManager implements OnChartGestureListener {
     @Override
     public void onChartSingleTapped(MotionEvent me) {
         Toast.makeText(activity,"onChartSingleTapped 실행됨",Toast.LENGTH_LONG).show();
+
     }
 
     @Override

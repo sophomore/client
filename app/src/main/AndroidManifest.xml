@@ -52,6 +52,12 @@
             android:label="CategoryMenagement">
         </activity>
 
+        <activity
+            android:name=".admin.Statistic2"
+            android:label="newStatistic">
+        </activity>
+
+
         <meta-data android:name="DATABASE" android:value="test.db" />
         <meta-data android:name="VERSION" android:value="10" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
