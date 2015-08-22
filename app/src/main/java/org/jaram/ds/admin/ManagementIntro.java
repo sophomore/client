@@ -35,7 +35,7 @@ public class ManagementIntro extends ActionBarActivity{
         statisticButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ManagementIntro.this, StatisticMain.class));
+                startActivity(new Intent(ManagementIntro.this, Statistic2.class));
             }
         });
     }

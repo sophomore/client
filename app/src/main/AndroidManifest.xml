@@ -49,6 +49,10 @@
             android:name=".admin.CategoryMenagement"
             android:label="CategoryMenagement">
         </activity>
+        <activity
+            android:name=".admin.Statistic2"
+            android:label="newStatistic">
+        </activity>
     </application>
 
 </manifest>
