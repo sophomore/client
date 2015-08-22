@@ -30,26 +30,7 @@ public class Order_viewFrag extends Fragment {
         ListView list = (ListView)view.findViewById(R.id.orderlist);
         final OrderlistAdapter Adapter = new OrderlistAdapter(view.getContext(),R.layout.orderlist_item,orderlist);
         list.setAdapter(Adapter);
-
-//        AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                //listview 클릭 시
-//                Toast.makeText(view.getContext(), position,Toast.LENGTH_LONG).show();
-//                new AlertDialog.Builder(view.getContext())
-//                        .setTitle("주문 정보")
-//                        .setMessage(Adapter.getDate(position)+"/n")
-//                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//
-//                                dialog.cancel();
-//                            }
-//                        }).show();
-//
-//            }
-//        };
-
-
+        //list.setAdapter(null);
         return view;
     }
 
