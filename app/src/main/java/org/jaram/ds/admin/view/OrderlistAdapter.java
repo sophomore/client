@@ -3,6 +3,7 @@ package org.jaram.ds.admin.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,9 +61,11 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         HashMap<String, Integer> menus = new HashMap<String, Integer>();
         for(int i = 0; i <data.get(position).menuList.size();i++){
             String temp = data.get(position).menuList.get(i).menu.name;
-            if(menus.keySet().contains(data.get(position).menuList.get(i).menu)){
+            if(menus.keySet().contains(data.get(position).menuList.get(i).menu.name)){
+                Log.d("Ok", "~~~~~~~~");
                 int plus = menus.get(temp) + 1;
                 menus.put(temp, plus);
+                Log.d("num", plus+"@");
             }else{
                 menus.put(temp, 1);
             }
@@ -93,6 +96,7 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         String menu2 = "";
         for(Object i : menu1){
             menu2 = menu2 + i+" "+getItem(position).get(i)+"개, ";
+            Log.d("get", getItem(position).get(i)+"");
         }
         menu2 = menu2.substring(0, menu2.length()-2);
         o.setText(menu2);
