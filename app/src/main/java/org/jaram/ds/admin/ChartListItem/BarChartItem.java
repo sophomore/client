@@ -14,7 +14,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.ChartData;
 
 import org.jaram.ds.R;
-import org.jaram.ds.order.OrderAdapter;
 
 /**
  * Created by ohyongtaek on 15. 8. 14..
@@ -22,7 +21,7 @@ import org.jaram.ds.order.OrderAdapter;
 public class BarChartItem extends ChartItem {
 
     Typeface tf;
-
+    ViewHolder holder = null;
     public BarChartItem(ChartData<?> cd, Context c) {
         super(cd);
         tf = Typeface.createFromAsset(c.getAssets(), "OpenSans-Light.ttf");
@@ -36,7 +35,6 @@ public class BarChartItem extends ChartItem {
     @Override
     public View getView(int position, View convertView, Context c) {
 
-        ViewHolder holder = null;
         if (convertView == null) {
 
             holder = new ViewHolder();
@@ -74,7 +72,12 @@ public class BarChartItem extends ChartItem {
 
         return convertView;
     }
-
+    public BarChart getChart(){
+        return holder.chart;
+    }
+    public void setChart(BarChart barChart){
+        this.holder.chart = barChart;
+    }
     private static class ViewHolder {
         BarChart chart;
     }

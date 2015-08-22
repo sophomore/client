@@ -20,8 +20,11 @@ import org.jaram.ds.R;
 public class LineChartItem extends ChartItem {
 
     Typeface tf;
-    public LineChartItem(ChartData<?> cd, Context c) {
+    ViewHolder holder = null;
+    boolean analysis;
+    public LineChartItem(ChartData<?> cd, Context c, boolean analysis) {
         super(cd);
+        this.analysis = analysis;
         tf = Typeface.createFromAsset(c.getAssets(), "OpenSans-Light.ttf");
     }
 
@@ -32,7 +35,7 @@ public class LineChartItem extends ChartItem {
 
     @Override
     public View getView(int position, View convertView, Context c) {
-        ViewHolder holder = null;
+
 
         if (convertView == null) {
 
@@ -80,7 +83,11 @@ public class LineChartItem extends ChartItem {
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.addLimitLine(ll1);
         leftAxis.addLimitLine(ll2);
-        leftAxis.setAxisMaxValue(300000);
+        if(analysis==true) {
+            leftAxis.setAxisMaxValue(300000);
+        } else if(analysis == false){
+            leftAxis.setAxisMaxValue(100);
+        }
         leftAxis.setAxisMinValue(0f);
         leftAxis.setStartAtZero(false);
         leftAxis.enableGridDashedLine(5f, 5f, 0f);

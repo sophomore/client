@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +21,7 @@ import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -73,12 +68,11 @@ public class DrawerFrag extends Fragment {
         {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.countbtn){
-                    checkedType = true;
-                } else if(checkedId  == R.id.salesbtn){
+                if (checkedId == R.id.countbtn || checkedId != R.id.salesbtn){
                     checkedType = false;
+                } else if(checkedId  == R.id.salesbtn || checkedId != R.id.countbtn){
+                    checkedType = true;
                 }
-
             }
         });
 
@@ -97,6 +91,7 @@ public class DrawerFrag extends Fragment {
             public void onClick(View v) {
 
                 DialogFragment beforeDialog = new DatePickerFrag(lyear,lmonth,lday);
+
                 beforeDialog.show(getActivity().getFragmentManager(), "datePicker");
 
             }
@@ -109,8 +104,8 @@ public class DrawerFrag extends Fragment {
                 if (byear.getText() == "" || lyear.getText() == "") {
                     Toast.makeText(getActivity(), "기간을 입력해주세요", Toast.LENGTH_SHORT).show();
                 } else {
-                    String startDate = byear.getText() + "/" + (Integer.parseInt((String) bmonth.getText())) + "/" + bday.getText();
-                    String finishDate = lyear.getText() + "/" + (Integer.parseInt((String) lmonth.getText())) + "/" + lday.getText();
+                    String startDate = byear.getText() + "-" + (Integer.parseInt((String) bmonth.getText())) + "-" + bday.getText();
+                    String finishDate = lyear.getText() + "-" + (Integer.parseInt((String) lmonth.getText())) + "-" + lday.getText();
 
 
                     onAnalysisListener.createLineChart(checkedType,selectedMenu,unitType,startDate, finishDate + "");

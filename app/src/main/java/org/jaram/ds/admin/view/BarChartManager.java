@@ -3,42 +3,27 @@ package org.jaram.ds.admin.view;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 
-import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.data.struct.Order;
-import org.jaram.ds.data.struct.OrderMenu;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
 
 /**
@@ -153,25 +138,25 @@ public class BarChartManager implements OnChartGestureListener {
 
     public Calendar getStartDate() throws ParseException {
         Calendar cal = Calendar.getInstance();
-        String[] date = start.split("/");
+        String[] date = start.split("-");
         cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
         return cal;
     }
 
     public Calendar getFinishDate() {
         Calendar cal = Calendar.getInstance();
-        String[] date = end.split("/");
+        String[] date = end.split("-");
         cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
         return cal;
     }
 
     private Date getStartDate(String startDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.parse(startDate);
     }
 
     private Date getFinishDate(String finishDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.parse(finishDate);
     }
 
@@ -197,7 +182,9 @@ public class BarChartManager implements OnChartGestureListener {
 
                 for (int l = 0; l < diffDays; l++) {
                     if (date2.get(Calendar.YEAR) == orderDate.get(Calendar.YEAR) && date2.get(Calendar.MONTH) == orderDate.get(Calendar.MONTH) && date2.get(Calendar.DATE) == orderDate.get(Calendar.DATE)) {
-                        totalPricePerMenu[l] += totalPricePerMenu[l] + i.totalPrice;
+                        if(analysisType) {
+                            totalPricePerMenu[l] += totalPricePerMenu[l] + i.totalPrice;
+                        }
                     } else {
                         date2.add(Calendar.DATE, 1);
                     }

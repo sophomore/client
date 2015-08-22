@@ -4,13 +4,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.zip.Inflater;
 
 /**
  * Created by ka123ak on 2015-07-15.
@@ -26,7 +23,9 @@ public class DatePickerFrag extends DialogFragment implements DatePickerDialog.O
         this.dayText = dayText;
 
     }
+    public DatePickerFrag(){
 
+    }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 

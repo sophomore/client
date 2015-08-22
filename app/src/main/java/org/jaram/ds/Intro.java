@@ -6,17 +6,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import org.jaram.ds.admin.ManagementIntro;
+import org.jaram.ds.admin.view.ManagementIntro;
 import org.jaram.ds.order.OrderManager;
 
 public class Intro extends Activity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-
+        //TestData testData = new TestData();
         Button orderButton = (Button)findViewById(R.id.orderBtn);
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,8 +27,11 @@ public class Intro extends Activity {
         adminButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(new Intent(Intro.this, ManagementIntro.class));
+
             }
         });
     }
+
 }

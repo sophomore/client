@@ -4,30 +4,17 @@ package org.jaram.ds.admin.view;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 
-import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
-import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 
@@ -55,6 +42,7 @@ public class LineChartManager implements OnChartGestureListener{
     String start;
     String end;
     Activity activity;
+    int max = 0;
 
     public LineChartManager(Activity activity, boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end){
         this.analysisType = analysisType;
@@ -81,23 +69,23 @@ public class LineChartManager implements OnChartGestureListener{
 
     public Calendar getStartDate() throws ParseException {
         Calendar cal = Calendar.getInstance();
-        String []date = start.split("/");
+        String []date = start.split("-");
         cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
         return cal;
     }
 
     public Calendar getFinishDate(){
         Calendar cal = Calendar.getInstance();
-        String []date = end.split("/");
+        String []date = end.split("-");
         cal.set(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2]));
         return cal;
     }
     private Date getStartDate(String startDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.parse(startDate);
     }
     private Date getFinishDate(String finishDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.parse(finishDate);
     }
     public long lengthOfDate(String startDate, String finishDate) throws ParseException {
@@ -182,7 +170,6 @@ public class LineChartManager implements OnChartGestureListener{
         }
         if(date != null) {
             Calendar date2;
-
             ArrayList<Order> orderList = Data.orderList;
             int totalPricePerMenu[][] = new int[menuName.size()][diffDays];
             for (Order i : orderList) {
@@ -197,7 +184,17 @@ public class LineChartManager implements OnChartGestureListener{
                             Log.d("suc","성공");
                             for (int k = 0; k < menuName.size(); k++) {
                                 if (j.menu.name == menuName.get(k)) {
-                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    if(analysisType == true) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    } else if(analysisType == false){
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] +1;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    }
                                 }
                             }
                             break;
@@ -274,7 +271,17 @@ public class LineChartManager implements OnChartGestureListener{
 
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
-                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    if(analysisType == true) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    } else if(analysisType == false){
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    }
                                 }
                             }
                             break;
@@ -349,7 +356,17 @@ public class LineChartManager implements OnChartGestureListener{
                             Log.d("suc","성공");
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
-                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    if(analysisType == true) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    } else if(analysisType == false){
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] +1;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    }
                                 }
                             }
                             break;
@@ -416,7 +433,17 @@ public class LineChartManager implements OnChartGestureListener{
                             Log.d("suc","성공");
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
-                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    if(analysisType == true) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    } else if(analysisType == false){
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    }
                                 }
                             }
                             break;
@@ -490,7 +517,11 @@ public class LineChartManager implements OnChartGestureListener{
                         Log.d("quarter",quarter+"");
                         for (int k = 0; k < menuList.size(); k++) {
                             if (j.menu.name == menuList.get(k)) {
-                                totalPricePerMenu[k][quarter] += totalPricePerMenu[k][quarter] + j.menu.price;
+                                if(analysisType == true) {
+                                    totalPricePerMenu[k][quarter] += totalPricePerMenu[k][quarter] + j.menu.price;
+                                } else if(analysisType ==false){
+                                    totalPricePerMenu[k][quarter] += totalPricePerMenu[k][quarter] + 1;
+                                }
                             }
                         }
 
@@ -555,7 +586,11 @@ public class LineChartManager implements OnChartGestureListener{
                             Log.d("suc","성공");
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
-                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    if(analysisType == true) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    } else if(analysisType ==false){
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
+                                    }
                                 }
                             }
                             break;
