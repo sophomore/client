@@ -42,8 +42,14 @@ public class LineChartManager implements OnChartGestureListener{
     String start;
     String end;
     Activity activity;
-    int max = 0;
+    public static int max = 0;
 
+    public static int getMax(){
+        return max;
+    }
+    public static void setMex(int num){
+        max = num;
+    }
     public LineChartManager(Activity activity, boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end){
         this.analysisType = analysisType;
         this.menuList = menuList;

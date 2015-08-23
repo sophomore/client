@@ -28,7 +28,6 @@ public class TestOrder extends SugarRecord<TestOrder> {
 
     public long get_id() {
         return _id;
-
     }
 
     public String getDate() {

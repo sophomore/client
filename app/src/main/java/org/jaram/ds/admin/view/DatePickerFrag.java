@@ -17,6 +17,7 @@ import java.util.Calendar;
 public class DatePickerFrag extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     TextView yearText,monthText,dayText;
+    TextView textView;
     public DatePickerFrag(TextView yearText,TextView monthText, TextView dayText){
         this.yearText = yearText;
         this.monthText = monthText;
@@ -24,7 +25,9 @@ public class DatePickerFrag extends DialogFragment implements DatePickerDialog.O
 
     }
     public DatePickerFrag(){
-
+    }
+    public DatePickerFrag(TextView textView){
+        this.textView = textView;
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -43,9 +46,13 @@ public class DatePickerFrag extends DialogFragment implements DatePickerDialog.O
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        this.yearText.setText(String.format("%d",year));
-        this.monthText.setText(String.format("%d",monthOfYear+1));
-        this.dayText.setText(String.format("%d",dayOfMonth));
+        if(textView==null) {
+            this.yearText.setText(String.format("%d", year));
+            this.monthText.setText(String.format("%d", monthOfYear + 1));
+            this.dayText.setText(String.format("%d", dayOfMonth));
+        }else{
+            this.textView.setText(String.format("%d-%d-%d",year,monthOfYear+1,dayOfMonth));
+        }
 
     }
 
