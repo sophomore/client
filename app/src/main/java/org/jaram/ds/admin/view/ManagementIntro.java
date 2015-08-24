@@ -1,4 +1,4 @@
-package org.jaram.ds.admin;
+package org.jaram.ds.admin.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 
 import org.jaram.ds.R;
+import org.jaram.ds.admin.MenuManagementMain;
+import org.jaram.ds.admin.OrderManagerMain;
+import org.jaram.ds.admin.Statistic2;
 
 /**
  * Created by KimMyoungSoo on 2015. 8. 4..
@@ -35,7 +38,7 @@ public class ManagementIntro extends ActionBarActivity{
         statisticButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ManagementIntro.this, StatisticMain.class));
+                startActivity(new Intent(ManagementIntro.this, Statistic2.class));
             }
         });
     }

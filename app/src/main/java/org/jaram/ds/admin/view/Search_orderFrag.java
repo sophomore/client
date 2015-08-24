@@ -56,14 +56,25 @@ public class Search_orderFrag extends Fragment {
         mMenuDisplay = (TextView) view.findViewById(R.id.menublank);
 
         mRadioGroup = (RadioGroup) view.findViewById(R.id.radiogroup);
+
         mRadioButton = (RadioButton) view.findViewById(mRadioGroup.getCheckedRadioButtonId());
         search_start = (Button) view.findViewById(R.id.search_button);
         search_start.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                String checktool = mRadioButton.getText().toString();
-                String checkmenu[] = selectedIndex.split(" ");
-                String date1 = (String) mDateDisplay.getText();
+                int radioButtonID = mRadioGroup.getCheckedRadioButtonId();
+                View radioButton = mRadioGroup.findViewById(radioButtonID);
+                int checkway = mRadioGroup.indexOfChild(radioButton);
+                if(selectedIndex == null){
+                    String checkmenu[] = null;
+                }else{
+                    String checkmenu[] = selectedIndex.split("!");
+                }
+                String date1 = String.valueOf(mDateDisplay.getText());
+                String date2 = String.valueOf(mDateDisplay2.getText());
+                String time1 = String.valueOf(mDateDisplay3.getText());
+                String time2 = String.valueOf(mDateDisplay4.getText());
+                //Toast.makeText(view.getContext(), time2, Toast.LENGTH_LONG).show();
             }
         });
         mMenuDisplay.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +110,7 @@ public class Search_orderFrag extends Fragment {
                         String selectedText = "";//edittext에 보여줄 메뉴
 
                         for(Integer i : selectmenu){
-                            selectedIndex += Data.menuList.get(i).name + " ";
+                            selectedIndex += Data.menuList.get(i).name + "!";
                             selectedText += Data.menuList.get(i).name+ ", ";
                         }
                         selectedText = selectedText.substring(0, selectedText.length()-2);

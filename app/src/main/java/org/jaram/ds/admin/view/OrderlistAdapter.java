@@ -3,6 +3,7 @@ package org.jaram.ds.admin.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jaram.ds.R;
+import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Order;
 
 import java.util.ArrayList;
@@ -59,9 +61,11 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         HashMap<String, Integer> menus = new HashMap<String, Integer>();
         for(int i = 0; i <data.get(position).menuList.size();i++){
             String temp = data.get(position).menuList.get(i).menu.name;
-            if(menus.keySet().contains(data.get(position).menuList.get(i).menu)){
+            if(menus.keySet().contains(data.get(position).menuList.get(i).menu.name)){
+                Log.d("Ok", "~~~~~~~~");
                 int plus = menus.get(temp) + 1;
                 menus.put(temp, plus);
+                Log.d("num", plus+"@");
             }else{
                 menus.put(temp, 1);
             }
@@ -72,9 +76,13 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
     @Override
     public long getItemId(int position){return position;}
 
-    public String getPay(int position){
-        return String.valueOf(data.get(position).menuList.get(position).pay);
-    }
+//    public String getPay(int position){
+//        String check;
+//        for(){
+//
+//        }
+//        return String.valueOf(data.get(position).menuList.get(position).pay.toString());
+//    }
     public View getView(int position, View convertView, ViewGroup parent){
 
         if(convertView==null){
@@ -88,6 +96,7 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         String menu2 = "";
         for(Object i : menu1){
             menu2 = menu2 + i+" "+getItem(position).get(i)+"개, ";
+            Log.d("get", getItem(position).get(i)+"");
         }
         menu2 = menu2.substring(0, menu2.length()-2);
         o.setText(menu2);
@@ -102,11 +111,11 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         int position = (Integer)v.getTag();
         Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_LONG).show();
         String text = getDate(position)+"\n\n";
-        Set menu1 = getItem(position).keySet();
-        for(Object i : menu1){
-            text = text + "\t"+i+"  "+getItem(position).get(i)+"\n";
+        for(int i=0; i<Data.orderList.get(position).menuList.size();i++) {
+            text = text + Data.orderList.get(position).menuList.get(i).menu.name +"\t"+
+                    Data.orderList.get(position).menuList.get(i).pay+"\t"+Data.orderList.get(position).menuList.get(i).menu.price+"\n";
         }
-        text = text + "\n결제 방식 : "+getPay(position)+"\n"+"총 금액 : "+getTotal(position)+"\n";
+        text = text + "\n총 금액 : "+getTotal(position)+"\n";
         new AlertDialog.Builder(v.getContext()).setTitle("주문 정보")
                 .setMessage(text)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -115,6 +124,6 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
                     }
                 }).show();
 
-                }
+        }
     }
 
