@@ -40,6 +40,8 @@ public class BarChartManager implements OnChartGestureListener {
     private BarChart mChart;
     Activity activity;
     int[] price = new int[3];
+    public static int cartPrice = 0;
+    public static int cashPrice = 0;
 
     public BarChartManager(Activity activity, boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end) {
         this.analysisType = analysisType;
@@ -183,9 +185,7 @@ public class BarChartManager implements OnChartGestureListener {
 
                 for (int l = 0; l < diffDays; l++) {
                     if (date2.get(Calendar.YEAR) == orderDate.get(Calendar.YEAR) && date2.get(Calendar.MONTH) == orderDate.get(Calendar.MONTH) && date2.get(Calendar.DATE) == orderDate.get(Calendar.DATE)) {
-                        if(analysisType) {
-                            totalPricePerMenu[l] += totalPricePerMenu[l] + i.totalPrice;
-                        }
+                        totalPricePerMenu[l] += totalPricePerMenu[l] + i.totalPrice;
                     } else {
                         date2.add(Calendar.DATE, 1);
                     }

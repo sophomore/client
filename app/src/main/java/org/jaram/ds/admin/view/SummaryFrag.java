@@ -1,0 +1,108 @@
+package org.jaram.ds.admin.view;
+
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.Highlight;
+
+import org.jaram.ds.R;
+import org.jaram.ds.admin.ChartListItem.ChartItem;
+import org.jaram.ds.data.Data;
+import org.jaram.ds.data.struct.Menu;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+/**
+ * Created by ohyongtaek on 15. 8. 24..
+ */
+
+
+public class SummaryFrag extends Fragment {
+    BarChartManager barChartManager;
+    View view;
+    LineChartManager lineChartManager;
+    ListView chartContainer;
+    ArrayList<ChartItem> list;
+    //ChartDataAdapter cda;
+    DrawerFrag drawerFrag;
+
+    ArrayList<String> menuList = new ArrayList<String>();
+    Typeface tf;
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.summary_chart,container,false);
+        for(Menu i : Data.menuList){
+            menuList.add(i.name);
+        }
+
+        return view;
+    }
+
+    public void createChart(String start,String end){
+        barChartManager = new BarChartManager(getActivity(),false,menuList,3,start,end);
+        barChartManager.setChart((BarChart)view.findViewById(R.id.chart_container2));
+        barChartManager.getChart().setData(barChartManager.getData(menuList,3,start,end));
+        Legend l = barChartManager.getChart().getLegend();
+        l.setTypeface(tf);
+        YAxis leftAxis = barChartManager.getChart().getAxisLeft();
+        leftAxis.setAxisMaxValue(1000000);
+        leftAxis.setTypeface(tf);
+
+        barChartManager.getChart().getAxisRight().setEnabled(false);
+
+        XAxis xAxis = barChartManager.getChart().getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTypeface(tf);
+        xAxis.setDrawGridLines(false);
+        xAxis.setSpaceBetweenLabels(1);
+
+        TextView moneydata = (TextView) view.findViewById(R.id.moneydata);
+        moneydata.setText("10000원");
+        TextView creditdata = (TextView) view.findViewById(R.id.creditdata);
+        moneydata.setText("10000원");
+        TextView totaldata = (TextView) view.findViewById(R.id.totaldata);
+        totaldata.setText("10000원");
+
+        barChartManager.getChart().setBackgroundColor(Color.BLUE);
+
+        barChartManager.getChart().setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+                Random r = new Random();
+                Toast.makeText(barChartManager.getChart().getContext(), e.getXIndex() + "", Toast.LENGTH_SHORT).show();
+                TextView click_moneydata = (TextView) view.findViewById(R.id.click_moneydata);
+                TextView click_creditdata = (TextView) view.findViewById(R.id.click_creditdata);
+                TextView click_totaldata = (TextView) view.findViewById(R.id.click_totaldata);
+
+                click_moneydata.setText(e.getVal() + "원");
+                click_creditdata.setText(r.nextInt(45) * 10000 + "원");
+                click_totaldata.setText(r.nextInt(45) * 10000 + "원");
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
+    }
+    public BarChart getChart(){
+        return this.barChartManager.getChart();
+    }
+}

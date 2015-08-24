@@ -2,7 +2,6 @@ package org.jaram.ds.admin.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
@@ -40,8 +38,8 @@ public class DrawerFrag extends Fragment {
     int unitType = 0;
     ArrayList<String> selectedMenu = new ArrayList<String>();
 
-    public interface OnAnalysisListener{
-        public void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end);
+    public static interface OnAnalysisListener{
+        void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType);
 
     }
 
@@ -51,17 +49,10 @@ public class DrawerFrag extends Fragment {
         gridView.setExpanded(true);
         SetGridView(gridView, view);
 
-        Button beforeBtn = (Button) view.findViewById(R.id.beforeBtn);
         final int year,month,day;
         final GregorianCalendar calendar = new GregorianCalendar();
 
-        byear = (TextView)view.findViewById(R.id.ByearText);
-        bmonth = (TextView)view.findViewById(R.id.BmonthText);
-        bday = (TextView) view.findViewById(R.id.BdayText);
 
-        lyear = (TextView)view.findViewById(R.id.LyearText);
-        lmonth = (TextView)view.findViewById(R.id.LmonthText);
-        lday = (TextView) view.findViewById(R.id.LdayText);
 
         RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.analysis_type_group);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -76,53 +67,14 @@ public class DrawerFrag extends Fragment {
             }
         });
 
-        beforeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DialogFragment beforeDialog = new DatePickerFrag(byear,bmonth,bday);
-                beforeDialog.show(getActivity().getFragmentManager(), "datePicker");
-
-            }
-        });
-        Button laterbtn = (Button)view.findViewById(R.id.laterBtn);
-        laterbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DialogFragment beforeDialog = new DatePickerFrag(lyear,lmonth,lday);
-
-                beforeDialog.show(getActivity().getFragmentManager(), "datePicker");
-
-            }
-        });
-
         Button analysisbtn = (Button) view.findViewById(R.id.analysis);
         analysisbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (byear.getText() == "" || lyear.getText() == "") {
-                    Toast.makeText(getActivity(), "기간을 입력해주세요", Toast.LENGTH_SHORT).show();
-                } else {
-                    String startDate = byear.getText() + "-" + (Integer.parseInt((String) bmonth.getText())) + "-" + bday.getText();
-                    String finishDate = lyear.getText() + "-" + (Integer.parseInt((String) lmonth.getText())) + "-" + lday.getText();
+
+                onAnalysisListener.createLineChart(checkedType,selectedMenu,unitType);
 
 
-                    onAnalysisListener.createLineChart(checkedType,selectedMenu,unitType,startDate, finishDate + "");
-                }
-
-            }
-        });
-        Button resetbtn = (Button) view.findViewById(R.id.reset);
-        resetbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                byear.setText("");
-                bmonth.setText("");
-                bday.setText("");
-                lyear.setText("");
-                lmonth.setText("");
-                lday.setText("");
             }
         });
         final String[] items = getMenuList();

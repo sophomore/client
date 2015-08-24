@@ -1,10 +1,8 @@
 package org.jaram.ds.admin.view;
 
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -41,7 +39,7 @@ public class LineChartManager implements OnChartGestureListener{
     int unitType;
     String start;
     String end;
-    Activity activity;
+
     public static int max = 0;
 
     public static int getMax(){
@@ -50,15 +48,7 @@ public class LineChartManager implements OnChartGestureListener{
     public static void setMex(int num){
         max = num;
     }
-    public LineChartManager(Activity activity, boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end){
-        this.analysisType = analysisType;
-        this.menuList = menuList;
-        this.unitType = unitType;
-        this.start = start;
-        this.end = end;
-        this.activity = activity;
-
-
+    public LineChartManager(){
     }
 
     public LineChart getChart(){
@@ -117,9 +107,13 @@ public class LineChartManager implements OnChartGestureListener{
         }
         return quarter;
     }
-    //TODO: 갯수일 때와 매출일 때 어떻게 구분해서 넣을지 고민..
-    public LineData getData(ArrayList<String> menuList,int unitType,String startDate,String finishDate){
+    public LineData getData(boolean analysisType,ArrayList<String> menuList,int unitType,String startDate,String finishDate){
 
+        this.analysisType = analysisType;
+        this.menuList = menuList;
+        this.unitType = unitType;
+        this.start = startDate;
+        this.end = finishDate;
 
         switch (unitType){
             case 0:
@@ -133,16 +127,10 @@ public class LineChartManager implements OnChartGestureListener{
                     return generateDateChart(menuList,diffDays);
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
-                    dialog.setTitle("날짜 오류");
-                    dialog.setMessage("날짜를 제대로 입력하였는지 확인해주세요.");
-                    dialog.setPositiveButton("Ok",null);
-                    dialog.show();
                 }
 
                 break;
             case 2:
-
                 return generateDayChart(menuList);
 
             case 3:

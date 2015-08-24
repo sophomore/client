@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    >
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:padding = "10dp"
+        android:id="@+id/chart_container2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/showdata"
+        >
+    </com.github.mikephil.charting.charts.BarChart>
+    <LinearLayout
+        android:id = "@+id/showdata"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:padding = "30dp"
+        >
+        <TableLayout
+            android:id = "@+id/total_showdata"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight = "1"
+            android:orientation="vertical"
+            android:padding = "15dp"
+            >
+            <TableRow
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text = "현금"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+                <TextView
+                    android:id = "@+id/moneydata"
+                    android:text = "00000원"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+            </TableRow>
+            <TableRow
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text = "카드"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+                <TextView
+                    android:id = "@+id/creditdata"
+                    android:text = "00000원"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+            </TableRow>
+            <TableRow
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text = "총액"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+                <TextView
+                    android:id = "@+id/totaldata"
+                    android:text = "00000원"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+            </TableRow>
+        </TableLayout>
+        <TableLayout
+            android:id = "@+id/click_showdata"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight = "1"
+            android:orientation="vertical"
+            android:padding = "15dp"
+            >
+            <TableRow
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text = "현금"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+                <TextView
+                    android:id = "@+id/click_moneydata"
+                    android:text = "00000원"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+            </TableRow>
+            <TableRow
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text = "카드"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+                <TextView
+                    android:id = "@+id/click_creditdata"
+                    android:text = "00000원"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+            </TableRow>
+            <TableRow
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text = "총액"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+                <TextView
+                    android:id = "@+id/click_totaldata"
+                    android:text = "00000원"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight = "1"
+                    android:gravity="center"
+                    android:textSize="20dp">
+                </TextView>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+</RelativeLayout>
