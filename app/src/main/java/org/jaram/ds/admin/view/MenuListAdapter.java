@@ -1,6 +1,8 @@
 package org.jaram.ds.admin.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +18,18 @@ import java.util.ArrayList;
 /**
  * Created by KimMyoungSoo on 2015. 8. 18..
  */
-public class MenuListAdapter extends BaseAdapter{
+
+public class MenuListAdapter extends BaseAdapter implements View.OnClickListener {
 
     ArrayList<Menu> menuList;
     LayoutInflater inflater;
+
 
     MenuListAdapter(Context context){
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         menuList = Data.menuList;
 
     }
-
 
     @Override
     public int getCount() {
@@ -58,5 +61,25 @@ public class MenuListAdapter extends BaseAdapter{
         categoryText.setText(menu.category.name);
 
         return convertView;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        View view = View.inflate(v.getContext(),R.layout.fragment_menu_dialog,null);
+        builder.setView(view);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
     }
 }
