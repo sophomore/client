@@ -400,30 +400,39 @@ public class LineChartManager implements OnChartGestureListener{
         }
     }
     public LineData generateMonthChart(ArrayList<String> menuList){
-        Calendar date = null;
-        int months[]= {1,2,3,4,5,6,7,8,9,10,11,12};
+        Calendar startDate = null;
+        Calendar endDate = null;
+        Calendar cloneStart = null;
+        ArrayList<String> months = new ArrayList<String>();
 
         try {
-            date = getStartDate();
-
+            startDate = getStartDate();
+            endDate = getFinishDate();
         } catch (ParseException e) {
 
             e.printStackTrace();
         }
-        if(date != null) {
+        if(startDate != null) {
             Calendar date2;
+            cloneStart = (Calendar) startDate.clone();
+            while(!((cloneStart.get(Calendar.YEAR) == endDate.get(Calendar.YEAR)) && (cloneStart.get(Calendar.MONTH) == endDate.get(Calendar.MONTH)))){
+                String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+                months.add(month);
+                cloneStart.add(Calendar.MONTH,1);
+            }
+            String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+            months.add(month);
 
             ArrayList<Order> orderList = Data.orderList;
-            int totalPricePerMenu[][] = new int[menuList.size()][months.length];
+            int totalPricePerMenu[][] = new int[menuList.size()][months.size()];
             for (Order i : orderList) {
                 for (OrderMenu j : i.menuList) {
-                    date2 = (Calendar) date.clone();
-                    for (int l = 0; l < months.length; l++) {
+                    date2 = (Calendar) startDate.clone();
+                    for (int l = 0; l < months.size(); l++) {
 
                         Calendar orderDate = Calendar.getInstance();
                         orderDate.setTime(i.date);
-                        Log.d("month", orderDate.get(Calendar.MONTH) + "");
-                        if (orderDate.get(Calendar.MONTH)==l) {
+                        if ((orderDate.get(Calendar.YEAR)+"."+orderDate.get(Calendar.MONTH)).equals(months.get(l))) {
                             Log.d("suc","성공");
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
@@ -452,7 +461,7 @@ public class LineChartManager implements OnChartGestureListener{
 
             for (int j = 0; j < menuList.size(); j++) {
                 ArrayList<Entry> entries = new ArrayList<Entry>();
-                for (int k = 0; k < months.length; k++) {
+                for (int k = 0; k < months.size(); k++) {
                     entries.add(new Entry(totalPricePerMenu[j][k], k));
                 }
                 LineDataSet lineDataSet = new LineDataSet(entries, menuList.get(j));
@@ -469,12 +478,12 @@ public class LineChartManager implements OnChartGestureListener{
             }
 
 
-            String xVals[] = new String[months.length];
+            String xVals[] = new String[months.size()];
 
-            for (int i = 0; i < months.length; i++) {
+            for (int i = 0; i < months.size(); i++) {
 
-                xVals[i] = String.format("%s",months[i]);
-                date.add(Calendar.DATE,1);
+                xVals[i] = months.get(i);
+                startDate.add(Calendar.DATE,1);
 
             }
             LineData lineData = new LineData(xVals, lineDataSets);

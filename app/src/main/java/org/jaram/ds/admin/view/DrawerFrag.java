@@ -20,7 +20,6 @@ import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 /**
  * Created by ka123ak on 2015-07-09.
@@ -29,10 +28,7 @@ import java.util.GregorianCalendar;
 public class DrawerFrag extends Fragment {
 
     String unit[] = {"시간","일","요일","월","분기","년"};
-    TextView byear,bmonth,bday, lyear,lmonth,lday;
-    int year, month,day;
     View view;
-    int chartKind = 0;
     OnAnalysisListener onAnalysisListener;
     boolean checkedType = true;
     int unitType = 0;
@@ -48,10 +44,6 @@ public class DrawerFrag extends Fragment {
         final ExpandableHeightGridView gridView = (ExpandableHeightGridView) view.findViewById(R.id.gridView);
         gridView.setExpanded(true);
         SetGridView(gridView, view);
-
-        final int year,month,day;
-        final GregorianCalendar calendar = new GregorianCalendar();
-
 
 
         RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.analysis_type_group);
@@ -80,6 +72,7 @@ public class DrawerFrag extends Fragment {
         final String[] items = getMenuList();
         final boolean mbIsSelect[] = new boolean[items.length];
         final ExpandableHeightGridView gridView1 = (ExpandableHeightGridView)view.findViewById(R.id.gridView2);
+        gridView1.setAdapter(new mSelectedMenuListAdapter(setSelectedMenuList(mbIsSelect,items),getActivity()));
 
         final Button selectMenubtn = (Button) view.findViewById(R.id.select_menu);
         selectMenubtn.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +80,7 @@ public class DrawerFrag extends Fragment {
             public void onClick(View v) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 View checkMenuView = (View) inflater.inflate(R.layout.statistic_checkbox, null);
+
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Select Colors")
                         .setView(checkMenuView)
@@ -98,7 +92,10 @@ public class DrawerFrag extends Fragment {
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 gridView1.setExpanded(true);
-                                SetSelectedMenuAdapter(gridView1, view, setSelectedMenuList(mbIsSelect, items),mbIsSelect);
+                                mSelectedMenuListAdapter adapter = (mSelectedMenuListAdapter) gridView1.getAdapter();
+                                adapter.menuList.clear();
+                                adapter.notifyDataSetChanged();
+                                SetSelectedMenuAdapter(gridView1, view, setSelectedMenuList(mbIsSelect, items), mbIsSelect);
                             }
                         })
                         .setNegativeButton("Cancel", null)

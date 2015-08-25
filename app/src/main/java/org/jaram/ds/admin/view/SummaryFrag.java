@@ -8,20 +8,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Highlight;
 
 import org.jaram.ds.R;
-import org.jaram.ds.admin.ChartListItem.ChartItem;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 
@@ -36,12 +31,6 @@ import java.util.Random;
 public class SummaryFrag extends Fragment {
     BarChartManager barChartManager;
     View view;
-    LineChartManager lineChartManager;
-    ListView chartContainer;
-    ArrayList<ChartItem> list;
-    //ChartDataAdapter cda;
-    DrawerFrag drawerFrag;
-
     ArrayList<String> menuList = new ArrayList<String>();
     Typeface tf;
     @Nullable
@@ -59,19 +48,19 @@ public class SummaryFrag extends Fragment {
         barChartManager = new BarChartManager(getActivity(),false,menuList,3,start,end);
         barChartManager.setChart((BarChart)view.findViewById(R.id.chart_container2));
         barChartManager.getChart().setData(barChartManager.getData(menuList,3,start,end));
-        Legend l = barChartManager.getChart().getLegend();
-        l.setTypeface(tf);
-        YAxis leftAxis = barChartManager.getChart().getAxisLeft();
-        leftAxis.setAxisMaxValue(1000000);
-        leftAxis.setTypeface(tf);
-
-        barChartManager.getChart().getAxisRight().setEnabled(false);
-
-        XAxis xAxis = barChartManager.getChart().getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTypeface(tf);
-        xAxis.setDrawGridLines(false);
-        xAxis.setSpaceBetweenLabels(1);
+//        Legend l = barChartManager.getChart().getLegend();
+//        l.setTypeface(tf);
+//        YAxis leftAxis = barChartManager.getChart().getAxisLeft();
+//        leftAxis.setAxisMaxValue(1000000);
+//        leftAxis.setTypeface(tf);
+//
+//        barChartManager.getChart().getAxisRight().setEnabled(false);
+//
+//        XAxis xAxis = barChartManager.getChart().getXAxis();
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setTypeface(tf);
+//        xAxis.setDrawGridLines(false);
+//        xAxis.setSpaceBetweenLabels(1);
 
         TextView moneydata = (TextView) view.findViewById(R.id.moneydata);
         moneydata.setText("10000원");

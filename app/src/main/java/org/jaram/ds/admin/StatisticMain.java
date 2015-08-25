@@ -1,6 +1,8 @@
 package org.jaram.ds.admin;
 
+import android.app.ProgressDialog;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -13,12 +15,13 @@ import org.jaram.ds.admin.view.DrawerFrag;
 import org.jaram.ds.admin.view.ProgressChartFrag;
 import org.jaram.ds.admin.view.SummaryFrag;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
  * Created by cheonyujung on 15. 8. 22..
  */
-public class Statistic2 extends FragmentActivity implements DrawerFrag.OnAnalysisListener,ProgressChartFrag.Callbacks {
+public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnalysisListener,ProgressChartFrag.Callbacks {
 
     Typeface tf;
     DrawerFrag drawer;
@@ -26,13 +29,13 @@ public class Statistic2 extends FragmentActivity implements DrawerFrag.OnAnalysi
     TextView startText;
     TextView endText;
     ProgressChartFrag progressChartFrag;
-
+    ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_statistic2);
+        setContentView(R.layout.activity_statistic);
         if (savedInstanceState == null) {
             tf = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
             summaryFrag = new SummaryFrag();
@@ -94,5 +97,41 @@ public class Statistic2 extends FragmentActivity implements DrawerFrag.OnAnalysi
     @Override
     public void configChart() {
         progressChartFrag.createChart();
+    }
+
+    public class TestAsyncTask extends AsyncTask<URL,Integer,Void>{
+
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(getApplicationContext());
+            dialog.setTitle("통계 분석");
+            dialog.setMessage("잠시만 기다리세요...");
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(true);
+            dialog.show();
+
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(URL... params) {
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer[] values) {
+            switch(values[0]){
+                case 0:
+                    dialog.setMessage("접속중");
+            }
+            dialog.setProgress(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
     }
 }

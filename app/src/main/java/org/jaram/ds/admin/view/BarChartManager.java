@@ -336,29 +336,39 @@ public class BarChartManager implements OnChartGestureListener {
     }
 
     public BarData generateMonthChart(ArrayList<String> menuList) {
-        Calendar date = null;
-        int months[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+        Calendar startDate = null;
+        Calendar endDate = null;
+        Calendar cloneStart = null;
+        ArrayList<String> months = new ArrayList<String>();
 
         try {
-            date = getStartDate();
-
+            startDate = getStartDate();
+            endDate = getFinishDate();
         } catch (ParseException e) {
 
             e.printStackTrace();
         }
-        if (date != null) {
+        if (startDate != null) {
             Calendar date2;
+            cloneStart = (Calendar) startDate.clone();
+            while(!((cloneStart.get(Calendar.YEAR) == endDate.get(Calendar.YEAR)) && (cloneStart.get(Calendar.MONTH) == endDate.get(Calendar.MONTH)))){
+                String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+                months.add(month);
+                cloneStart.add(Calendar.MONTH,1);
+            }
+            String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+            months.add(month);
 
             ArrayList<Order> orderList = Data.orderList;
-            int totalPricePerMenu[] = new int[months.length];
+            int totalPricePerMenu[] = new int[months.size()];
             for (Order i : orderList) {
-                date2 = (Calendar) date.clone();
+                date2 = (Calendar) startDate.clone();
 
                 Calendar orderDate = Calendar.getInstance();
                 orderDate.setTime(i.date);
-                for (int l = 0; l < months.length; l++) {
+                for (int l = 0; l < months.size(); l++) {
 
-                    if (orderDate.get(Calendar.MONTH) == l) {
+                    if ((orderDate.get(Calendar.YEAR)+"."+orderDate.get(Calendar.MONTH)).equals(months.get(l))) {
                         totalPricePerMenu[l] += totalPricePerMenu[l] + i.totalPrice;
 
                     } else {
@@ -370,7 +380,7 @@ public class BarChartManager implements OnChartGestureListener {
             ArrayList<BarDataSet> barDataSets = new ArrayList<BarDataSet>();
 
             ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-            for (int k = 0; k < months.length; k++) {
+            for (int k = 0; k < months.size(); k++) {
 
                 entries.add(new BarEntry(totalPricePerMenu[k], k));
 
@@ -380,12 +390,12 @@ public class BarChartManager implements OnChartGestureListener {
             barDataSet.setColor(Color.rgb(255, 128, 128));
             barDataSets.add(barDataSet);
 
-            String xVals[] = new String[months.length];
+            String xVals[] = new String[months.size()];
 
-            for (int i = 0; i < months.length; i++) {
+            for (int i = 0; i < months.size(); i++) {
 
-                xVals[i] = String.format("%s", months[i]);
-                date.add(Calendar.DATE, 1);
+                xVals[i] = String.format("%s", months.get(i));
+                startDate.add(Calendar.DATE, 1);
 
             }
             BarData barData = new BarData(xVals, barDataSets);

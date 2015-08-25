@@ -13,20 +13,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="통계 설정"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="항목"
-                android:id="@+id/textView3" />
+                android:id="@+id/textView3"
+                android:layout_marginTop="50dp"/>
 
             <RadioGroup
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/analysis_type_group">
+                android:id="@+id/analysis_type_group"
+                android:layout_marginBottom="50dp">
 
                 <RadioButton
                     android:layout_width="0dp"
@@ -43,6 +51,25 @@
                     android:layout_weight="1" />
             </RadioGroup>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="단위" />
+
+            <org.jaram.ds.admin.view.ExpandableHeightGridView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numColumns="3"
+                android:id="@+id/gridView"
+                android:layout_marginBottom="50dp"
+                >
+            </org.jaram.ds.admin.view.ExpandableHeightGridView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="메뉴 선택"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,20 +88,12 @@
                     android:layout_weight="1"
                     android:text="초기화"/>
             </LinearLayout>
+
             <org.jaram.ds.admin.view.ExpandableHeightGridView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numColumns="3"
                 android:id="@+id/gridView2">
-            </org.jaram.ds.admin.view.ExpandableHeightGridView>
-
-
-            <org.jaram.ds.admin.view.ExpandableHeightGridView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numColumns="3"
-                android:id="@+id/gridView"
-                >
             </org.jaram.ds.admin.view.ExpandableHeightGridView>
 
         </LinearLayout>
