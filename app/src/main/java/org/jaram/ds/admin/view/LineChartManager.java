@@ -3,30 +3,16 @@ package org.jaram.ds.admin.view;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 
-import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
-import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 
@@ -42,123 +28,60 @@ import java.util.Date;
  */
 
 
-public class LineChartFrag extends Fragment implements OnChartGestureListener{
+public class LineChartManager implements OnChartGestureListener{
 
 
     Typeface tf;
     protected LineChart mChart;
     Date startDate;
+    boolean analysisType;
+    ArrayList<String> menuList;
+    int unitType;
+    String start;
+    String end;
 
+    public static int max = 0;
 
-    public static LineChartFrag newInstance(boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end) {
-        LineChartFrag lineChartFrag = new LineChartFrag();
-        Bundle argument = new Bundle();
-        argument.putString("start",start);
-        argument.putString("finish",end);
-        argument.putStringArrayList("menuList", menuList);
-        argument.putInt("unitType", unitType);
-        argument.putBoolean("analysisType",analysisType);
-        lineChartFrag.setArguments(argument);
-
-
-        return lineChartFrag;
+    public static int getMax(){
+        return max;
+    }
+    public static void setMex(int num){
+        max = num;
+    }
+    public LineChartManager(){
     }
 
-    public LineChartFrag(){
-
+    public LineChart getChart(){
+        return mChart;
     }
 
-
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bar,container,false);
-
-        mChart = new LineChart(getActivity());
-        mChart.setDescription("");
-
-        mChart.setHighlightEnabled(false);
-        mChart.setDrawGridBackground(false);
-        mChart.setTouchEnabled(true);
-
-        String startDate = getArguments().getString("start");
-        String finishDate = getArguments().getString("finish");
-
-        int unitType = getArguments().getInt("unitType");
-        ArrayList<String> menuList = getMenuNameList();
-        setData(menuList,unitType,startDate,finishDate);
-
-        tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
-
-        Legend l = mChart.getLegend();
-        l.setTypeface(tf);
-
-
-        mChart.getAxisRight().setEnabled(false);
-
-
-
-        LimitLine ll1 = new LimitLine(100000f, "Upper Limit");
-        ll1.setLineWidth(2f);
-        ll1.enableDashedLine(5f, 5f, 0f);
-        ll1.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
-        ll1.setTextSize(3f);
-
-        LimitLine ll2 = new LimitLine(-30000f, "Lower Limit");
-        ll2.setLineWidth(2f);
-        ll2.enableDashedLine(5f, 5f, 0f);
-        ll2.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
-        ll2.setTextSize(3f);
-
-        YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.addLimitLine(ll1);
-        leftAxis.addLimitLine(ll2);
-        leftAxis.setAxisMaxValue(30000000);
-        leftAxis.setAxisMinValue(0f);
-        leftAxis.setStartAtZero(false);
-        leftAxis.enableGridDashedLine(5f, 5f, 0f);
-
-        leftAxis.setDrawLimitLinesBehindData(true);
-
-
-        mChart.getAxisRight().setEnabled(false);
-        FrameLayout parent = (FrameLayout) view.findViewById(R.id.parentLayout);
-        parent.addView(mChart);
-
-        return view;
-
+    public void setChart(LineChart lineChart){
+        this.mChart = lineChart;
     }
+
     public ArrayList<String> getMenuNameList(){
-        ArrayList<String> menuName = getArguments().getStringArrayList("menuList");
-        for(int i=0;i<menuName.size();i++){
-            Log.d("asd",menuName.get(i));
-        }
-        return menuName;
+        return menuList;
     }
 
     public Calendar getStartDate() throws ParseException {
-        String start = getArguments().getString("start");
         Calendar cal = Calendar.getInstance();
-        String []date = start.split("/");
+        String []date = start.split("-");
         cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
         return cal;
     }
 
     public Calendar getFinishDate(){
-        String finish = getArguments().getString("finish");
         Calendar cal = Calendar.getInstance();
-        String []date = finish.split("/");
+        String []date = end.split("-");
         cal.set(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2]));
         return cal;
     }
     private Date getStartDate(String startDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.parse(startDate);
     }
     private Date getFinishDate(String finishDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.parse(finishDate);
     }
     public long lengthOfDate(String startDate, String finishDate) throws ParseException {
@@ -184,49 +107,48 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
         }
         return quarter;
     }
-    //TODO: 갯수일 때와 매출일 때 어떻게 구분해서 넣을지 고민..
-    public void setData(ArrayList<String> menuList,int unitType,String startDate,String finishDate){
+    public LineData getData(boolean analysisType,ArrayList<String> menuList,int unitType,String startDate,String finishDate){
 
-        ArrayList<String> selectList = menuList;
+        this.analysisType = analysisType;
+        this.menuList = menuList;
+        this.unitType = unitType;
+        this.start = startDate;
+        this.end = finishDate;
 
         switch (unitType){
             case 0:
 
-                mChart.setData(generateTimeChart(menuList));
-                break;
+                return generateTimeChart(menuList);
+
             case 1:
                 try {
                     int diffDays = (int) lengthOfDate(startDate, finishDate);
 
-                    mChart.setData(generateDateChart(menuList,diffDays));
+                    return generateDateChart(menuList,diffDays);
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                    dialog.setTitle("날짜 오류");
-                    dialog.setMessage("날짜를 제대로 입력하였는지 확인해주세요.");
-                    dialog.setPositiveButton("Ok",null);
-                    dialog.show();
                 }
 
                 break;
             case 2:
+                return generateDayChart(menuList);
 
-                mChart.setData(generateDayChart(menuList));
-                break;
             case 3:
 
-                mChart.setData(generateMonthChart(menuList));
-                break;
+                return generateMonthChart(menuList);
+
             case 4:
 
-                mChart.setData(generateQuarterChart(menuList));
-                break;
+                return generateQuarterChart(menuList);
+
             case 5:
 
-                mChart.setData(generateYearChart(menuList,startDate,finishDate));
-                break;
+                return generateYearChart(menuList,startDate,finishDate);
+
 
         }
+
+        return null;
     }
 
 
@@ -242,7 +164,6 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
         }
         if(date != null) {
             Calendar date2;
-
             ArrayList<Order> orderList = Data.orderList;
             int totalPricePerMenu[][] = new int[menuName.size()][diffDays];
             for (Order i : orderList) {
@@ -257,7 +178,17 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
                             Log.d("suc","성공");
                             for (int k = 0; k < menuName.size(); k++) {
                                 if (j.menu.name == menuName.get(k)) {
-                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    if(analysisType == true) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    } else if(analysisType == false){
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] +1;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    }
                                 }
                             }
                             break;
@@ -326,6 +257,7 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
                 for (OrderMenu j : i.menuList) {
                     Calendar orderDate = Calendar.getInstance();
                     orderDate.setTime(i.date);
+
                     Log.d("time", orderDate.get(Calendar.HOUR_OF_DAY) + "");
                     date2 = (Calendar) date.clone();
                     for (int l = 0; l < timeList.length; l++) {
@@ -333,7 +265,17 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
 
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
-                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    if(analysisType == true) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    } else if(analysisType == false){
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    }
                                 }
                             }
                             break;
@@ -408,7 +350,17 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
                             Log.d("suc","성공");
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
-                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    if(analysisType == true) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    } else if(analysisType == false){
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] +1;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    }
                                 }
                             }
                             break;
@@ -448,34 +400,53 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
         }
     }
     public LineData generateMonthChart(ArrayList<String> menuList){
-        Calendar date = null;
-        int months[]= {1,2,3,4,5,6,7,8,9,10,11,12};
+        Calendar startDate = null;
+        Calendar endDate = null;
+        Calendar cloneStart = null;
+        ArrayList<String> months = new ArrayList<String>();
 
         try {
-            date = getStartDate();
-
+            startDate = getStartDate();
+            endDate = getFinishDate();
         } catch (ParseException e) {
 
             e.printStackTrace();
         }
-        if(date != null) {
+        if(startDate != null) {
             Calendar date2;
+            cloneStart = (Calendar) startDate.clone();
+            while(!((cloneStart.get(Calendar.YEAR) == endDate.get(Calendar.YEAR)) && (cloneStart.get(Calendar.MONTH) == endDate.get(Calendar.MONTH)))){
+                String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+                months.add(month);
+                cloneStart.add(Calendar.MONTH,1);
+            }
+            String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+            months.add(month);
 
             ArrayList<Order> orderList = Data.orderList;
-            int totalPricePerMenu[][] = new int[menuList.size()][months.length];
+            int totalPricePerMenu[][] = new int[menuList.size()][months.size()];
             for (Order i : orderList) {
                 for (OrderMenu j : i.menuList) {
-                    date2 = (Calendar) date.clone();
-                    for (int l = 0; l < months.length; l++) {
+                    date2 = (Calendar) startDate.clone();
+                    for (int l = 0; l < months.size(); l++) {
 
                         Calendar orderDate = Calendar.getInstance();
                         orderDate.setTime(i.date);
-                        Log.d("month", orderDate.get(Calendar.MONTH) + "");
-                        if (orderDate.get(Calendar.MONTH)==l) {
+                        if ((orderDate.get(Calendar.YEAR)+"."+orderDate.get(Calendar.MONTH)).equals(months.get(l))) {
                             Log.d("suc","성공");
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
-                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    if(analysisType == true) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    } else if(analysisType == false){
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
+                                        if(max< totalPricePerMenu[k][l]){
+                                            max = totalPricePerMenu[k][l];
+                                        }
+                                    }
                                 }
                             }
                             break;
@@ -490,7 +461,7 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
 
             for (int j = 0; j < menuList.size(); j++) {
                 ArrayList<Entry> entries = new ArrayList<Entry>();
-                for (int k = 0; k < months.length; k++) {
+                for (int k = 0; k < months.size(); k++) {
                     entries.add(new Entry(totalPricePerMenu[j][k], k));
                 }
                 LineDataSet lineDataSet = new LineDataSet(entries, menuList.get(j));
@@ -507,12 +478,12 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
             }
 
 
-            String xVals[] = new String[months.length];
+            String xVals[] = new String[months.size()];
 
-            for (int i = 0; i < months.length; i++) {
+            for (int i = 0; i < months.size(); i++) {
 
-                xVals[i] = String.format("%s",months[i]);
-                date.add(Calendar.DATE,1);
+                xVals[i] = months.get(i);
+                startDate.add(Calendar.DATE,1);
 
             }
             LineData lineData = new LineData(xVals, lineDataSets);
@@ -549,7 +520,11 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
                         Log.d("quarter",quarter+"");
                         for (int k = 0; k < menuList.size(); k++) {
                             if (j.menu.name == menuList.get(k)) {
-                                totalPricePerMenu[k][quarter] += totalPricePerMenu[k][quarter] + j.menu.price;
+                                if(analysisType == true) {
+                                    totalPricePerMenu[k][quarter] += totalPricePerMenu[k][quarter] + j.menu.price;
+                                } else if(analysisType ==false){
+                                    totalPricePerMenu[k][quarter] += totalPricePerMenu[k][quarter] + 1;
+                                }
                             }
                         }
 
@@ -614,7 +589,11 @@ public class LineChartFrag extends Fragment implements OnChartGestureListener{
                             Log.d("suc","성공");
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
-                                    totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    if(analysisType == true) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
+                                    } else if(analysisType ==false){
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
+                                    }
                                 }
                             }
                             break;

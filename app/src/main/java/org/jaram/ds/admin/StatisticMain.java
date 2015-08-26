@@ -1,83 +1,137 @@
 package org.jaram.ds.admin;
 
+import android.app.ProgressDialog;
+import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import org.jaram.ds.R;
-import org.jaram.ds.admin.view.BarChartFrag;
+import org.jaram.ds.admin.view.DatePickerFrag;
 import org.jaram.ds.admin.view.DrawerFrag;
-import org.jaram.ds.admin.view.LineChartFrag;
+import org.jaram.ds.admin.view.ProgressChartFrag;
+import org.jaram.ds.admin.view.SummaryFrag;
 
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
+/**
+ * Created by cheonyujung on 15. 8. 22..
+ */
+public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnalysisListener,ProgressChartFrag.Callbacks {
 
-public class StatisticMain extends ActionBarActivity implements DrawerFrag.OnAnalysisListener{
-
-
-    DrawerFrag drawerFrag;
-    BarChartFrag barChartFrag;
-    LineChartFrag lineChartFrag;
-
-    float startX;
-    float startY;
-    float endX;
-    float endY;
-    float diffX, diffY;
-
+    Typeface tf;
+    DrawerFrag drawer;
+    SummaryFrag summaryFrag;
+    TextView startText;
+    TextView endText;
+    ProgressChartFrag progressChartFrag;
+    ProgressDialog dialog;
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_statistic);
         if (savedInstanceState == null) {
-            barChartFrag = new BarChartFrag();
-            lineChartFrag = new LineChartFrag();
-            drawerFrag = new DrawerFrag();
-            getSupportFragmentManager().beginTransaction().add(R.id.drawer,drawerFrag).commit();
-            getSupportFragmentManager().beginTransaction().add(R.id.chart,barChartFrag).commit();
+//            tf = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
+            summaryFrag = new SummaryFrag();
+            drawer = new DrawerFrag();
+            getSupportFragmentManager().beginTransaction().add(R.id.drawer,drawer).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.chartFrag, summaryFrag).commit();
+
+            startText = (TextView)findViewById(R.id.startText);
+            endText = (TextView)findViewById(R.id.endText);
+            Button startButton = (Button)findViewById(R.id.startPeriod);
+            startButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    DatePickerFrag startPicker = new DatePickerFrag(startText);
+                    startPicker.show(getFragmentManager(), "startPicker");
+                }
+            });
+            Button endButton = (Button) findViewById(R.id.endPeriod);
+            endButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    DatePickerFrag endPicker = new DatePickerFrag(endText);
+                    endPicker.show(getFragmentManager(), "endPicker");
+                }
+            });
+
+
+            Button analysis = (Button) findViewById(R.id.analysisBtn);
+            analysis.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String start = (String) startText.getText();
+                    String end = (String) endText.getText();
+                    summaryFrag.createChart(start,end);
+                    summaryFrag.getChart().notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType) {
+        String start = (String) startText.getText();
+        String end = (String) endText.getText();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("analysisType", analysisType);
+        bundle.putStringArrayList("menuList", menuList);
+        bundle.putInt("unitType", unitType);
+        bundle.putString("start", start);
+        bundle.putString("end",end);
+        progressChartFrag = new ProgressChartFrag();
+        progressChartFrag.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.chartFrag, progressChartFrag).commit();
+
+    }
+
+    @Override
+    public void configChart() {
+        progressChartFrag.createChart();
+    }
+
+    public class TestAsyncTask extends AsyncTask<URL,Integer,Void>{
+
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(getApplicationContext());
+            dialog.setTitle("통계 분석");
+            dialog.setMessage("잠시만 기다리세요...");
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(true);
+            dialog.show();
+
+
+            super.onPreExecute();
         }
 
-
-
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_intro, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        @Override
+        protected Void doInBackground(URL... params) {
+            return null;
         }
 
-        return super.onOptionsItemSelected(item);
-    }
+        @Override
+        protected void onProgressUpdate(Integer[] values) {
+            switch(values[0]){
+                case 0:
+                    dialog.setMessage("wj");
+            }
+            dialog.setProgress(values[0]);
+        }
 
-    @Override
-    public void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType, String start, String diffDays) {
-        LineChartFrag lineChartFrag = LineChartFrag.newInstance(analysisType,menuList,unitType,start,diffDays);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.chart,lineChartFrag)
-                .commit();
-
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
     }
 }
