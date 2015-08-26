@@ -23,17 +23,30 @@ public class Data {
     public static ArrayList<Order> orderList = new ArrayList<Order>();
 
     static {
-        for (int i=0; i<6; i++) {
-            Category category = new Category();
-            category._id = i;
-            category.name = "category "+(i+1);
-            category.menu = null;
-            categoryList.add(category);
-        }
+        Category category1 = new Category();
+        category1._id = 1;
+        category1.name = "돈까스";
+        category1.menu = null;
+        categoryList.add(category1);
+        Category category2 = new Category();
+        category2._id = 2;
+        category2.name = "덮밥";
+        category2.menu = null;
+        categoryList.add(category2);
+        Category category3 = new Category();
+        category3._id = 3;
+        category3.name = "면";
+        category3.menu = null;
+        categoryList.add(category3);
+        Category category4 = new Category();
+        category4._id = 4;
+        category4.name = "음료 및 스페셜";
+        category4.menu = null;
+        categoryList.add(category4);
         for (int i=0; i<30; i++) {
             Menu menu = new Menu();
             menu._id = i;
-            menu.category = categoryList.get(random.nextInt(5));
+            menu.category = categoryList.get(random.nextInt(3));
             menu.name = "Menu "+(i+1);
             menu.price = 5000+1000*(random.nextInt(3));
             menuList.add(menu);
