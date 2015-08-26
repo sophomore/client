@@ -76,13 +76,7 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
     @Override
     public long getItemId(int position){return position;}
 
-//    public String getPay(int position){
-//        String check;
-//        for(){
-//
-//        }
-//        return String.valueOf(data.get(position).menuList.get(position).pay.toString());
-//    }
+
     public View getView(int position, View convertView, ViewGroup parent){
 
         if(convertView==null){
