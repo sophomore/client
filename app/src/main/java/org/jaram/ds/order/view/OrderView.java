@@ -1,36 +1,25 @@
 package org.jaram.ds.order.view;
 
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
-import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 import org.jaram.ds.order.MenuListAdapter;
-import org.w3c.dom.Text;
+import org.jaram.ds.order.SimpleItemTouchHelper;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by kjydiary on 15. 7. 8..
@@ -54,7 +43,12 @@ public class OrderView extends Fragment {
 //        MenuListAdapter adapter = new MenuListAdapter(order.menuList);
         ArrayList<OrderMenu> orderMenus = Data.orderList.get(0).menuList;
 //        orderMenus.add();
+
+
         adapter = new MenuListAdapter(orderMenus);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelper(adapter);
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(menuListView);
         menuListView.setAdapter(adapter);
         menuListView.setItemAnimator(new DefaultItemAnimator());
 

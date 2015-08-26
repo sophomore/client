@@ -1,6 +1,5 @@
 package org.jaram.ds.order;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -16,14 +15,15 @@ import org.jaram.ds.data.struct.OrderMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by kjydiary on 15. 7. 10..
  */
-public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> {
+interface ItemTouchHelperAdapter{
+    void onItemDismiss(int position);
+}
+public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> implements ItemTouchHelperAdapter{
 
     private SparseBooleanArray selectedItems;
     int curry = 0;
@@ -75,17 +75,17 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     }
 
     @Override
-    public void onBindViewHolder( final MenuViewHolder holder, int position) {
+    public void onBindViewHolder(final MenuViewHolder holder, int position) {
         holder.nameView.setText(orderMenus.get(position).menu.name);
-        holder.priceView.setText(orderMenus.get(position).menu.price+"");
+        holder.priceView.setText(orderMenus.get(position).menu.price + "");
         holder.curryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (curry == 0) {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 1000)+"");
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 1000) + "");
                     curry = 1;
                 } else {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 1000)+"");
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 1000) + "");
                     curry = 0;
                 }
             }
@@ -93,12 +93,11 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         holder.doubleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(doublei == 0){
-                    holder.priceView.setText((Integer.parseInt((String)holder.priceView.getText())+500)+"");
+                if (doublei == 0) {
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 500) + "");
                     doublei = 1;
-                }
-                else{
-                    holder.priceView.setText((Integer.parseInt((String)holder.priceView.getText())-500)+"");
+                } else {
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 500) + "");
                     doublei = 0;
                 }
             }
@@ -110,16 +109,24 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         return orderMenus.size();
     }
 
+    @Override
+    public void onItemDismiss(int position) {
+        orderMenus.remove(position);
+        Log.d("orasdf", orderMenus.size() + "");
+        notifyDataSetChanged();
+    }
+
     public class MenuViewHolder extends RecyclerView.ViewHolder {
 
         public TextView nameView, priceView;
         Button curryBtn, doubleBtn;
+
         public MenuViewHolder(View item) {
             super(item);
-            curryBtn = (Button)item.findViewById(R.id.Curry);
-            doubleBtn = (Button)item.findViewById(R.id.Double);
-            nameView = (TextView)item.findViewById(R.id.menu_name);
-            priceView = (TextView)item.findViewById(R.id.menu_price);
+            curryBtn = (Button) item.findViewById(R.id.Curry);
+            doubleBtn = (Button) item.findViewById(R.id.Double);
+            nameView = (TextView) item.findViewById(R.id.menu_name);
+            priceView = (TextView) item.findViewById(R.id.menu_price);
             item.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     //클릭시 동작
