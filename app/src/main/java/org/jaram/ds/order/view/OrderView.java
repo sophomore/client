@@ -39,10 +39,12 @@ public class OrderView extends Fragment {
 
     Callbacks callbacks = null;
     MenuListAdapter adapter;
-
+    TextView totalprice;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
+        totalprice = (TextView)view.findViewById(R.id.TotalPay);
+        totalprice.setText(Data.orderList.get(0).totalPrice+"");
 
         RecyclerView menuListView = (RecyclerView)view.findViewById(R.id.menuListView);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -115,7 +117,7 @@ public class OrderView extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(MenuSelectBtnViewHolder holder, int position) {
+        public void onBindViewHolder(final MenuSelectBtnViewHolder holder, int position) {
             final int i =position;
 
             holder.name.setText(menuList.get(position).name);
@@ -124,6 +126,7 @@ public class OrderView extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Data.orderList.get(0).addMenu(menuList.get(i),OrderMenu.Pay.CREDIT);
+                    totalprice.setText((Integer.parseInt((String)totalprice.getText())+menuList.get(i).price)+"");
                     adapter.notifyDataSetChanged();
                     callbacks.selectMenu(menuList.get(i));
                 }
@@ -140,11 +143,12 @@ public class OrderView extends Fragment {
             public View menu;
             public TextView name;
             public TextView price;
+
             public MenuSelectBtnViewHolder(View item) {
                 super(item);
                 menu = item;
-                price = (TextView)item.findViewById(R.id.PriceOfMenu);
 
+                price = (TextView)item.findViewById(R.id.PriceOfMenu);
                 name = (TextView)item.findViewById(R.id.NameOfMenu);
             }
         }
