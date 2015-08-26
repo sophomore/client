@@ -2,6 +2,7 @@ package org.jaram.ds.order;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.widget.TextView;
 
 /**
  * Created by ohyongtaek on 15. 8. 27..
@@ -10,8 +11,10 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
 
     private final ItemTouchHelperAdapter mAdapter;
+    public TextView textView;
 
-    public SimpleItemTouchHelper(ItemTouchHelperAdapter adapter) {
+    public SimpleItemTouchHelper(ItemTouchHelperAdapter adapter,TextView textView) {
+        this.textView = textView;
         mAdapter = adapter;
     }
 
@@ -40,7 +43,7 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        mAdapter.onItemDismiss(viewHolder.getAdapterPosition(),textView);
 
     }
 

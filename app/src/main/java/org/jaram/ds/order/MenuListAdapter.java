@@ -1,7 +1,6 @@
 package org.jaram.ds.order;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,7 @@ import java.util.List;
  * Created by kjydiary on 15. 7. 10..
  */
 interface ItemTouchHelperAdapter{
-    void onItemDismiss(int position);
+    void onItemDismiss(int position,TextView textView);
 }
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> implements ItemTouchHelperAdapter{
 
@@ -110,9 +109,9 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     }
 
     @Override
-    public void onItemDismiss(int position) {
+    public void onItemDismiss(int position,TextView textView) {
+        textView.setText((Integer.parseInt((String)textView.getText())-orderMenus.get(position).menu.price)+"");
         orderMenus.remove(position);
-        Log.d("orasdf", orderMenus.size() + "");
         notifyDataSetChanged();
     }
 
