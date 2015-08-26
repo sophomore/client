@@ -335,17 +335,19 @@ public class BarChartManager implements OnChartGestureListener {
 
     public BarData generateMonthChart(ArrayList<String> menuList) {
         Calendar date = null;
+        Calendar date2;
         int months[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 
         try {
             date = getStartDate();
+            date2 = getFinishDate();
 
         } catch (ParseException e) {
 
             e.printStackTrace();
         }
         if (date != null) {
-            Calendar date2;
+
 
             ArrayList<Order> orderList = Data.orderList;
             int totalPricePerMenu[] = new int[months.length];
