@@ -2,7 +2,6 @@ package org.jaram.ds.admin.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,14 +14,12 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 /**
  * Created by ka123ak on 2015-07-09.
@@ -31,17 +28,14 @@ import java.util.GregorianCalendar;
 public class DrawerFrag extends Fragment {
 
     String unit[] = {"시간","일","요일","월","분기","년"};
-    TextView byear,bmonth,bday, lyear,lmonth,lday;
-    int year, month,day;
     View view;
-    int chartKind = 0;
     OnAnalysisListener onAnalysisListener;
     boolean checkedType = true;
     int unitType = 0;
     ArrayList<String> selectedMenu = new ArrayList<String>();
 
-    public interface OnAnalysisListener{
-        public void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end);
+    public static interface OnAnalysisListener{
+        void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType);
 
     }
 
@@ -51,17 +45,6 @@ public class DrawerFrag extends Fragment {
         gridView.setExpanded(true);
         SetGridView(gridView, view);
 
-        Button beforeBtn = (Button) view.findViewById(R.id.beforeBtn);
-        final int year,month,day;
-        final GregorianCalendar calendar = new GregorianCalendar();
-
-        byear = (TextView)view.findViewById(R.id.ByearText);
-        bmonth = (TextView)view.findViewById(R.id.BmonthText);
-        bday = (TextView) view.findViewById(R.id.BdayText);
-
-        lyear = (TextView)view.findViewById(R.id.LyearText);
-        lmonth = (TextView)view.findViewById(R.id.LmonthText);
-        lday = (TextView) view.findViewById(R.id.LdayText);
 
         RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.analysis_type_group);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -76,58 +59,20 @@ public class DrawerFrag extends Fragment {
             }
         });
 
-        beforeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DialogFragment beforeDialog = new DatePickerFrag(byear,bmonth,bday);
-                beforeDialog.show(getActivity().getFragmentManager(), "datePicker");
-
-            }
-        });
-        Button laterbtn = (Button)view.findViewById(R.id.laterBtn);
-        laterbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DialogFragment beforeDialog = new DatePickerFrag(lyear,lmonth,lday);
-
-                beforeDialog.show(getActivity().getFragmentManager(), "datePicker");
-
-            }
-        });
-
         Button analysisbtn = (Button) view.findViewById(R.id.analysis);
         analysisbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (byear.getText() == "" || lyear.getText() == "") {
-                    Toast.makeText(getActivity(), "기간을 입력해주세요", Toast.LENGTH_SHORT).show();
-                } else {
-                    String startDate = byear.getText() + "-" + (Integer.parseInt((String) bmonth.getText())) + "-" + bday.getText();
-                    String finishDate = lyear.getText() + "-" + (Integer.parseInt((String) lmonth.getText())) + "-" + lday.getText();
+
+                onAnalysisListener.createLineChart(checkedType,selectedMenu,unitType);
 
 
-                    onAnalysisListener.createLineChart(checkedType,selectedMenu,unitType,startDate, finishDate + "");
-                }
-
-            }
-        });
-        Button resetbtn = (Button) view.findViewById(R.id.reset);
-        resetbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                byear.setText("");
-                bmonth.setText("");
-                bday.setText("");
-                lyear.setText("");
-                lmonth.setText("");
-                lday.setText("");
             }
         });
         final String[] items = getMenuList();
         final boolean mbIsSelect[] = new boolean[items.length];
         final ExpandableHeightGridView gridView1 = (ExpandableHeightGridView)view.findViewById(R.id.gridView2);
+        gridView1.setAdapter(new mSelectedMenuListAdapter(setSelectedMenuList(mbIsSelect,items),getActivity()));
 
         final Button selectMenubtn = (Button) view.findViewById(R.id.select_menu);
         selectMenubtn.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +80,7 @@ public class DrawerFrag extends Fragment {
             public void onClick(View v) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 View checkMenuView = (View) inflater.inflate(R.layout.statistic_checkbox, null);
+
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Select Colors")
                         .setView(checkMenuView)
@@ -146,7 +92,10 @@ public class DrawerFrag extends Fragment {
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 gridView1.setExpanded(true);
-                                SetSelectedMenuAdapter(gridView1, view, setSelectedMenuList(mbIsSelect, items),mbIsSelect);
+                                mSelectedMenuListAdapter adapter = (mSelectedMenuListAdapter) gridView1.getAdapter();
+                                adapter.menuList.clear();
+                                adapter.notifyDataSetChanged();
+                                SetSelectedMenuAdapter(gridView1, view, setSelectedMenuList(mbIsSelect, items), mbIsSelect);
                             }
                         })
                         .setNegativeButton("Cancel", null)

@@ -32,11 +32,6 @@
         </activity>
 
         <activity
-            android:name=".admin.StatisticMain"
-            android:label="statistic">
-
-        </activity>
-        <activity
             android:name=".admin.MenuManagementMain"
             android:label="MenuManage"
             >
@@ -53,7 +48,7 @@
         </activity>
 
         <activity
-            android:name=".admin.Statistic2"
+            android:name=".admin.StatisticMain"
             android:label="newStatistic">
         </activity>
 

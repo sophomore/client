@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
@@ -22,6 +23,8 @@ import java.util.Set;
  */
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> {
 
+    int curry= 0;
+    int doublei=0;
     private ArrayList<OrderMenu> orderMenus;
     private ArrayList<Menu> menuList;
     private HashMap<Menu, Integer> menuCount;
@@ -30,20 +33,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
             throw new IllegalArgumentException("list null");
         }
         this.orderMenus = orderMenus;
-        menuCount = new HashMap<Menu, Integer>();
-        for (int i=0; i<orderMenus.size(); i++) {
-            Menu menu = orderMenus.get(i).menu;
-            int count = 0;
-            if (menuCount.containsKey(menu)) {
-                count = menuCount.get(menu);
-            }
-            count++;
-            menuCount.put(menu, count);
-        }
-        this.menuList = new ArrayList<Menu>();
-        for (Menu menu : menuCount.keySet()) {
-            menuList.add(menu);
-        }
+
     }
 
     @Override
@@ -53,29 +43,54 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     }
 
     @Override
-    public void onBindViewHolder(MenuViewHolder holder, int position) {
-        holder.nameView.setText(menuList.get(position).name);
-        holder.priceView.setText(menuList.get(position).price+"원");
-        holder.countView.setText(menuCount.get(menuList.get(position))+"개");
-        holder.totalPriceView.setText("총 "+orderMenus.get(position).menu.price * menuCount.get(menuList.get(position))+"원");
+    public void onBindViewHolder( final MenuViewHolder holder, int position) {
+        holder.nameView.setText(orderMenus.get(position).menu.name);
+        holder.priceView.setText(orderMenus.get(position).menu.price+"");
+        holder.curryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (curry == 0) {
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 1000)+"");
+                    curry = 1;
+                } else {
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 1000)+"");
+                    curry = 0;
+                }
+            }
+        });
+        holder.doubleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(doublei == 0){
+                    holder.priceView.setText((Integer.parseInt((String)holder.priceView.getText())+500)+"");
+                    doublei = 1;
+                }
+                else{
+                    holder.priceView.setText((Integer.parseInt((String)holder.priceView.getText())-500)+"");
+                    doublei = 0;
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return menuList.size();
+        return orderMenus.size();
     }
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView nameView, countView, priceView, totalPriceView;
+        public TextView nameView, priceView;
+        Button curryBtn, doubleBtn;
         public MenuViewHolder(View item) {
             super(item);
+            curryBtn = (Button)item.findViewById(R.id.Curry);
+            doubleBtn = (Button)item.findViewById(R.id.Double);
             nameView = (TextView)item.findViewById(R.id.menu_name);
-            countView = (TextView)item.findViewById(R.id.menu_count);
             priceView = (TextView)item.findViewById(R.id.menu_price);
-            totalPriceView = (TextView)item.findViewById(R.id.menu_all_price);
             item.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    //클릭시 동작
                 }
             });
         }

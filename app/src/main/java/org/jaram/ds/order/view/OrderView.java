@@ -1,6 +1,7 @@
 package org.jaram.ds.order.view;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 import org.jaram.ds.order.MenuListAdapter;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -36,7 +38,7 @@ import java.util.Random;
 public class OrderView extends Fragment {
 
     Callbacks callbacks = null;
-    Button paybtn;
+    MenuListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,19 +54,33 @@ public class OrderView extends Fragment {
 //        MenuListAdapter adapter = new MenuListAdapter(order.menuList);
         ArrayList<OrderMenu> orderMenus = Data.orderList.get(0).menuList;
 //        orderMenus.add();
-        MenuListAdapter adapter = new MenuListAdapter(orderMenus);
-
+        adapter = new MenuListAdapter(orderMenus);
         menuListView.setAdapter(adapter);
         menuListView.setItemAnimator(new DefaultItemAnimator());
-
 
         //TODO: 메뉴 목록과 메뉴 선택 fragment 분리해야함. : 결제화면과 메뉴목록 통일
         ArrayList<Menu> menuBtns = new ArrayList<Menu>();
         menuBtns.addAll(Data.menuList);
-        RecyclerView menuBtnListView = (RecyclerView)view.findViewById(R.id.menuBtnListView);
-        MenuSelectBtnAdapter menuBtnAdapter = new MenuSelectBtnAdapter(menuBtns);
-        menuBtnListView.setAdapter(menuBtnAdapter);
-        menuBtnListView.setLayoutManager(new GridLayoutManager(getActivity(), 5, GridLayoutManager.VERTICAL, false));
+        RecyclerView menuBtnListViewDon = (RecyclerView)view.findViewById(R.id.DonMenuList);
+        MenuSelectBtnAdapter menuBtnAdapterDon = new MenuSelectBtnAdapter(menuBtns);
+        menuBtnListViewDon.setAdapter(menuBtnAdapterDon);
+        menuBtnListViewDon.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+
+        RecyclerView menuBtnListViewDup = (RecyclerView)view.findViewById(R.id.DupMenuList);
+        MenuSelectBtnAdapter menuBtnAdapterDup = new MenuSelectBtnAdapter(menuBtns);
+        menuBtnListViewDup.setAdapter(menuBtnAdapterDup);
+        menuBtnListViewDup.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+
+        RecyclerView menuBtnListViewNoodle = (RecyclerView)view.findViewById(R.id.NoodleMenuList);
+        MenuSelectBtnAdapter menuBtnAdapterNoodle = new MenuSelectBtnAdapter(menuBtns);
+        menuBtnListViewNoodle.setAdapter(menuBtnAdapterNoodle);
+        menuBtnListViewNoodle.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+
+        RecyclerView menuBtnListViewLast = (RecyclerView)view.findViewById(R.id.DrinkAndAdd);
+        MenuSelectBtnAdapter menuBtnAdapterLast = new MenuSelectBtnAdapter(menuBtns);
+        menuBtnListViewLast.setAdapter(menuBtnAdapterLast);
+        menuBtnListViewLast.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+
 
         return view;
     }
@@ -92,6 +108,7 @@ public class OrderView extends Fragment {
             this.menuList = menuList;
         }
 
+
         @Override
         public MenuSelectBtnViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new MenuSelectBtnViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.menubtn_item, parent, false));
@@ -99,11 +116,15 @@ public class OrderView extends Fragment {
 
         @Override
         public void onBindViewHolder(MenuSelectBtnViewHolder holder, int position) {
-            final int i = position;
+            final int i =position;
+
             holder.name.setText(menuList.get(position).name);
+            holder.price.setText(menuList.get(position).price+"");
             holder.menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Data.orderList.get(0).addMenu(menuList.get(i),OrderMenu.Pay.CREDIT);
+                    adapter.notifyDataSetChanged();
                     callbacks.selectMenu(menuList.get(i));
                 }
             });
@@ -118,10 +139,13 @@ public class OrderView extends Fragment {
 
             public View menu;
             public TextView name;
+            public TextView price;
             public MenuSelectBtnViewHolder(View item) {
                 super(item);
-                name = (TextView)item.findViewById(R.id.menu_name);
                 menu = item;
+                price = (TextView)item.findViewById(R.id.PriceOfMenu);
+
+                name = (TextView)item.findViewById(R.id.NameOfMenu);
             }
         }
     }
