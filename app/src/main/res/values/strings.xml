@@ -5,8 +5,8 @@
     <string name="action_settings">Settings</string>
 
     <!--Order-->
-    <string name="order_total_money">합계</string>
-    <string name="order_pay">결제</string>
+    <string name="order_total_money">전체 합계</string>
+    <string name="order_pay">선택 합계</string>
 
     <!--Statistic-->
     <string name="statistic_count">갯수</string>
