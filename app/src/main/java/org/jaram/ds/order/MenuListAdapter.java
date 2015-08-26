@@ -1,6 +1,9 @@
 package org.jaram.ds.order;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -8,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
@@ -78,6 +82,20 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     public void onBindViewHolder( final MenuViewHolder holder, int position) {
         holder.nameView.setText(orderMenus.get(position).menu.name);
         holder.priceView.setText(orderMenus.get(position).menu.price+"");
+        holder.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Drawable def = holder.menu.getBackground();
+                if(holder.select.isChecked()){
+                    holder.select.setChecked(false);
+                    holder.menu.setBackground(def);
+                }
+                else{
+                    holder.select.setChecked(true);
+                    holder.menu.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+                }
+            }
+        });
         holder.curryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,17 +132,16 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
 
         public TextView nameView, priceView;
         Button curryBtn, doubleBtn;
-        public MenuViewHolder(View item) {
+        CheckBox select;
+        View menu;
+        public MenuViewHolder(final View item) {
             super(item);
+            menu = item;
+            select = (CheckBox)item.findViewById(R.id.select);
             curryBtn = (Button)item.findViewById(R.id.Curry);
             doubleBtn = (Button)item.findViewById(R.id.Double);
             nameView = (TextView)item.findViewById(R.id.menu_name);
             priceView = (TextView)item.findViewById(R.id.menu_price);
-            item.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    //클릭시 동작
-                }
-            });
         }
     }
 }
