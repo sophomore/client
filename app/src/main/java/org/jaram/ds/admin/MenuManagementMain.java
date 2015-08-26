@@ -1,9 +1,8 @@
 package org.jaram.ds.admin;
 
-import android.app.AlertDialog.Builder;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,24 +11,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
-import org.jaram.ds.data.struct.OrderMenu;
-
 import java.util.ArrayList;
+import android.support.v7.app.ActionBarActivity;
+
+import org.jaram.ds.admin.view.MenuFrag;
+import org.jaram.ds.admin.view.MenuListFrag;
 
 /**
  * Created by KimMyoungSoo on 2015. 7. 15..
  */
 
 //메뉴추가 취소 다이얼로그 작성//
-public class MenuManagementMain extends FragmentActivity {
+public class MenuManagementMain extends ActionBarActivity {
 
+    MenuListFrag menuListFrag;
+    MenuFrag menuFrag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +69,7 @@ public class MenuManagementMain extends FragmentActivity {
             LayoutInflater inflater = (LayoutInflater) mcontext.getSystemService(LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.fragment_menu_add, (ViewGroup) findViewById(R.id.layout_root_add));
 
-            Builder builder = new Builder(MenuManagementMain.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
 
             @Override
             public void onClick(View v) {
@@ -98,7 +100,7 @@ public class MenuManagementMain extends FragmentActivity {
             LayoutInflater inflater = (LayoutInflater) mcontext.getSystemService(LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.fragment_menu_add, (ViewGroup) findViewById(R.id.layout_root_add));
 
-            Builder builder = new Builder(MenuManagementMain.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
 
             @Override
             public void onClick(View v) {
@@ -129,7 +131,7 @@ public class MenuManagementMain extends FragmentActivity {
             LayoutInflater inflater = (LayoutInflater) mcontext.getSystemService(LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.fragment_menu_add, (ViewGroup) findViewById(R.id.layout_root_add));
 
-            Builder builder = new Builder(MenuManagementMain.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
 
             @Override
             public void onClick(View v) {
@@ -161,7 +163,7 @@ public class MenuManagementMain extends FragmentActivity {
             LayoutInflater inflater = (LayoutInflater) mcontext.getSystemService(LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.fragment_menu_add, (ViewGroup) findViewById(R.id.layout_root_add));
 
-            Builder builder = new Builder(MenuManagementMain.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
 
             @Override
             public void onClick(View v) {
@@ -185,6 +187,18 @@ public class MenuManagementMain extends FragmentActivity {
 
             }
         });
+
+//
+//        if(savedInstanceState==null) {
+//            setContentView(R.layout.activity_menu_management);
+//            MenuListAdapter adapter = new MenuListAdapter(this);
+//            menuListFrag = new MenuListFrag();
+//            menuListFrag.setAdapter(adapter);
+//            menuFrag = new MenuFrag();
+//            menuFrag.setAdapter(adapter);
+//            getSupportFragmentManager().beginTransaction().add(R.id.listContainer, menuListFrag).commit();
+//            getSupportFragmentManager().beginTransaction().add(R.id.management,menuFrag).commit();
+//        }
 
 
 
@@ -332,7 +346,7 @@ public class MenuManagementMain extends FragmentActivity {
                     @Override
                     public void onClick(View view) {
 
-                        Builder builder = new Builder(MenuManagementMain.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
                         builder.setTitle("메뉴 수정");
                         builder.setView(layout);
 

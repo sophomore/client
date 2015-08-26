@@ -3,6 +3,7 @@ package org.jaram.ds.admin.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ public class MenuListAdapter extends BaseAdapter implements View.OnClickListener
     LayoutInflater inflater;
 
 
-    MenuListAdapter(Context context){
+    public MenuListAdapter(Context context){
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         menuList = Data.menuList;
 
@@ -58,6 +59,7 @@ public class MenuListAdapter extends BaseAdapter implements View.OnClickListener
 
         nameText.setText(menu.name);
         priceText.setText(String.valueOf(menu.price));
+        Log.d("msy", menu.category.name+"@");
         categoryText.setText(menu.category.name);
 
         return convertView;
