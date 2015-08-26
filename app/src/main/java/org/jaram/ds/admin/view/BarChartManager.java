@@ -87,7 +87,6 @@ public class BarChartManager implements OnChartGestureListener {
     }
 
     public BarData getData(ArrayList<String> menuList, int unitType, String startDate, String finishDate) {
-        ArrayList<String> selectList = menuList;
 
         switch (unitType){
             case 0:
@@ -387,7 +386,7 @@ public class BarChartManager implements OnChartGestureListener {
             }
 
             BarDataSet barDataSet = new BarDataSet(entries, "매출액");
-            barDataSet.setColor(Color.rgb(255, 128, 128));
+//            barDataSet.setColor(Color.rgb(255, 128, 128));
             barDataSets.add(barDataSet);
 
             String xVals[] = new String[months.size()];

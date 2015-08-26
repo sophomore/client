@@ -1,6 +1,5 @@
 package org.jaram.ds.admin.view;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -48,19 +47,6 @@ public class SummaryFrag extends Fragment {
         barChartManager = new BarChartManager(getActivity(),false,menuList,3,start,end);
         barChartManager.setChart((BarChart)view.findViewById(R.id.chart_container2));
         barChartManager.getChart().setData(barChartManager.getData(menuList,3,start,end));
-//        Legend l = barChartManager.getChart().getLegend();
-//        l.setTypeface(tf);
-//        YAxis leftAxis = barChartManager.getChart().getAxisLeft();
-//        leftAxis.setAxisMaxValue(1000000);
-//        leftAxis.setTypeface(tf);
-//
-//        barChartManager.getChart().getAxisRight().setEnabled(false);
-//
-//        XAxis xAxis = barChartManager.getChart().getXAxis();
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        xAxis.setTypeface(tf);
-//        xAxis.setDrawGridLines(false);
-//        xAxis.setSpaceBetweenLabels(1);
 
         TextView moneydata = (TextView) view.findViewById(R.id.moneydata);
         moneydata.setText("10000원");
@@ -69,7 +55,7 @@ public class SummaryFrag extends Fragment {
         TextView totaldata = (TextView) view.findViewById(R.id.totaldata);
         totaldata.setText("10000원");
 
-        barChartManager.getChart().setBackgroundColor(Color.BLUE);
+//        barChartManager.getChart().setBackgroundColor(Color.BLUE);
 
         barChartManager.getChart().setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override

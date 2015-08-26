@@ -37,7 +37,7 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
 
         setContentView(R.layout.activity_statistic);
         if (savedInstanceState == null) {
-            tf = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
+//            tf = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
             summaryFrag = new SummaryFrag();
             drawer = new DrawerFrag();
             getSupportFragmentManager().beginTransaction().add(R.id.drawer,drawer).commit();
@@ -124,7 +124,7 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
         protected void onProgressUpdate(Integer[] values) {
             switch(values[0]){
                 case 0:
-                    dialog.setMessage("접속중");
+                    dialog.setMessage("wj");
             }
             dialog.setProgress(values[0]);
         }
