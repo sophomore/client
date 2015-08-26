@@ -117,8 +117,9 @@ public class OrderView extends Fragment {
         @Override
         public void onBindViewHolder(MenuSelectBtnViewHolder holder, int position) {
             final int i =position;
+
             holder.name.setText(menuList.get(position).name);
-//            holder.price.setText(menuList.get(position).price);
+            holder.price.setText(menuList.get(position).price+"");
             holder.menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -143,6 +144,7 @@ public class OrderView extends Fragment {
                 super(item);
                 menu = item;
                 price = (TextView)item.findViewById(R.id.PriceOfMenu);
+
                 name = (TextView)item.findViewById(R.id.NameOfMenu);
             }
         }

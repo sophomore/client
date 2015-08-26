@@ -45,15 +45,15 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     @Override
     public void onBindViewHolder( final MenuViewHolder holder, int position) {
         holder.nameView.setText(orderMenus.get(position).menu.name);
-        holder.priceView.setText(orderMenus.get(position).menu.price);
+        holder.priceView.setText(orderMenus.get(position).menu.price+"");
         holder.curryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (curry == 0) {
-                    holder.priceView.setText(Integer.parseInt((String) holder.priceView.getText()) + 1000);
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 1000)+"");
                     curry = 1;
                 } else {
-                    holder.priceView.setText(Integer.parseInt((String) holder.priceView.getText()) - 1000);
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 1000)+"");
                     curry = 0;
                 }
             }
@@ -62,11 +62,11 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
             @Override
             public void onClick(View view) {
                 if(doublei == 0){
-                    holder.priceView.setText(Integer.parseInt((String)holder.priceView.getText())+500);
+                    holder.priceView.setText((Integer.parseInt((String)holder.priceView.getText())+500)+"");
                     doublei = 1;
                 }
                 else{
-                    holder.priceView.setText(Integer.parseInt((String)holder.priceView.getText())-500);
+                    holder.priceView.setText((Integer.parseInt((String)holder.priceView.getText())-500)+"");
                     doublei = 0;
                 }
             }
