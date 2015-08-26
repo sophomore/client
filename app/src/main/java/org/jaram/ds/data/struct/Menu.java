@@ -8,4 +8,5 @@ public class Menu {
     public Category category;
     public String name;
     public int price;
+
 }
