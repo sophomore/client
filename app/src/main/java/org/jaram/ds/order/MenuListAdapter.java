@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +19,15 @@ import org.jaram.ds.data.struct.OrderMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by kjydiary on 15. 7. 10..
  */
-public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> {
+interface ItemTouchHelperAdapter{
+    void onItemDismiss(int position,TextView textView);
+}
+public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> implements ItemTouchHelperAdapter{
 
     private SparseBooleanArray selectedItems;
     int curry = 0;
@@ -79,7 +79,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     }
 
     @Override
-    public void onBindViewHolder( final MenuViewHolder holder, int position) {
+    public void onBindViewHolder(final MenuViewHolder holder, int position) {
         holder.nameView.setText(orderMenus.get(position).menu.name);
         holder.priceView.setText(orderMenus.get(position).menu.price+"");
         holder.menu.setOnClickListener(new View.OnClickListener() {
@@ -96,14 +96,15 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
                 }
             }
         });
+
         holder.curryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (curry == 0) {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 1000)+"");
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 1000) + "");
                     curry = 1;
                 } else {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 1000)+"");
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 1000) + "");
                     curry = 0;
                 }
             }
@@ -111,12 +112,11 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         holder.doubleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(doublei == 0){
-                    holder.priceView.setText((Integer.parseInt((String)holder.priceView.getText())+500)+"");
+                if (doublei == 0) {
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 500) + "");
                     doublei = 1;
-                }
-                else{
-                    holder.priceView.setText((Integer.parseInt((String)holder.priceView.getText())-500)+"");
+                } else {
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 500) + "");
                     doublei = 0;
                 }
             }
@@ -126,6 +126,13 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     @Override
     public int getItemCount() {
         return orderMenus.size();
+    }
+
+    @Override
+    public void onItemDismiss(int position,TextView textView) {
+        textView.setText((Integer.parseInt((String)textView.getText())-orderMenus.get(position).menu.price)+"");
+        orderMenus.remove(position);
+        notifyDataSetChanged();
     }
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
@@ -142,6 +149,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
             doubleBtn = (Button)item.findViewById(R.id.Double);
             nameView = (TextView)item.findViewById(R.id.menu_name);
             priceView = (TextView)item.findViewById(R.id.menu_price);
+
         }
     }
 }
