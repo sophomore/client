@@ -3,6 +3,7 @@ package org.jaram.ds.order;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import org.jaram.ds.data.struct.OrderMenu;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,11 +25,13 @@ import java.util.Set;
  */
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> {
 
-    int curry= 0;
-    int doublei=0;
+    private SparseBooleanArray selectedItems;
+    int curry = 0;
+    int doublei = 0;
     private ArrayList<OrderMenu> orderMenus;
     private ArrayList<Menu> menuList;
     private HashMap<Menu, Integer> menuCount;
+
     public MenuListAdapter(ArrayList<OrderMenu> orderMenus) {
         if (orderMenus == null) {
             throw new IllegalArgumentException("list null");
@@ -35,6 +39,34 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         this.orderMenus = orderMenus;
 
     }
+
+    public void toggleSelection(int pos) {
+        if (selectedItems.get(pos, false)) {
+            selectedItems.delete(pos);
+        } else {
+            selectedItems.put(pos, true);
+        }
+        notifyItemChanged(pos);
+    }
+
+    public void clearSelections() {
+        selectedItems.clear();
+        notifyDataSetChanged();
+    }
+
+    public int getSelectedItemCount() {
+        return selectedItems.size();
+    }
+
+    public List<Integer> getSelectedItems() {
+        List<Integer> items =
+                new ArrayList<Integer>(selectedItems.size());
+        for (int i = 0; i < selectedItems.size(); i++) {
+            items.add(selectedItems.keyAt(i));
+        }
+        return items;
+    }
+
 
     @Override
     public MenuViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
