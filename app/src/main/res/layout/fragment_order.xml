@@ -14,17 +14,65 @@
             android:layout_height="120dp"
             android:layout_alignParentBottom="true"
             android:background="#a55">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/ToTal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/order_total_money"
+                    android:textSize="25sp"
+                    android:layout_weight="1"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="right">
+                    <TextView
+                        android:id="@+id/TotalPay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="25sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:text="원"/>
+                    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/order_total_money"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:text="00000원"/>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/order_pay"
+                    android:textSize="25sp"
+                    android:layout_weight="1"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="right">
+                    <TextView
+                        android:id="@+id/SelectPay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="000000"
+                        android:textSize="25sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:text="원"/>
+                </LinearLayout>
+            </LinearLayout>
         </RelativeLayout>
         <!--
         <RelativeLayout
@@ -42,13 +90,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_above="@id/totalBox"
-            android:background="#5a5" />
-
+            android:background="#5a5"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <Button
             android:id="@+id/payBtn"
             android:layout_width="240dp"
@@ -56,54 +102,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:text="@string/order_pay"/>
-        <LinearLayout
-            android:id="@+id/category_box"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_above="@id/payBtn"
-            android:orientation="vertical"
-            android:background="#a00">
 
-            <Button
-                android:id="@+id/catBtn1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="category1"/>
-            <Button
-                android:id="@+id/catBtn2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="category2"/>
-            <Button
-                android:id="@+id/catBtn3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="category3"/>
-            <Button
-                android:id="@+id/catBtn4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="category4"/>
-            <Button
-                android:id="@+id/catBtn5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="category5"/>
-            <Button
-                android:id="@+id/catBtn6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="category6"/>
-
-        </LinearLayout>
         <RelativeLayout
             android:id="@+id/bottom_box"
             android:layout_width="wrap_content"
@@ -112,17 +111,131 @@
             android:layout_toLeftOf="@id/payBtn"
             android:layout_alignParentBottom="true"
             android:background="#0a0">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/Cash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/way_button"
+                    android:text="현금"/>
+                <Button
+                    android:id="@+id/Card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/way_button"
+                    android:text="카드"/>
+                <Button
+                    android:id="@+id/Service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/way_button"
+                    android:text="서비스"/>
+                <Button
+                    android:id="@+id/credit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:text="외상"
+                    android:background="@drawable/way_button"
+                    android:layout_weight="1"/>
+                </LinearLayout>
 
         </RelativeLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/menuBtnListView"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/category_box"
-            android:layout_alignParentTop="true"
             android:layout_above="@id/bottom_box"
-            android:background="#00a" />
+            android:layout_alignParentTop="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/DonGgas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="돈까스"
+                        android:textSize="30sp"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/DonMenuList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00a"/>
+                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/DupBbap"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="덮밥"
+                        android:textSize="30sp"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/DupMenuList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#000000"
+                        android:layout_weight="1"/>
+                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/Noodles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="면"
+                        android:textSize="30sp"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/NoodleMenuList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00a"
+                        android:layout_weight="1"/>
+                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/DrinkandSpecial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="음료 및 스폐셜"
+                        android:textSize="30sp"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/DrinkAndAdd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#000000"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 
