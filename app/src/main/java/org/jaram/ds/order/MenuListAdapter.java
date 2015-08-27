@@ -5,12 +5,14 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
@@ -35,13 +37,14 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     private ArrayList<OrderMenu> orderMenus;
     private ArrayList<Menu> menuList;
     private HashMap<Menu, Integer> menuCount;
+    private ArrayList<OrderMenu> selectedMenus;
 
     public MenuListAdapter(ArrayList<OrderMenu> orderMenus) {
         if (orderMenus == null) {
             throw new IllegalArgumentException("list null");
         }
         this.orderMenus = orderMenus;
-
+        this.selectedMenus = new ArrayList<>();
     }
 
     public void toggleSelection(int pos) {
@@ -80,22 +83,15 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
 
     @Override
     public void onBindViewHolder(final MenuViewHolder holder, int position) {
+        final int pos = position;
         holder.nameView.setText(orderMenus.get(position).menu.name);
         holder.priceView.setText(orderMenus.get(position).menu.price+"");
-        holder.menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Drawable def = holder.menu.getBackground();
-                if(holder.select.isChecked()){
-                    holder.select.setChecked(false);
-                    holder.menu.setBackground(def);
-                }
-                else{
-                    holder.select.setChecked(true);
-                    holder.menu.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
-                }
-            }
-        });
+        if(selectedMenus.contains(orderMenus.get(position))){
+            holder.menu.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+        }
+        else{
+            holder.menu.getBackground().clearColorFilter();
+        }
 
         holder.curryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +137,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         Button curryBtn, doubleBtn;
         CheckBox select;
         View menu;
+        LinearLayout container;
         public MenuViewHolder(final View item) {
             super(item);
             menu = item;
@@ -149,7 +146,20 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
             doubleBtn = (Button)item.findViewById(R.id.Double);
             nameView = (TextView)item.findViewById(R.id.menu_name);
             priceView = (TextView)item.findViewById(R.id.menu_price);
+            container = (LinearLayout)item.findViewById(R.id.item_container);
 
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(selectedMenus.contains(orderMenus.get(getLayoutPosition()))) {
+                        selectedMenus.remove(orderMenus.get(getLayoutPosition()));
+                    }
+                    else {
+                        selectedMenus.add(orderMenus.get(getLayoutPosition()));
+                    }
+                    notifyDataSetChanged();
+                }
+            });
         }
     }
 }
