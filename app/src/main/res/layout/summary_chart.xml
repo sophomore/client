@@ -1,13 +1,11 @@
-<android.support.v4.widget.DrawerLayout
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Intro"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     >
-<RelativeLayout
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
     <com.github.mikephil.charting.charts.BarChart
         android:padding = "10dp"
         android:id="@+id/chart_container2"
@@ -169,11 +167,4 @@
             </TableRow>
         </TableLayout>
     </LinearLayout>
-    </RelativeLayout>
-    <FrameLayout
-        android:layout_width="360dp"
-        android:layout_height="match_parent"
-        android:id="@+id/drawer2">
-
-    </FrameLayout>
-</android.support.v4.widget.DrawerLayout>
+</RelativeLayout>

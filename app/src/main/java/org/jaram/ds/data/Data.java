@@ -27,6 +27,7 @@ public class Data {
             Category category = new Category();
             category._id = i;
             category.name = "category "+(i+1);
+            category.menu = null;
             categoryList.add(category);
         }
         for (int i=0; i<30; i++) {

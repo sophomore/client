@@ -1,6 +1,6 @@
 package org.jaram.ds.admin;
 
-import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,7 +31,7 @@ public class MenuManagementMain extends FragmentActivity {
 
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
+                Builder builder = new Builder(MenuManagementMain.this);
                 builder.setMessage("삭제 하시겠습니까?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
@@ -64,10 +64,9 @@ public class MenuManagementMain extends FragmentActivity {
             LayoutInflater inflater = (LayoutInflater) mcontext.getSystemService(LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.fragment_menu_dialog, (ViewGroup) findViewById(R.id.layout_root));
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
-
             @Override
             public void onClick(View v) {
+                Builder builder = new Builder(MenuManagementMain.this);
                 builder.setTitle("메뉴 수정");
                 builder.setView(layout);
 
@@ -96,7 +95,7 @@ public class MenuManagementMain extends FragmentActivity {
             LayoutInflater inflater = (LayoutInflater) mcontext.getSystemService(LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.fragment_menu_add, (ViewGroup) findViewById(R.id.layout_root_add));
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
+            Builder builder = new Builder(MenuManagementMain.this);
 
             @Override
             public void onClick(View v) {

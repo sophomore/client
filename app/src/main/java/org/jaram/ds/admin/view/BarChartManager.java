@@ -40,6 +40,8 @@ public class BarChartManager implements OnChartGestureListener {
     private BarChart mChart;
     Activity activity;
     int[] price = new int[3];
+    public static int cartPrice = 0;
+    public static int cashPrice = 0;
 
     public BarChartManager(Activity activity, boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end) {
         this.analysisType = analysisType;
@@ -85,7 +87,6 @@ public class BarChartManager implements OnChartGestureListener {
     }
 
     public BarData getData(ArrayList<String> menuList, int unitType, String startDate, String finishDate) {
-        ArrayList<String> selectList = menuList;
 
         switch (unitType){
             case 0:
@@ -139,25 +140,25 @@ public class BarChartManager implements OnChartGestureListener {
 
     public Calendar getStartDate() throws ParseException {
         Calendar cal = Calendar.getInstance();
-        String[] date = start.split("/");
+        String[] date = start.split("-");
         cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
         return cal;
     }
 
     public Calendar getFinishDate() {
         Calendar cal = Calendar.getInstance();
-        String[] date = end.split("/");
+        String[] date = end.split("-");
         cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
         return cal;
     }
 
     private Date getStartDate(String startDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.parse(startDate);
     }
 
     private Date getFinishDate(String finishDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.parse(finishDate);
     }
 
@@ -183,7 +184,7 @@ public class BarChartManager implements OnChartGestureListener {
 
                 for (int l = 0; l < diffDays; l++) {
                     if (date2.get(Calendar.YEAR) == orderDate.get(Calendar.YEAR) && date2.get(Calendar.MONTH) == orderDate.get(Calendar.MONTH) && date2.get(Calendar.DATE) == orderDate.get(Calendar.DATE)) {
-                        totalPricePerMenu[l] += totalPricePerMenu[l] + 100;
+                        totalPricePerMenu[l] += totalPricePerMenu[l] + i.totalPrice;
                     } else {
                         date2.add(Calendar.DATE, 1);
                     }
@@ -334,31 +335,39 @@ public class BarChartManager implements OnChartGestureListener {
     }
 
     public BarData generateMonthChart(ArrayList<String> menuList) {
-        Calendar date = null;
-        Calendar date2;
-        int months[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+        Calendar startDate = null;
+        Calendar endDate = null;
+        Calendar cloneStart = null;
+        ArrayList<String> months = new ArrayList<String>();
 
         try {
-            date = getStartDate();
-            date2 = getFinishDate();
-
+            startDate = getStartDate();
+            endDate = getFinishDate();
         } catch (ParseException e) {
 
             e.printStackTrace();
         }
-        if (date != null) {
-
+        if (startDate != null) {
+            Calendar date2;
+            cloneStart = (Calendar) startDate.clone();
+            while(!((cloneStart.get(Calendar.YEAR) == endDate.get(Calendar.YEAR)) && (cloneStart.get(Calendar.MONTH) == endDate.get(Calendar.MONTH)))){
+                String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+                months.add(month);
+                cloneStart.add(Calendar.MONTH,1);
+            }
+            String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+            months.add(month);
 
             ArrayList<Order> orderList = Data.orderList;
-            int totalPricePerMenu[] = new int[months.length];
+            int totalPricePerMenu[] = new int[months.size()];
             for (Order i : orderList) {
-                date2 = (Calendar) date.clone();
+                date2 = (Calendar) startDate.clone();
 
                 Calendar orderDate = Calendar.getInstance();
                 orderDate.setTime(i.date);
-                for (int l = 0; l < months.length; l++) {
+                for (int l = 0; l < months.size(); l++) {
 
-                    if (orderDate.get(Calendar.MONTH) == l) {
+                    if ((orderDate.get(Calendar.YEAR)+"."+orderDate.get(Calendar.MONTH)).equals(months.get(l))) {
                         totalPricePerMenu[l] += totalPricePerMenu[l] + i.totalPrice;
 
                     } else {
@@ -370,22 +379,22 @@ public class BarChartManager implements OnChartGestureListener {
             ArrayList<BarDataSet> barDataSets = new ArrayList<BarDataSet>();
 
             ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-            for (int k = 0; k < months.length; k++) {
+            for (int k = 0; k < months.size(); k++) {
 
                 entries.add(new BarEntry(totalPricePerMenu[k], k));
 
             }
 
             BarDataSet barDataSet = new BarDataSet(entries, "매출액");
-            barDataSet.setColor(Color.rgb(255, 128, 128));
+//            barDataSet.setColor(Color.rgb(255, 128, 128));
             barDataSets.add(barDataSet);
 
-            String xVals[] = new String[months.length];
+            String xVals[] = new String[months.size()];
 
-            for (int i = 0; i < months.length; i++) {
+            for (int i = 0; i < months.size(); i++) {
 
-                xVals[i] = String.format("%s", months[i]);
-                date.add(Calendar.DATE, 1);
+                xVals[i] = String.format("%s", months.get(i));
+                startDate.add(Calendar.DATE, 1);
 
             }
             BarData barData = new BarData(xVals, barDataSets);

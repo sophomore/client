@@ -6,19 +6,71 @@
     tools:context=".Intro"
     android:id="@+id/statistic"
     >
-
-        <ListView
-            android:id="@+id/chart_container"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-        </ListView>
+            android:layout_height="70dp"
+            android:id="@+id/analysisPeriod"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="20dp"
+                android:id="@+id/startText"
+                android:gravity="center"
+                android:layout_weight="2"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="입력"
+                android:id="@+id/startPeriod"
+                android:layout_weight="3"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="-"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:textSize="50dp"
+                android:layout_weight="3"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/endText"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_weight="2"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="입력"
+                android:id="@+id/endPeriod"
+                android:layout_weight="3"
+                />
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="7dp"
+                android:id="@+id/analysisBtn"
+                android:text="분석"/>
+        </LinearLayout>
 
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/analysisPeriod"
+            android:id="@+id/chartFrag"
+            >
+        </FrameLayout>
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="360dp"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_gravity="start"
         android:id="@+id/drawer">
 
