@@ -1,6 +1,9 @@
 package org.jaram.ds.order;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -8,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
@@ -16,14 +21,15 @@ import org.jaram.ds.data.struct.OrderMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by kjydiary on 15. 7. 10..
  */
-public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> {
+interface ItemTouchHelperAdapter{
+    void onItemDismiss(int position,TextView textView);
+}
+public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> implements ItemTouchHelperAdapter{
 
     private SparseBooleanArray selectedItems;
     int curry = 0;
@@ -31,13 +37,14 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     private ArrayList<OrderMenu> orderMenus;
     private ArrayList<Menu> menuList;
     private HashMap<Menu, Integer> menuCount;
+    private ArrayList<OrderMenu> selectedMenus;
 
     public MenuListAdapter(ArrayList<OrderMenu> orderMenus) {
         if (orderMenus == null) {
             throw new IllegalArgumentException("list null");
         }
         this.orderMenus = orderMenus;
-
+        this.selectedMenus = new ArrayList<>();
     }
 
     public void toggleSelection(int pos) {
@@ -75,17 +82,25 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     }
 
     @Override
-    public void onBindViewHolder( final MenuViewHolder holder, int position) {
+    public void onBindViewHolder(final MenuViewHolder holder, int position) {
+        final int pos = position;
         holder.nameView.setText(orderMenus.get(position).menu.name);
         holder.priceView.setText(orderMenus.get(position).menu.price+"");
+        if(selectedMenus.contains(orderMenus.get(position))){
+            holder.menu.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+        }
+        else{
+            holder.menu.getBackground().clearColorFilter();
+        }
+
         holder.curryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (curry == 0) {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 1000)+"");
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 1000) + "");
                     curry = 1;
                 } else {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 1000)+"");
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 1000) + "");
                     curry = 0;
                 }
             }
@@ -93,12 +108,11 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         holder.doubleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(doublei == 0){
-                    holder.priceView.setText((Integer.parseInt((String)holder.priceView.getText())+500)+"");
+                if (doublei == 0) {
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 500) + "");
                     doublei = 1;
-                }
-                else{
-                    holder.priceView.setText((Integer.parseInt((String)holder.priceView.getText())-500)+"");
+                } else {
+                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 500) + "");
                     doublei = 0;
                 }
             }
@@ -110,19 +124,40 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         return orderMenus.size();
     }
 
+    @Override
+    public void onItemDismiss(int position,TextView textView) {
+        textView.setText((Integer.parseInt((String)textView.getText())-orderMenus.get(position).menu.price)+"");
+        orderMenus.remove(position);
+        notifyDataSetChanged();
+    }
+
     public class MenuViewHolder extends RecyclerView.ViewHolder {
 
         public TextView nameView, priceView;
         Button curryBtn, doubleBtn;
-        public MenuViewHolder(View item) {
+        CheckBox select;
+        View menu;
+        LinearLayout container;
+        public MenuViewHolder(final View item) {
             super(item);
+            menu = item;
+            select = (CheckBox)item.findViewById(R.id.select);
             curryBtn = (Button)item.findViewById(R.id.Curry);
             doubleBtn = (Button)item.findViewById(R.id.Double);
             nameView = (TextView)item.findViewById(R.id.menu_name);
             priceView = (TextView)item.findViewById(R.id.menu_price);
+            container = (LinearLayout)item.findViewById(R.id.item_container);
+
             item.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    //클릭시 동작
+                @Override
+                public void onClick(View view) {
+                    if(selectedMenus.contains(orderMenus.get(getLayoutPosition()))) {
+                        selectedMenus.remove(orderMenus.get(getLayoutPosition()));
+                    }
+                    else {
+                        selectedMenus.add(orderMenus.get(getLayoutPosition()));
+                    }
+                    notifyDataSetChanged();
                 }
             });
         }

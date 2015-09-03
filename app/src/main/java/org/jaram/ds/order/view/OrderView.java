@@ -1,36 +1,26 @@
 package org.jaram.ds.order.view;
 
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
-import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 import org.jaram.ds.order.MenuListAdapter;
-import org.w3c.dom.Text;
+import org.jaram.ds.order.SimpleItemTouchHelper;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by kjydiary on 15. 7. 8..
@@ -39,10 +29,12 @@ public class OrderView extends Fragment {
 
     Callbacks callbacks = null;
     MenuListAdapter adapter;
-
+    TextView totalprice;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
+        totalprice = (TextView)view.findViewById(R.id.TotalPay);
+        totalprice.setText(Data.orderList.get(0).totalPrice+"");
 
         RecyclerView menuListView = (RecyclerView)view.findViewById(R.id.menuListView);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -54,7 +46,12 @@ public class OrderView extends Fragment {
 //        MenuListAdapter adapter = new MenuListAdapter(order.menuList);
         ArrayList<OrderMenu> orderMenus = Data.orderList.get(0).menuList;
 //        orderMenus.add();
+
+
         adapter = new MenuListAdapter(orderMenus);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelper(adapter,totalprice);
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(menuListView);
         menuListView.setAdapter(adapter);
         menuListView.setItemAnimator(new DefaultItemAnimator());
 
@@ -115,7 +112,7 @@ public class OrderView extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(MenuSelectBtnViewHolder holder, int position) {
+        public void onBindViewHolder(final MenuSelectBtnViewHolder holder, int position) {
             final int i =position;
 
             holder.name.setText(menuList.get(position).name);
@@ -124,6 +121,7 @@ public class OrderView extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Data.orderList.get(0).addMenu(menuList.get(i),OrderMenu.Pay.CREDIT);
+                    totalprice.setText((Integer.parseInt((String)totalprice.getText())+menuList.get(i).price)+"");
                     adapter.notifyDataSetChanged();
                     callbacks.selectMenu(menuList.get(i));
                 }
@@ -140,11 +138,12 @@ public class OrderView extends Fragment {
             public View menu;
             public TextView name;
             public TextView price;
+
             public MenuSelectBtnViewHolder(View item) {
                 super(item);
                 menu = item;
-                price = (TextView)item.findViewById(R.id.PriceOfMenu);
 
+                price = (TextView)item.findViewById(R.id.PriceOfMenu);
                 name = (TextView)item.findViewById(R.id.NameOfMenu);
             }
         }
