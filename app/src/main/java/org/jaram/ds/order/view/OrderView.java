@@ -1,6 +1,7 @@
 package org.jaram.ds.order.view;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -8,9 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
@@ -145,6 +146,18 @@ public class OrderView extends Fragment {
 
                 price = (TextView)item.findViewById(R.id.PriceOfMenu);
                 name = (TextView)item.findViewById(R.id.NameOfMenu);
+                item.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            v.setBackgroundColor(Color.parseColor("#2185C5"));
+                        }
+                        else {
+                            v.setBackgroundColor(Color.parseColor("#3E454C"));
+                        }
+                        return false;
+                    }
+                });
             }
         }
     }
