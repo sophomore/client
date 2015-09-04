@@ -13,7 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_alignParentBottom="true"
-            android:background="#a55">
+            android:padding = "10dp"
+            android:background="#2185c5">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -24,6 +25,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/order_total_money"
                     android:textSize="25sp"
+                    android:textColor="#FFF6E5"
                     android:layout_weight="1"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -36,41 +38,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="25sp"/>
+                        android:textSize="48sp"
+                        android:textColor="#FFF6E5"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:text="원"/>
-                    </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/order_pay"
-                    android:textSize="25sp"
-                    android:layout_weight="1"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:gravity="right">
-                    <TextView
-                        android:id="@+id/SelectPay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="000000"
-                        android:textSize="25sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:text="원"/>
+                        android:textSize="48sp"
+                        android:text="원"
+                        android:textColor="#FFF6E5"/>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -90,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_above="@id/totalBox"
-            android:background="#5a5"/>
+            android:background="#7ECEFD"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -101,7 +76,10 @@
             android:layout_height="120dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:text="@string/order_pay"/>
+            android:text="@string/order_pay"
+            android:background="#FF7F66"
+            android:textSize = "25dp"
+            android:textColor = "#fff"/>
 
         <RelativeLayout
             android:id="@+id/bottom_box"
@@ -114,38 +92,62 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="#7ECEFD">
                 <Button
                     android:id="@+id/Cash"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="0dp"
                     android:layout_weight="1"
-                    android:background="@drawable/way_button"
+                    android:background="#3E454C"
+                    android:textSize = "25dp"
+                    android:textColor="#fff"
                     android:text="현금"/>
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="#777"
+                    />
                 <Button
                     android:id="@+id/Card"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="0dp"
                     android:layout_weight="1"
-                    android:background="@drawable/way_button"
+                    android:background="#3E454C"
+                    android:textSize = "25dp"
+                    android:textColor="#fff"
                     android:text="카드"/>
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="#777"
+                    />
                 <Button
                     android:id="@+id/Service"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="0dp"
                     android:layout_weight="1"
-                    android:background="@drawable/way_button"
+                    android:background="#3E454C"
+                    android:textSize = "25dp"
+                    android:textColor="#fff"
                     android:text="서비스"/>
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="#777"
+                    />
                 <Button
                     android:id="@+id/credit"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="0dp"
                     android:text="외상"
-                    android:background="@drawable/way_button"
+                    android:background="#3E454C"
+                    android:textSize = "25dp"
+                    android:textColor="#fff"
                     android:layout_weight="1"/>
                 </LinearLayout>
 
@@ -175,7 +177,7 @@
                         android:id="@+id/DonMenuList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#00a"/>
+                        android:background="#FFF6E5"/>
                     </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -193,7 +195,7 @@
                         android:id="@+id/DupMenuList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#000000"
+                        android:background="#FFF6E5"
                         android:layout_weight="1"/>
                     </LinearLayout>
                 <LinearLayout
@@ -212,7 +214,7 @@
                         android:id="@+id/NoodleMenuList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#00a"
+                        android:background="#FFF6E5"
                         android:layout_weight="1"/>
                     </LinearLayout>
                 <LinearLayout
@@ -231,7 +233,7 @@
                         android:id="@+id/DrinkAndAdd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#000000"
+                        android:background="#FFF6E5"
                         android:layout_weight="1"/>
                 </LinearLayout>
             </LinearLayout>

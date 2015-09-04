@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,7 @@ import java.util.Set;
 /**
  * Created by cheonyujung on 15. 7. 23..
  */
-public class OrderlistAdapter extends BaseAdapter implements View.OnClickListener {
+public class OrderlistAdapter extends BaseAdapter implements View.OnClickListener,View.OnLongClickListener {
     private LayoutInflater inflater;
     private Context mcontext = null;
     private ArrayList<Order> data;
@@ -82,6 +84,12 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         if(convertView==null){
             convertView=inflater.inflate(layout,parent,false);
         }
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
         TextView d = (TextView) convertView.findViewById(R.id.date);
         TextView o = (TextView) convertView.findViewById(R.id.order);
         TextView ol = (TextView) convertView.findViewById(R.id.orderprice);
@@ -97,15 +105,17 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         ol.setText(String.format("%d", getTotal(position)));
         convertView.setTag(position);
         convertView.setOnClickListener(this);
+        convertView.setOnLongClickListener(this);
         return convertView;
     }
 
     @Override
     public void onClick(View v) {
+
         int position = (Integer)v.getTag();
         Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_LONG).show();
         String text = getDate(position)+"\n\n";
-        for(int i=0; i<Data.orderList.get(position).menuList.size();i++) {
+        for(int i=0; i< Data.orderList.get(position).menuList.size();i++) {
             text = text + Data.orderList.get(position).menuList.get(i).menu.name +"\t"+
                     Data.orderList.get(position).menuList.get(i).pay+"\t"+Data.orderList.get(position).menuList.get(i).menu.price+"\n";
         }
@@ -118,6 +128,41 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
                     }
                 }).show();
 
-        }
     }
+
+    @Override
+    public boolean onLongClick(View v){
+
+        int position = (Integer)v.getTag();
+        v = inflater.inflate(R.layout.orderlistmodify, null);
+        Log.d("123", "ok");
+        AlertDialog.Builder ab = new AlertDialog.Builder(v.getContext());
+        ab.setTitle("외상 처리");
+        ab.setView(v);
+        String[] chooseitem = {"현금", "카드", "서비스"};
+        Spinner spinner = (Spinner) v.findViewById(R.id.changecredit);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), R.layout.support_simple_spinner_dropdown_item, chooseitem);
+        spinner.setAdapter(adapter);
+        ab.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //확인을 눌렀을 때
+            }
+        });
+        ab.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //취소를 눌렀을 때
+            }
+        });
+        ab.create();
+        ab.show();
+        return true;
+    }
+
+
+
+}
+
+
 
