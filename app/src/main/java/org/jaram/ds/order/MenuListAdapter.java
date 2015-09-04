@@ -1,17 +1,14 @@
 package org.jaram.ds.order;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -135,26 +132,22 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
 
         public TextView nameView, priceView;
         Button curryBtn, doubleBtn;
-        CheckBox select;
         View menu;
         LinearLayout container;
         public MenuViewHolder(final View item) {
             super(item);
             menu = item;
-            select = (CheckBox)item.findViewById(R.id.select);
             curryBtn = (Button)item.findViewById(R.id.Curry);
             doubleBtn = (Button)item.findViewById(R.id.Double);
             nameView = (TextView)item.findViewById(R.id.menu_name);
             priceView = (TextView)item.findViewById(R.id.menu_price);
-            container = (LinearLayout)item.findViewById(R.id.item_container);
 
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(selectedMenus.contains(orderMenus.get(getLayoutPosition()))) {
+                    if (selectedMenus.contains(orderMenus.get(getLayoutPosition()))) {
                         selectedMenus.remove(orderMenus.get(getLayoutPosition()));
-                    }
-                    else {
+                    } else {
                         selectedMenus.add(orderMenus.get(getLayoutPosition()));
                     }
                     notifyDataSetChanged();
