@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:background="#F5F6F7">
     <RelativeLayout
         android:layout_width="320dp"
         android:layout_height="match_parent">
-
         <RelativeLayout
             android:id="@+id/totalBox"
             android:layout_width="match_parent"
@@ -15,18 +14,19 @@
             android:layout_alignParentBottom="true"
             android:padding = "10dp"
             android:background="#2185c5">
+            <TextView
+                android:id="@+id/ToTal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_total_money"
+                android:textSize="16sp"
+                android:textColor="#fff9f2f2"/>
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/ToTal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/order_total_money"
-                    android:textSize="25sp"
-                    android:textColor="#FFF6E5"
-                    android:layout_weight="1"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -49,23 +49,12 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-        <!--
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_above="@id/totalBox"
-            android:background="#5a5">
-            listview, resetBtn
-        </RelativeLayout>
-    -->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/menuListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_above="@id/totalBox"
-            android:background="#7ECEFD"/>
+            android:layout_above="@id/totalBox" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -80,20 +69,15 @@
             android:background="#FF7F66"
             android:textSize = "25dp"
             android:textColor = "#fff"/>
-
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/bottom_box"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@id/payBtn"
             android:layout_alignParentBottom="true"
-            android:background="#0a0">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:background="#7ECEFD">
+            android:orientation="horizontal"
+            android:background="#3E454C">
                 <Button
                     android:id="@+id/Cash"
                     android:layout_width="wrap_content"
@@ -150,8 +134,52 @@
                     android:textColor="#fff"
                     android:layout_weight="1"/>
                 </LinearLayout>
-
-        </RelativeLayout>
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="#777"
+                />
+            <Button
+                android:id="@+id/Card"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="#00ffffff"
+                android:text="카드"
+                android:textSize="24sp"
+                android:textColor="#eee"/>
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="#777"
+                />
+            <Button
+                android:id="@+id/Service"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="#00ffffff"
+                android:text="서비스"
+                android:textSize="24sp"
+                android:textColor="#eee"/>
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="#777"
+                />
+            <Button
+                android:id="@+id/credit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:text="외상"
+                android:layout_weight="1"
+                android:background="#00ffffff"
+                android:textSize="24sp"
+                android:textColor="#eee"/>
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -165,70 +193,82 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:layout_margin="3dp">
                     <TextView
                         android:id="@+id/DonGgas"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
                         android:gravity="center"
                         android:text="돈까스"
-                        android:textSize="30sp"/>
+                        android:textSize="26sp"
+                        android:textColor="#3E454C"/>
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/DonMenuList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#FFF6E5"/>
-                    </LinearLayout>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:layout_margin="3dp">
                     <TextView
                         android:id="@+id/DupBbap"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
                         android:gravity="center"
                         android:text="덮밥"
-                        android:textSize="30sp"/>
+                        android:textSize="26sp"
+                        android:textColor="#3E454C"/>
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/DupMenuList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#FFF6E5"
                         android:layout_weight="1"/>
-                    </LinearLayout>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:layout_margin="3dp">
                     <TextView
                         android:id="@+id/Noodles"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
                         android:gravity="center"
                         android:text="면"
-                        android:textSize="30sp"/>
+                        android:textSize="26sp"
+                        android:textColor="#3E454C"/>
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/NoodleMenuList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#FFF6E5"
                         android:layout_weight="1"/>
-                    </LinearLayout>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:layout_margin="3dp">
                     <TextView
                         android:id="@+id/DrinkandSpecial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
                         android:gravity="center"
                         android:text="음료 및 스폐셜"
-                        android:textSize="30sp"/>
+                        android:textSize="26sp"
+                        android:textColor="#3E454C"/>
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/DrinkAndAdd"
                         android:layout_width="wrap_content"
@@ -238,7 +278,5 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-
     </RelativeLayout>
-
 </LinearLayout>
