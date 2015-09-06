@@ -73,6 +73,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:id="@+id/drawer">
-
     </FrameLayout>
+
+    <include layout="@layout/drawer_right"/>
+
 </android.support.v4.widget.DrawerLayout>

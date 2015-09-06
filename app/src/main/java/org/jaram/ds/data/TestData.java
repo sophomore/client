@@ -49,7 +49,7 @@ public class TestData{
             menu.name = "Menu "+(i+1);
             menu.price = 5000+1000*(random.nextInt(3));
             List<TestCategory> categories = TestCategory.find(TestCategory.class,"_id = ?",1+"");
-            TestMenu testMenu = new TestMenu(menu.name,menu.price,categories.get(0));
+            TestMenu testMenu = new TestMenu(menu.name,menu.price,categories.get(0),true);
             testMenu.save();
             menuList.add(menu);
         }

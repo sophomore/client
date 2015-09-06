@@ -12,18 +12,19 @@ public class TestMenu extends SugarRecord<TestMenu>{
     private TestCategory category;
     private String name;
     private Integer price;
-
+    private Boolean available;
 
     private long _id;
 
     public TestMenu(){
     }
 
-    public TestMenu(String name, int price,TestCategory category){
+    public TestMenu(String name, int price,TestCategory category, boolean available){
         this.name = name;
         this.price = price;
         this._id = ++increment;
         this.category = category;
+        this.available = available;
     }
 
     public String getName(){

@@ -3,25 +3,30 @@ package org.jaram.ds.admin;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.jaram.ds.Intro;
 import org.jaram.ds.R;
-import org.jaram.ds.data.Data;
-import org.jaram.ds.data.struct.Menu;
-import java.util.ArrayList;
-import android.support.v7.app.ActionBarActivity;
-
 import org.jaram.ds.admin.view.MenuFrag;
 import org.jaram.ds.admin.view.MenuListFrag;
+import org.jaram.ds.data.Data;
+import org.jaram.ds.data.struct.Menu;
+import org.jaram.ds.order.OrderManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by KimMyoungSoo on 2015. 7. 15..
@@ -298,7 +303,48 @@ public class MenuManagementMain extends ActionBarActivity {
 //
 //            }
 //        });
+        Button refund = (Button) findViewById(R.id.refund);
+        refund.setText("주문");
+        refund.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MenuManagementMain.this, OrderManager.class));
+                finish();
+            }
+        });
+        Button statistic = (Button) findViewById(R.id.DrawerStat);
 
+        statistic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MenuManagementMain.this, StatisticMain.class));
+                finish();
+            }
+        });
+
+        Button order =(Button) findViewById(R.id.DrawerOrder);
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MenuManagementMain.this, OrderManagerMain.class));
+                finish();
+            }
+        });
+        Button menuManager = (Button) findViewById(R.id.DrawerMenu);
+        menuManager.setTextColor(Color.parseColor("#E8704C"));
+        GradientDrawable bgShape = (GradientDrawable)menuManager.getBackground();
+        bgShape.setColorFilter(Color.parseColor("#E8704C"), PorterDuff.Mode.MULTIPLY);
+
+        Button exit = (Button) findViewById(R.id.DrawerExit);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuManagementMain.this,Intro.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                moveTaskToBack(true);
+            }
+        });
     }
 
     private class MenuSelectBtnAdapter extends RecyclerView.Adapter<MenuSelectBtnAdapter.MenuSelectBtnViewHolder> {

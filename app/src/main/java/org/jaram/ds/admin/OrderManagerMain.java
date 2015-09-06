@@ -1,17 +1,26 @@
 package org.jaram.ds.admin;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
+import org.jaram.ds.Intro;
 import org.jaram.ds.R;
 import org.jaram.ds.admin.view.Order_viewFrag;
 import org.jaram.ds.admin.view.Search_orderFrag;
+import org.jaram.ds.order.OrderManager;
 
 /**
  * Created by cheonyujung on 15. 7. 23..
  */
+
 public class OrderManagerMain extends FragmentActivity {
     Search_orderFrag search_orderFrag;
     Order_viewFrag order_viewFrag;
@@ -26,6 +35,50 @@ public class OrderManagerMain extends FragmentActivity {
             order_viewFrag = new Order_viewFrag();
             getSupportFragmentManager().beginTransaction().add(R.id.order_search,search_orderFrag).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.order_view, order_viewFrag).commit();
+
+            Button refund = (Button) findViewById(R.id.refund);
+            refund.setText("주문");
+            refund.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(OrderManagerMain.this, OrderManager.class));
+                    finish();
+                }
+            });
+            Button statistic = (Button) findViewById(R.id.DrawerStat);
+
+            statistic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(OrderManagerMain.this, StatisticMain.class));
+                    finish();
+                }
+            });
+
+            Button order =(Button) findViewById(R.id.DrawerOrder);
+            order.setTextColor(Color.parseColor("#E8704C"));
+            GradientDrawable bgShape = (GradientDrawable)order.getBackground();
+            bgShape.setColorFilter(Color.parseColor("#E8704C"), PorterDuff.Mode.MULTIPLY);
+//            order.setClickable(false);
+
+            Button menuManager = (Button) findViewById(R.id.DrawerMenu);
+            menuManager.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(OrderManagerMain.this, MenuManagementMain.class));
+                    finish();
+                }
+            });
+            Button exit = (Button) findViewById(R.id.DrawerExit);
+            exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(OrderManagerMain.this,Intro.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    moveTaskToBack(true);
+                }
+            });
         }
 
     }
