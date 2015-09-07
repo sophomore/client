@@ -183,8 +183,7 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/DonMenuList"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#FFF6E5" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -208,8 +207,7 @@
                         android:id="@+id/DupMenuList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="#FFF6E5" />
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -233,8 +231,7 @@
                         android:id="@+id/NoodleMenuList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="#FFF6E5" />
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -258,8 +255,7 @@
                         android:id="@+id/DrinkAndAdd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="#FFF6E5" />
+                        android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
