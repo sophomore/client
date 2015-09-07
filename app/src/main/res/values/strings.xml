@@ -7,7 +7,7 @@
     <!--Order-->
     <string name="order_total_money">전체 합계</string>
     <string name="order_pay">선택 합계</string>
-
+    <string name="print">전표 출력</string>
     <!--Statistic-->
     <string name="statistic_count">갯수</string>
     <string name="statistic_sales">매출</string>
