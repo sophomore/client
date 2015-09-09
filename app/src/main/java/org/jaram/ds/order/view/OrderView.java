@@ -31,25 +31,31 @@ public class OrderView extends Fragment {
     Callbacks callbacks = null;
     MenuListAdapter adapter;
     TextView totalprice;
+    ArrayList<OrderMenu> orderList;
+    TextView empty;
+    RecyclerView menuListView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         totalprice = (TextView)view.findViewById(R.id.TotalPay);
-        totalprice.setText(Data.orderList.get(0).totalPrice+"");
+//        totalprice.setText(Data.orderList.get(0).totalPrice+"");
 
-        RecyclerView menuListView = (RecyclerView)view.findViewById(R.id.menuListView);
+        menuListView = (RecyclerView)view.findViewById(R.id.menuListView);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         menuListView.setLayoutManager(layoutManager);
 
+        empty = (TextView)view.findViewById(R.id.list_empty);
+
 //        Order order = new Order();
 //        Order order = Data.orderList.get(new Random().nextInt(Data.orderList.size()-1));
 //        MenuListAdapter adapter = new MenuListAdapter(order.menuList);
-        ArrayList<OrderMenu> orderMenus = Data.orderList.get(0).menuList;
+//        ArrayList<OrderMenu> orderMenus = Data.orderList.get(0).menuList;
 //        orderMenus.add();
 
+        orderList = new ArrayList<OrderMenu>();
 
-        adapter = new MenuListAdapter(orderMenus);
+        adapter = new MenuListAdapter(orderList);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelper(adapter,totalprice);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(menuListView);
@@ -57,27 +63,25 @@ public class OrderView extends Fragment {
         menuListView.setItemAnimator(new DefaultItemAnimator());
 
         //TODO: 메뉴 목록과 메뉴 선택 fragment 분리해야함. : 결제화면과 메뉴목록 통일
-        ArrayList<Menu> menuBtns = new ArrayList<Menu>();
-        menuBtns.addAll(Data.menuList);
-        RecyclerView menuBtnListViewDon = (RecyclerView)view.findViewById(R.id.DonMenuList);
-        MenuSelectBtnAdapter menuBtnAdapterDon = new MenuSelectBtnAdapter(menuBtns);
-        menuBtnListViewDon.setAdapter(menuBtnAdapterDon);
-        menuBtnListViewDon.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        RecyclerView cutletList = (RecyclerView)view.findViewById(R.id.DonMenuList);
+        MenuSelectBtnAdapter menuBtnAdapterDon = new MenuSelectBtnAdapter(Data.categoryList.get(1).menus);
+        cutletList.setAdapter(menuBtnAdapterDon);
+        cutletList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
-        RecyclerView menuBtnListViewDup = (RecyclerView)view.findViewById(R.id.DupMenuList);
-        MenuSelectBtnAdapter menuBtnAdapterDup = new MenuSelectBtnAdapter(menuBtns);
-        menuBtnListViewDup.setAdapter(menuBtnAdapterDup);
-        menuBtnListViewDup.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        RecyclerView riceList = (RecyclerView)view.findViewById(R.id.DupMenuList);
+        MenuSelectBtnAdapter menuBtnAdapterDup = new MenuSelectBtnAdapter(Data.categoryList.get(2).menus);
+        riceList.setAdapter(menuBtnAdapterDup);
+        riceList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
-        RecyclerView menuBtnListViewNoodle = (RecyclerView)view.findViewById(R.id.NoodleMenuList);
-        MenuSelectBtnAdapter menuBtnAdapterNoodle = new MenuSelectBtnAdapter(menuBtns);
-        menuBtnListViewNoodle.setAdapter(menuBtnAdapterNoodle);
-        menuBtnListViewNoodle.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        RecyclerView noodleList = (RecyclerView)view.findViewById(R.id.NoodleMenuList);
+        MenuSelectBtnAdapter menuBtnAdapterNoodle = new MenuSelectBtnAdapter(Data.categoryList.get(3).menus);
+        noodleList.setAdapter(menuBtnAdapterNoodle);
+        noodleList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
-        RecyclerView menuBtnListViewLast = (RecyclerView)view.findViewById(R.id.DrinkAndAdd);
-        MenuSelectBtnAdapter menuBtnAdapterLast = new MenuSelectBtnAdapter(menuBtns);
-        menuBtnListViewLast.setAdapter(menuBtnAdapterLast);
-        menuBtnListViewLast.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        RecyclerView etcList = (RecyclerView)view.findViewById(R.id.DrinkAndAdd);
+        MenuSelectBtnAdapter menuBtnAdapterLast = new MenuSelectBtnAdapter(Data.categoryList.get(4).menus);
+        etcList.setAdapter(menuBtnAdapterLast);
+        etcList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
 
         return view;
@@ -125,6 +129,17 @@ public class OrderView extends Fragment {
                     totalprice.setText((Integer.parseInt((String)totalprice.getText())+menuList.get(i).price)+"");
                     adapter.notifyDataSetChanged();
                     callbacks.selectMenu(menuList.get(i));
+
+                    orderList.add(new OrderMenu(menuList.get(i), OrderMenu.Pay.CREDIT));
+
+                    if (orderList.size() == 0) {
+                        menuListView.setVisibility(View.INVISIBLE);
+                        empty.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        menuListView.setVisibility(View.VISIBLE);
+                        empty.setVisibility(View.INVISIBLE);
+                    }
                 }
             });
         }

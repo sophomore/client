@@ -28,7 +28,7 @@ public class MenuFrag extends Fragment {
     ArrayList<Menu> menuList;
     MenuListAdapter adapter;
     public MenuFrag() {
-        menuList = Data.menuList;
+//        menuList = Data.menuList;
     }
     public void setAdapter(MenuListAdapter adapter){
         this.adapter = adapter;
@@ -73,14 +73,14 @@ public class MenuFrag extends Fragment {
 
                         final String menu = String.valueOf(menuText.getText());
                         int price = Integer.parseInt(String.valueOf(priceText.getText()));
-                        final ArrayList<Category> category = Data.categoryList;
-                        final Menu temp = new Menu();
-
-                        temp._id = menuList.size();
-                        temp.price = price;
-                        temp.name = menu;
-                        temp.category = category.get(categorySpinner.getSelectedItemPosition());
-                        menuList.add(temp);
+//                        final ArrayList<Category> category = Data.categoryList;
+//                        final Menu temp = new Menu();
+//
+//                        temp.id = menuList.size();
+//                        temp.price = price;
+//                        temp.name = menu;
+////                        temp.category = category.get(categorySpinner.getSelectedItemPosition());
+//                        menuList.add(temp);
 
 
                         adapter.notifyDataSetChanged();
