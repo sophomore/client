@@ -62,7 +62,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/totalBox"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/list_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/totalBox"
+            android:layout_alignParentTop="true"
+            android:text="오른쪽에서 메뉴를 선택해주세요."
+            android:gravity="center"
+            android:background="#fff"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -153,6 +163,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             android:layout_above="@id/bottom_box"
             android:layout_alignParentTop="true">
 

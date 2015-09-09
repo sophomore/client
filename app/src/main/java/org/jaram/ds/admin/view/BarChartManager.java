@@ -132,7 +132,7 @@ public class BarChartManager implements OnChartGestureListener {
 
     public ArrayList<String> getMenuNameList() {
         ArrayList<String> menuName = new ArrayList<String>();
-        for (Menu i : Data.menuList) {
+        for (Menu i : Data.menuList.values()) {
             menuName.add(i.name);
         }
         return menuName;

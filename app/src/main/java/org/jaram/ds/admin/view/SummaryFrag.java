@@ -36,7 +36,7 @@ public class SummaryFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.summary_chart,container,false);
-        for(Menu i : Data.menuList){
+        for(Menu i : Data.menuList.values()){
             menuList.add(i.name);
         }
 

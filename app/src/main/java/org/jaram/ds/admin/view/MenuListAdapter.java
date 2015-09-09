@@ -28,7 +28,7 @@ public class MenuListAdapter extends BaseAdapter implements View.OnClickListener
 
     public MenuListAdapter(Context context){
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        menuList = Data.menuList;
+//        menuList = Data.menuList;
 
     }
 

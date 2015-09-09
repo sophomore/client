@@ -20,6 +20,7 @@ import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by ka123ak on 2015-07-09.
@@ -129,10 +130,10 @@ public class DrawerFrag extends Fragment {
         return selectedMenu;
     }
     private String[] getMenuList() {
-        ArrayList<Menu>list = Data.menuList;
+        HashMap<Integer, Menu> list = Data.menuList;
         String[] menuList = new String[list.size()];
         int i=0;
-        for(Menu menu : list) {
+        for(Menu menu : list.values()) {
             menuList[i] = menu.name;
             i++;
         }
