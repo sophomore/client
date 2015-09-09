@@ -44,10 +44,12 @@ public class SummaryFrag extends Fragment {
     }
 
     public void createChart(String start,String end){
-        barChartManager = new BarChartManager(getActivity(),false,menuList,3,start,end);
-        barChartManager.setChart((BarChart)view.findViewById(R.id.chart_container2));
-        barChartManager.getChart().setData(barChartManager.getData(menuList,3,start,end));
 
+        barChartManager = new BarChartManager(getActivity(),false,menuList,3,start,end);
+        BarChart barChart = (BarChart) view.findViewById(R.id.chart_container2);
+        barChartManager.setChart(barChart);
+        barChartManager.getChart().setData(barChartManager.getData(menuList,3,start,end));
+        barChart.notifyDataSetChanged();
         TextView moneydata = (TextView) view.findViewById(R.id.totalCash);
         moneydata.setText("10000원");
         TextView creditdata = (TextView) view.findViewById(R.id.totalCard);
@@ -76,8 +78,10 @@ public class SummaryFrag extends Fragment {
 
             }
         });
+
     }
     public BarChart getChart(){
         return this.barChartManager.getChart();
     }
+
 }
