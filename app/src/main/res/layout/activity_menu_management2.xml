@@ -17,13 +17,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textColor="#3E454C"
                 android:text="돈까스"
                 android:textSize="30sp"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/DonMenuList"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#00a"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -36,12 +36,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="덮밥"
+                android:textColor="#3E454C"
                 android:textSize="30sp"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/DupMenuList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#000000"
                 android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
@@ -54,13 +54,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textColor="#3E454C"
                 android:text="면"
                 android:textSize="30sp"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/NoodleMenuList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#00a"
                 android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
@@ -73,13 +73,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textColor="#3E454C"
                 android:text="음료 및 스폐셜"
                 android:textSize="30sp"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/DrinkAndAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#000000"
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
