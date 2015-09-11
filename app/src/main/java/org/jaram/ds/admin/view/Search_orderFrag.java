@@ -113,10 +113,13 @@ public class Search_orderFrag extends Fragment {
                             selectedIndex += Data.menuList.get(i).name + "!";
                             selectedText += Data.menuList.get(i).name+ ", ";
                         }
-                        selectedText = selectedText.substring(0, selectedText.length()-2);
-                        mMenuDisplay.setText(selectedText);
-                        Toast.makeText(view.getContext(), selectedText, Toast.LENGTH_LONG).show();
+                        if(selectedText.equals("")){
 
+                        }else {
+                            selectedText = selectedText.substring(0, selectedText.length() - 2);
+                            mMenuDisplay.setText(selectedText);
+                        }
+                        Toast.makeText(view.getContext(), selectedText, Toast.LENGTH_LONG).show();
                     }
                 }).setNegativeButton("취소", new DialogInterface.OnClickListener(){
 
