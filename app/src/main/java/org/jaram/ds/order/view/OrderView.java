@@ -8,7 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,7 +66,6 @@ public class OrderView extends Fragment {
         //TODO: 메뉴 목록과 메뉴 선택 fragment 분리해야함. : 결제화면과 메뉴목록 통일
         RecyclerView cutletList = (RecyclerView)view.findViewById(R.id.DonMenuList);
         MenuSelectBtnAdapter menuBtnAdapterDon = new MenuSelectBtnAdapter(Data.categoryList.get(1).menus);
-        Log.d("testMenuCategory",Data.categoryList.get(1).menus+"");
         cutletList.setAdapter(menuBtnAdapterDon);
         cutletList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
@@ -90,6 +88,10 @@ public class OrderView extends Fragment {
         menuAysncTask.execute(cutletList,riceList,noodleList,etcList);
 
         return view;
+    }
+
+    public void orderpay(ArrayList<OrderMenu> orderList){
+
     }
 
     @Override
