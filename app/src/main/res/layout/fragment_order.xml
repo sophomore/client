@@ -76,7 +76,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:background="#FF7F66"
-            android:text="@string/order_pay"
+            android:text="@string/print"
             android:textColor="#fff"
             android:textSize="25dp" />
 
