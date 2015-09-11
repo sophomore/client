@@ -7,7 +7,7 @@
     android:id="@+id/drawerLayout">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:fillViewport="true"
         android:layout_weight="1">
         <LinearLayout
@@ -19,27 +19,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="통계 설정"
+                android:textSize="30dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                />
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="25dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="항목"
+                android:textSize="20dp"
                 android:id="@+id/textView3"
-                android:layout_marginTop="50dp"/>
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="25dp" />
 
             <RadioGroup
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/analysis_type_group"
-                android:layout_marginBottom="50dp">
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp">
 
                 <RadioButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/statistic_count"
+                    android:textSize="15dp"
                     android:id="@+id/countbtn"
                     android:layout_weight="1" />
 
@@ -47,6 +54,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/statistic_sales"
+                    android:textSize="15dp"
                     android:id="@+id/salesbtn"
                     android:layout_weight="1" />
             </RadioGroup>
@@ -55,7 +63,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="단위" />
+                android:text="단위"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp" />
 
             <org.jaram.ds.admin.view.ExpandableHeightGridView
                 android:layout_width="wrap_content"
@@ -63,37 +73,51 @@
                 android:numColumns="3"
                 android:id="@+id/gridView"
                 android:layout_marginBottom="50dp"
-                >
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp"
+                android:background="#fff">
             </org.jaram.ds.admin.view.ExpandableHeightGridView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="메뉴 선택"/>
+                android:text="메뉴 선택"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp">
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/select_menu"
                     android:layout_weight="1"
-                    android:text="선택"/>
+                    android:text="선택"
+                    android:textSize="15dp"
+                    android:background="#FF7F66" />
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/cancel_selected_menu"
                     android:layout_weight="1"
-                    android:text="초기화"/>
+                    android:text="초기화"
+                    android:textSize="15dp"
+                    android:background="#FF7F66" />
             </LinearLayout>
 
             <org.jaram.ds.admin.view.ExpandableHeightGridView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numColumns="3"
-                android:id="@+id/gridView2">
+                android:id="@+id/gridView2"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:background="#eee">
             </org.jaram.ds.admin.view.ExpandableHeightGridView>
 
         </LinearLayout>
@@ -109,12 +133,14 @@
             android:layout_height="wrap_content"
             android:text="분석"
             android:id="@+id/analysis"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="#FF7F66" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="초기화"
+            android:background="#FF7F66"
             android:id="@+id/reset"
             android:layout_weight="1"/>
     </LinearLayout>

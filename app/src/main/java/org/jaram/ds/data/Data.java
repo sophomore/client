@@ -6,50 +6,46 @@ import org.jaram.ds.data.struct.Category;
 import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
+import org.jaram.ds.util.Http;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
  * Created by kjydiary on 15. 7. 8..
  */
 public class Data {
-    public static ArrayList<Menu> menuList = new ArrayList<Menu>();
-    public static ArrayList<Category> categoryList = new ArrayList<Category>();
+    public static final String SERVER_URL = "http://61.77.77.20";
+    public static HashMap<Integer, Menu> menuList = new HashMap<Integer, Menu>();
+    public static HashMap<Integer, Category> categoryList = new HashMap<Integer, Category>();
+
+    static {
+        categoryList.put(1, new Category(1, "돈까스"));
+        categoryList.put(2, new Category(2, "덥밥"));
+        categoryList.put(3, new Category(3, "면류"));
+        categoryList.put(4, new Category(4, "기타"));
+    }
 
     /*Test Data*/
     static Random random = new Random();
     public static ArrayList<Order> orderList = new ArrayList<Order>();
 
     static {
-        Category category1 = new Category();
-        category1._id = 1;
-        category1.name = "돈까스";
-        category1.menu = null;
-        categoryList.add(category1);
-        Category category2 = new Category();
-        category2._id = 2;
-        category2.name = "덮밥";
-        category2.menu = null;
-        categoryList.add(category2);
-        Category category3 = new Category();
-        category3._id = 3;
-        category3.name = "면";
-        category3.menu = null;
-        categoryList.add(category3);
-        Category category4 = new Category();
-        category4._id = 4;
-        category4.name = "음료 및 스페셜";
-        category4.menu = null;
-        categoryList.add(category4);
-        for (int i=0; i<30; i++) {
-            Menu menu = new Menu();
-            menu._id = i;
-            menu.category = categoryList.get(random.nextInt(3));
-            menu.name = "Menu "+(i+1);
-            menu.price = 5000+1000*(random.nextInt(3));
-            menuList.add(menu);
+        try {
+            JSONArray menuJson = new JSONArray(Http.get(SERVER_URL+"/menu", null));
+            Log.d("menuJson", menuJson.toString());
+            for (int i=0; i<menuJson.length(); i++) {
+                JSONObject jo = menuJson.getJSONObject(i);
+                menuList.put(jo.getInt("id"),  new Menu(jo.getInt("id"), categoryList.get(jo.getInt("category_id")), jo.getString("name"), jo.getInt("price")));
+                Log.d("testMenu",menuList.get(jo.getInt("id")).name);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         for (int i=0; i<300; i++) {
             Order order = new Order();
@@ -60,7 +56,6 @@ public class Data {
             Calendar cal = Calendar.getInstance();
             cal.set(2015-random.nextInt(2), 12-random.nextInt(11), 30-random.nextInt(29), 24-random.nextInt(24), 60-random.nextInt(60), 60-random.nextInt(60));
             order.date = cal.getTime();
-            Log.d("testDate",order.date.getMonth()+"");
             orderList.add(order);
         }
     }

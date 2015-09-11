@@ -27,17 +27,19 @@
             android:rowCount="4"
             android:layout_marginLeft="200dp"
             android:layout_marginRight="200dp"
-            android:padding="20dp">
+            android:alignmentMode="alignBounds"
+            android:padding="15dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_columnWeight="0.5" />
+                android:layout_marginLeft="10dp"
+                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:layout_marginLeft="100dp"
                 android:text="기간 내 총액"
-                android:layout_columnWeight="1"
                 android:textSize="25dp"
                 android:layout_gravity="center_horizontal" />
 
@@ -47,7 +49,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
                 android:text="월별 총액"
-                android:layout_columnWeight="1"
+                android:layout_marginLeft="100dp"
                 android:textSize="25dp" />
 
 
