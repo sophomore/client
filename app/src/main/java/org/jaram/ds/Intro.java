@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import org.jaram.ds.admin.view.ManagementIntro;
 import org.jaram.ds.order.OrderManager;
-import org.jaram.ds.util.MenuAysncTask;
+import org.jaram.ds.util.SearchAsyncTask;
 
 public class Intro extends Activity {
 
@@ -29,8 +29,8 @@ public class Intro extends Activity {
             @Override
             public void onClick(View view) {
 
-                MenuAysncTask menuAysncTask = new MenuAysncTask(Intro.this);
-                menuAysncTask.execute();
+                SearchAsyncTask searchAsyncTask = new SearchAsyncTask(Intro.this);
+                searchAsyncTask.execute();
                 startActivity(new Intent(Intro.this, ManagementIntro.class));
 
             }

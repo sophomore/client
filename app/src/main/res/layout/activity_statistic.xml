@@ -26,6 +26,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="입력"
+                android:background="#3E454C"
+                android:textColor="#fff"
                 android:id="@+id/startPeriod"
                 android:layout_weight="3"/>
             <TextView
@@ -47,6 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="입력"
+                android:textColor="#fff"
+                android:background="#3E454C"
                 android:id="@+id/endPeriod"
                 android:layout_weight="3"
                 />
@@ -55,6 +59,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="7dp"
                 android:id="@+id/analysisBtn"
+                android:background="#FF7F66"
+                android:textColor="#fff"
                 android:text="분석"/>
         </LinearLayout>
 
@@ -63,8 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/analysisPeriod"
-            android:id="@+id/chartFrag"
-            >
+            android:id="@+id/chartFrag">
         </FrameLayout>
     </RelativeLayout>
 

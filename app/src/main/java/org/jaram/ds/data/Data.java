@@ -42,6 +42,7 @@ public class Data {
             for (int i=0; i<menuJson.length(); i++) {
                 JSONObject jo = menuJson.getJSONObject(i);
                 menuList.put(jo.getInt("id"),  new Menu(jo.getInt("id"), categoryList.get(jo.getInt("category_id")), jo.getString("name"), jo.getInt("price")));
+                Log.d("testMenu",menuList.get(jo.getInt("id")).name);
             }
         } catch (JSONException e) {
             e.printStackTrace();

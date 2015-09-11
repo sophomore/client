@@ -37,7 +37,7 @@ public class DrawerFrag extends Fragment {
 
     public static interface OnAnalysisListener{
         void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType);
-
+        void returnChart();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,13 +48,12 @@ public class DrawerFrag extends Fragment {
 
 
         RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.analysis_type_group);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.countbtn || checkedId != R.id.salesbtn){
+                if (checkedId == R.id.countbtn || checkedId != R.id.salesbtn) {
                     checkedType = false;
-                } else if(checkedId  == R.id.salesbtn || checkedId != R.id.countbtn){
+                } else if (checkedId == R.id.salesbtn || checkedId != R.id.countbtn) {
                     checkedType = true;
                 }
             }
@@ -68,6 +67,13 @@ public class DrawerFrag extends Fragment {
                 onAnalysisListener.createLineChart(checkedType,selectedMenu,unitType);
 
 
+            }
+        });
+        Button returnbtn = (Button) view.findViewById(R.id.reset);
+        returnbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onAnalysisListener.returnChart();
             }
         });
         final String[] items = getMenuList();
@@ -182,7 +188,7 @@ public class DrawerFrag extends Fragment {
             if(convertView ==null){
                 textView = new TextView(getActivity());
                 textView.setText(menuList.get(position));
-                textView.setTextSize(11);
+                textView.setTextSize(20);
             } else{
                 textView =  (TextView)convertView;
             }

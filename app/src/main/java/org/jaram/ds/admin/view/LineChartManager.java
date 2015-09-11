@@ -40,14 +40,6 @@ public class LineChartManager implements OnChartGestureListener{
     String start;
     String end;
 
-    public static int max = 0;
-
-    public static int getMax(){
-        return max;
-    }
-    public static void setMex(int num){
-        max = num;
-    }
     public LineChartManager(){
     }
 
@@ -165,6 +157,7 @@ public class LineChartManager implements OnChartGestureListener{
         if(date != null) {
             Calendar date2;
             ArrayList<Order> orderList = Data.orderList;
+
             int totalPricePerMenu[][] = new int[menuName.size()][diffDays];
             for (Order i : orderList) {
                 for (OrderMenu j : i.menuList) {
@@ -173,21 +166,18 @@ public class LineChartManager implements OnChartGestureListener{
                     date2 = (Calendar) date.clone();
 
                     for (int l = 0; l < diffDays; l++) {
-                        Log.d("testOrderDate",orderDate.get(Calendar.MONTH)+"");
+
                         if (date2.get(Calendar.YEAR) == orderDate.get(Calendar.YEAR) && date2.get(Calendar.MONTH)==orderDate.get(Calendar.MONTH) && date2.get(Calendar.DATE) == orderDate.get(Calendar.DATE)) {
                             Log.d("suc","성공");
                             for (int k = 0; k < menuName.size(); k++) {
+                                Log.d("testName","@"+menuName.get(k));
                                 if (j.menu.name == menuName.get(k)) {
                                     if(analysisType == true) {
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
-                                        if(max< totalPricePerMenu[k][l]){
-                                            max = totalPricePerMenu[k][l];
-                                        }
+
                                     } else if(analysisType == false){
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] +1;
-                                        if(max< totalPricePerMenu[k][l]){
-                                            max = totalPricePerMenu[k][l];
-                                        }
+
                                     }
                                 }
                             }
@@ -267,14 +257,10 @@ public class LineChartManager implements OnChartGestureListener{
                                 if (j.menu.name == menuList.get(k)) {
                                     if(analysisType == true) {
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
-                                        if(max< totalPricePerMenu[k][l]){
-                                            max = totalPricePerMenu[k][l];
-                                        }
+
                                     } else if(analysisType == false){
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
-                                        if(max< totalPricePerMenu[k][l]){
-                                            max = totalPricePerMenu[k][l];
-                                        }
+
                                     }
                                 }
                             }
@@ -352,14 +338,10 @@ public class LineChartManager implements OnChartGestureListener{
                                 if (j.menu.name == menuList.get(k)) {
                                     if(analysisType == true) {
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
-                                        if(max< totalPricePerMenu[k][l]){
-                                            max = totalPricePerMenu[k][l];
-                                        }
+
                                     } else if(analysisType == false){
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] +1;
-                                        if(max< totalPricePerMenu[k][l]){
-                                            max = totalPricePerMenu[k][l];
-                                        }
+
                                     }
                                 }
                             }
@@ -438,14 +420,10 @@ public class LineChartManager implements OnChartGestureListener{
                                 if (j.menu.name == menuList.get(k)) {
                                     if(analysisType == true) {
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
-                                        if(max< totalPricePerMenu[k][l]){
-                                            max = totalPricePerMenu[k][l];
-                                        }
+
                                     } else if(analysisType == false){
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
-                                        if(max< totalPricePerMenu[k][l]){
-                                            max = totalPricePerMenu[k][l];
-                                        }
+
                                     }
                                 }
                             }

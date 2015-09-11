@@ -142,6 +142,11 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
     }
 
     @Override
+    public void returnChart() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.chartFrag,summaryFrag).commit();
+    }
+
+    @Override
     public void configChart() {
         progressChartFrag.createChart();
     }
