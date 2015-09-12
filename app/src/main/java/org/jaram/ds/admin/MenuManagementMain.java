@@ -25,6 +25,7 @@ import org.jaram.ds.admin.view.MenuListFrag;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.order.OrderManager;
+import org.jaram.ds.util.MenuAysncTask;
 
 import java.util.ArrayList;
 
@@ -60,8 +61,9 @@ public class MenuManagementMain extends ActionBarActivity {
         RecyclerView etcList = (RecyclerView)findViewById(R.id.DrinkAndAdd);
         MenuSelectBtnAdapter menuBtnAdapterLast = new MenuSelectBtnAdapter(Data.categoryList.get(4).menus);
         etcList.setAdapter(menuBtnAdapterLast);
-        etcList.setLayoutManager(new LinearLayoutManager(MenuManagementMain.this,LinearLayoutManager.VERTICAL,false));
-
+        etcList.setLayoutManager(new LinearLayoutManager(MenuManagementMain.this, LinearLayoutManager.VERTICAL, false));
+        MenuAysncTask aysncTask = new MenuAysncTask(MenuManagementMain.this);
+        aysncTask.execute(cutletList,riceList,noodleList,etcList);
 
         TextView don = (TextView)findViewById(R.id.DonGgas);
         don.setOnClickListener(new View.OnClickListener() {

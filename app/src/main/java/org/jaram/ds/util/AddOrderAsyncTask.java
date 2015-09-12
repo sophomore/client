@@ -12,6 +12,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by ohyongtaek on 15. 9. 9..
@@ -38,16 +39,19 @@ public class AddOrderAsyncTask extends AsyncTask<URL,Integer,Void> {
         try {
 
 
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd H:mm:ss", Locale.KOREA);
             Date date = new Date();
+            Log.d("testResponse",date+"");
             String date2 = format.format(date);
+            Log.d("testResponse",date2);
             hashMap.put("time",date2);
-            String orderMenu = "[{\"id\":"+1+",\"curry\" :"+true+", \"double\" : "+true+"}]";
+            String orderMenu = "[{\"id\":"+1+",\"curry\" :"+true+", \"double\" : "+true+", \"pay\" : "+1+"}]";
             JSONArray jsonArray = new JSONArray(orderMenu);
-            hashMap.put("totalprice",5000);
-            hashMap.put("ordermenus",jsonArray);
+            hashMap.put("totalprice", 5000);
+            hashMap.put("ordermenus", jsonArray);
             Log.d("testJsonArray",jsonArray+"");
             String responses = Http.get(SERVER_URL+"/order",hashMap);
+            responses = Http.get(SERVER_URL+"/order",null);
             Log.d("testResponse",responses+"");
         } catch (JSONException e) {
             e.printStackTrace();
