@@ -71,10 +71,8 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
             String temp = data.get(position).menuList.get(i).menu.name;
             Log.d("name", String.valueOf(menus.keySet().size()));
             if (menus.keySet().contains(data.get(position).menuList.get(i).menu.name)) {
-                Log.d("Ok", "~~~~~~~~");
                 int plus = menus.get(temp) + 1;
                 menus.put(temp, plus);
-                Log.d("num", plus + "@");
             } else {
                 menus.put(temp, 1);
             }
@@ -214,7 +212,7 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         }
 
         public boolean checkcredit(int position){
-            if(orderMenu.get(position).pay == OrderMenu.Pay.CREDIT){
+            if(orderMenu.get(position).pay == Data.PAY_CREDIT){
                 return true;
             }else{
                 return false;
@@ -222,11 +220,11 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         }
 
         public String koreaCredit(int position){
-            if(orderMenu.get(position).pay == OrderMenu.Pay.CARD){
+            if(orderMenu.get(position).pay == Data.PAY_CARD){
                 return "카드";
-            }else if(orderMenu.get(position).pay == OrderMenu.Pay.CASH){
+            }else if(orderMenu.get(position).pay == Data.PAY_CASH){
                 return "현금";
-            }else if(orderMenu.get(position).pay == OrderMenu.Pay.SERVICE){
+            }else if(orderMenu.get(position).pay == Data.PAY_SERVICE){
                 return "서비스";
             }else{
                 return "외상";

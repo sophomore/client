@@ -133,12 +133,12 @@ public class OrderView extends Fragment {
             holder.menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Data.orderList.get(0).addMenu(menuList.get(i),OrderMenu.Pay.CREDIT);
+                    Data.orderList.get(0).addMenu(menuList.get(i),Data.PAY_CREDIT);
                     totalprice.setText((Integer.parseInt((String)totalprice.getText())+menuList.get(i).price)+"");
                     adapter.notifyDataSetChanged();
                     callbacks.selectMenu(menuList.get(i));
 
-                    orderList.add(new OrderMenu(menuList.get(i), OrderMenu.Pay.CREDIT));
+                    orderList.add(new OrderMenu(menuList.get(i), Data.PAY_CREDIT));
 
                     if (orderList.size() == 0) {
                         menuListView.setVisibility(View.INVISIBLE);
