@@ -46,9 +46,12 @@ public class Data {
             for (int i=0; i<menuJson.length(); i++) {
                 JSONObject jo = menuJson.getJSONObject(i);
                 Menu menu = new Menu(jo.getInt("id"), categoryList.get(jo.getInt("category_id")), jo.getString("name"), jo.getInt("price"));
-
                 menuList.put(jo.getInt("id"), menu);
-                Log.d("testMenuSize",menuList.size()+"");
+                Log.d("idid",jo.getInt("id")+"");
+                if(menuList.get(jo.getInt("id"))==null){
+                    Log.d("id","null");
+                }
+                Log.d("testGetData", menuList.size() + "");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -58,7 +61,11 @@ public class Data {
             order._id = i;
             for (int j = random.nextInt(5); j<7; j++) {
                 OrderMenu orderMenu = new OrderMenu(menuList.get(random.nextInt(menuList.size()-2)+1), Data.PAY_CREDIT);
-                order.menuList.add(orderMenu);
+                if(orderMenu.menu == null){
+                    Log.d("testGetData","null");
+                } else {
+                    order.menuList.add(orderMenu);
+                }
             }
             Calendar cal = Calendar.getInstance();
             cal.set(2015-random.nextInt(2), 12-random.nextInt(11), 30-random.nextInt(29), 24-random.nextInt(24), 60-random.nextInt(60), 60-random.nextInt(60));

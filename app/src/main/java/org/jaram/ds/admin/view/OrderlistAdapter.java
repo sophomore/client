@@ -71,7 +71,7 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
 
         for (int i = 0; i < count; i++) {
             String temp = data.get(position).menuList.get(i).menu.name;
-            if (temp!= null && menus.keySet().contains(data.get(position).menuList.get(i).menu.name)) {
+            if (temp!=null && menus.keySet().contains(data.get(position).menuList.get(i).menu.name)) {
                 int plus = menus.get(temp) + 1;
                 menus.put(temp, plus);
             } else if(temp!=null){

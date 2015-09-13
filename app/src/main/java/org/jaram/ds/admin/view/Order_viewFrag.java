@@ -17,7 +17,10 @@ import java.util.ArrayList;
 /**
  * Created by cheonyujung on 15. 7. 23..
  */
-public class Order_viewFrag extends Fragment{
+interface getOrderList{
+    ArrayList<Order> getOrderList();
+}
+public class Order_viewFrag extends Fragment implements getOrderList{
     View view;
     public Order_viewFrag(){
 
@@ -25,7 +28,7 @@ public class Order_viewFrag extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_orderview, container, false);
         ArrayList<Order> orderlist;
-        orderlist = Data.orderList;
+        orderlist = getOrderList();
 
         ListView list = (ListView)view.findViewById(R.id.orderlist);
         final OrderlistAdapter Adapter = new OrderlistAdapter(view.getContext(),R.layout.orderlist_item,orderlist);
@@ -34,5 +37,9 @@ public class Order_viewFrag extends Fragment{
         return view;
     }
 
+    @Override
+    public ArrayList<Order> getOrderList() {
+        return Data.orderList;
+    }
 }
 
