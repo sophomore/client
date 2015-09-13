@@ -20,6 +20,10 @@ import java.util.Random;
  * Created by kjydiary on 15. 7. 8..
  */
 public class Data {
+    public static final int PAY_CASH = 1;
+    public static final int PAY_CARD = 2;
+    public static final int PAY_SERVICE = 3;
+    public static final int PAY_CREDIT = 4;
     public static final String SERVER_URL = "http://61.77.77.20";
     public static HashMap<Integer, Menu> menuList = new HashMap<Integer, Menu>();
     public static HashMap<Integer, Category> categoryList = new HashMap<Integer, Category>();
@@ -51,7 +55,7 @@ public class Data {
             Order order = new Order();
             order._id = i;
             for (int j = random.nextInt(5); j<7; j++) {
-                order.menuList.add(new OrderMenu(menuList.get(random.nextInt(menuList.size()-1)), OrderMenu.Pay.CREDIT));
+                order.menuList.add(new OrderMenu(menuList.get(random.nextInt(menuList.size()-1)), Data.PAY_CREDIT));
             }
             Calendar cal = Calendar.getInstance();
             cal.set(2015-random.nextInt(2), 12-random.nextInt(11), 30-random.nextInt(29), 24-random.nextInt(24), 60-random.nextInt(60), 60-random.nextInt(60));
