@@ -20,7 +20,6 @@ import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.data.struct.OrderMenu;
 import org.jaram.ds.order.MenuListAdapter;
 import org.jaram.ds.order.SimpleItemTouchHelper;
-import org.jaram.ds.util.MenuAysncTask;
 
 import java.util.ArrayList;
 
@@ -83,9 +82,6 @@ public class OrderView extends Fragment {
         MenuSelectBtnAdapter menuBtnAdapterLast = new MenuSelectBtnAdapter(Data.categoryList.get(4).menus);
         etcList.setAdapter(menuBtnAdapterLast);
         etcList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
-        MenuAysncTask menuAysncTask = new MenuAysncTask(getActivity());
-        menuAysncTask.execute(cutletList,riceList,noodleList,etcList);
 
         return view;
     }

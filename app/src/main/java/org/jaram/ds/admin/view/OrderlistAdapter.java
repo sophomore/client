@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
@@ -34,7 +34,7 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
     private ArrayList<Order> data;
     private int layout;
     private View view = null;
-    private ArrayList<OrderMenu> creditorder = new ArrayList<OrderMenu>();
+
     public OrderlistAdapter(Context mcontext, int layout, ArrayList<Order> data) {
         super();
         this.mcontext = mcontext;
@@ -67,14 +67,14 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
     @Override
     public HashMap<String, Integer> getItem(int position) {
         HashMap<String, Integer> menus = new HashMap<String, Integer>();
-        for (int i = 0; i < data.get(position).menuList.size(); i++) {
+        int count = data.get(position).menuList.size();
+
+        for (int i = 0; i < count; i++) {
             String temp = data.get(position).menuList.get(i).menu.name;
-            if (menus.keySet().contains(data.get(position).menuList.get(i).menu.name)) {
-                Log.d("Ok", "~~~~~~~~");
+            if (temp!= null && menus.keySet().contains(data.get(position).menuList.get(i).menu.name)) {
                 int plus = menus.get(temp) + 1;
                 menus.put(temp, plus);
-                Log.d("num", plus + "@");
-            } else {
+            } else if(temp!=null){
                 menus.put(temp, 1);
             }
         }
@@ -125,45 +125,25 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
     public void onClick(View v) {
 
         int position = (Integer) v.getTag();
-        Toast.makeText(v.getContext(), String.valueOf(position), Toast.LENGTH_LONG).show();
-        String text = getDate(position) + "\n\n";
-        for (int i = 0; i < Data.orderList.get(position).menuList.size(); i++) {
-            text = text + Data.orderList.get(position).menuList.get(i).menu.name + "\t" +
-                    Data.orderList.get(position).menuList.get(i).pay + "\t" + Data.orderList.get(position).menuList.get(i).menu.price + "\n";
-        }
-        text = text + "\n총 금액 : " + getTotal(position) + "\n";
-        new AlertDialog.Builder(v.getContext()).setTitle("주문 정보")
-                .setMessage(text)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                }).show();
-
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-
-        int position = (Integer) v.getTag();
 
         view = inflater.inflate(R.layout.orderlistmodify_container, null);
 
+        TextView date = (TextView) view.findViewById(R.id.date_dialog);
+
+        date.setText(getDate(position));
+
         GridView gridView = (GridView) view.findViewById(R.id.orderModify_list);
 
-        for(int i=0; i<Data.orderList.get(position).menuList.size();i++){
-            if(Data.orderList.get(position).menuList.get(i).pay==(Data.PAY_CREDIT)){
-                creditorder.add(Data.orderList.get(position).menuList.get(i));
-            }
-        }
-        OrderModifyAdapter orderModifyAdapter = new OrderModifyAdapter(creditorder);
+        OrderModifyAdapter orderModifyAdapter = new OrderModifyAdapter(Data.orderList.get(position).menuList);
 
         gridView.setAdapter(orderModifyAdapter);
 
+        TextView total_price = (TextView) view.findViewById(R.id.order_price);
 
+        total_price.setText(String.valueOf(getTotal(position)));
 
         AlertDialog.Builder ab = new AlertDialog.Builder(mcontext);
-        ab.setTitle("외상 처리");
+        ab.setTitle("상세 주문 보기");
         ab.setView(view);
         ab.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
@@ -179,11 +159,35 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         });
         ab.create();
         ab.show();
+
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        AlertDialog.Builder ab = new AlertDialog.Builder(mcontext);
+        ab.setTitle("주문 삭제");
+        ab.setMessage("삭제하시겠습니까?");
+        ab.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        ab.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        ab.create();
+        ab.show();
         return true;
     }
 
     class OrderModifyAdapter extends BaseAdapter {
         ArrayList<OrderMenu> orderMenu;
+        public LinearLayout mspinner;
+        public LinearLayout mtextview;
 
         OrderModifyAdapter(ArrayList<OrderMenu> orderMenu) {
             this.orderMenu = orderMenu;
@@ -207,18 +211,51 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         public String getMenu(int position) {
             return orderMenu.get(position).menu.name;
         }
+
+        public boolean checkcredit(int position){
+            if(orderMenu.get(position).pay == Data.PAY_CREDIT){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public String koreaCredit(int position){
+            if(orderMenu.get(position).pay == Data.PAY_CARD){
+                return "카드";
+            }else if(orderMenu.get(position).pay == Data.PAY_CASH){
+                return "현금";
+            }else if(orderMenu.get(position).pay == Data.PAY_SERVICE){
+                return "서비스";
+            }else{
+                return "외상";
+            }
+        }
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.orderlistmodify, null);
             }
-            String[] chooseitem = {"현금", "카드", "서비스"};
+            mspinner = (LinearLayout) convertView.findViewById(R.id.spinnerlayout);
+            mtextview = (LinearLayout) convertView.findViewById(R.id.textviewlayout);
+            String[] chooseitem = {"현금", "카드", "외상", "서비스"};
             TextView menuname = (TextView) convertView.findViewById(R.id.origincredit);
             menuname.setText(getMenu(position));
-            Spinner spinner = (Spinner) convertView.findViewById(R.id.changecredit);
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(mcontext, R.layout.support_simple_spinner_dropdown_item, chooseitem);
-            spinner.setAdapter(adapter);
+            if(checkcredit(position)){
+                Spinner spinner = (Spinner) convertView.findViewById(R.id.changecredit);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(mcontext, R.layout.support_simple_spinner_dropdown_item, chooseitem);
+                spinner.setAdapter(adapter);
+                spinner.setSelection(2);
+                mtextview.setVisibility(LinearLayout.INVISIBLE);
+                mspinner.setVisibility(LinearLayout.VISIBLE);
+            }else{
+                TextView creditview = (TextView) convertView.findViewById(R.id.credit_view);
+                creditview.setText(koreaCredit(position));
+                mspinner.setVisibility(LinearLayout.INVISIBLE);
+                mtextview.setVisibility(LinearLayout.VISIBLE);
+            }
+            TextView menu_price = (TextView) convertView.findViewById(R.id.menu_price);
+            menu_price.setText(String.valueOf(orderMenu.get(position).menu.price));
             return convertView;
         }
     }
