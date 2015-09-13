@@ -1,6 +1,7 @@
 package org.jaram.ds.util;
 
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -8,7 +9,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -35,6 +35,13 @@ public class Http {
     }
 
     protected static String request(String method, String addr, HashMap<String, Object> parameters) {
+        /*
+        * use only develop
+        * */
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+
         String result = "";
         try {
             URL url = new URL(addr);

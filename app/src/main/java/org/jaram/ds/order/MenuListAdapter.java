@@ -14,8 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
+import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.data.struct.OrderMenu;
+import org.jaram.ds.order.view.OrderView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,11 +30,7 @@ interface ItemTouchHelperAdapter{
     void onItemDismiss(int position,TextView textView);
 }
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> implements ItemTouchHelperAdapter{
-    private ArrayList<OrderMenu> curry;
-    private ArrayList<OrderMenu> doublei;
     private ArrayList<OrderMenu> orderMenus;
-    private ArrayList<Menu> menuList;
-    private HashMap<Menu, Integer> menuCount;
     private ArrayList<OrderMenu> selectedMenus;
 
     public MenuListAdapter(ArrayList<OrderMenu> orderMenus) {
@@ -41,8 +39,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         }
         this.orderMenus = orderMenus;
         this.selectedMenus = new ArrayList<>();
-        this.curry = new ArrayList<>();
-        this.doublei = new ArrayList<>();
     }
 
     @Override
@@ -55,7 +51,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     public void onBindViewHolder(final MenuViewHolder holder, int position) {
         final int pos = position;
         holder.nameView.setText(orderMenus.get(position).menu.name);
-        holder.priceView.setText(orderMenus.get(position).menu.price+"");
+        holder.priceView.setText(orderMenus.get(position).totalprice+"");
         if(selectedMenus.contains(orderMenus.get(position))){
             holder.menu.setBackgroundColor(Color.parseColor("#2185c5"));
             holder.curryBtn.setTextColor(Color.parseColor("#ffffff"));
@@ -72,24 +68,21 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         holder.curryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!curry.contains(orderMenus.get(pos))) {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 1000) + "");
-                    curry.add(orderMenus.get(pos));
+                if (!orderMenus.get(pos).curry) {
+                    Log.d("curry", pos + "");
+                    holder.priceView.setText(orderMenus.get(pos).setCurry()+"");
                 } else {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 1000) + "");
-                    curry.remove(orderMenus.get(pos));
+                    holder.priceView.setText(orderMenus.get(pos).setDoublei()+ "");
                 }
             }
         });
         holder.doubleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!doublei.contains(orderMenus.get(pos))){
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 500) + "");
-                    doublei.add(orderMenus.get(pos));
+                if (!orderMenus.get(pos).doublei){
+                    holder.priceView.setText(orderMenus.get(pos).resetCurry()+ "");
                 } else {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 500) + "");
-                    doublei.remove(orderMenus.get(pos));
+                    holder.priceView.setText(orderMenus.get(pos).resetDoublei() + "");
                 }
             }
         });
@@ -102,9 +95,9 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
 
     @Override
     public void onItemDismiss(int position,TextView textView) {
-        textView.setText((Integer.parseInt((String)textView.getText())-orderMenus.get(position).menu.price)+"");
         orderMenus.remove(position);
         notifyDataSetChanged();
+        textView.setText(Data.orderList.get(0).getTotalPrice() + "");
     }
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
@@ -131,6 +124,11 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
                     notifyDataSetChanged();
                 }
             });
+        }
+    }
+    public void setPayWay(OrderMenu.Pay pay){
+        for(int i=0;i<selectedMenus.size();i++){
+            selectedMenus.get(i).setPay(pay);
         }
     }
 }

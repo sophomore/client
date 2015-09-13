@@ -30,7 +30,8 @@ public class MenuListFrag extends Fragment {
     MenuListAdapter adapter;
     public MenuListFrag() {
 
-        menuList = Data.menuList;
+//        menuList = Data.menuList;
+        //TODO: menuList Type 변경. 수정 필요
     }
     public void setAdapter(MenuListAdapter adapter){
         this.adapter = adapter;
@@ -69,7 +70,7 @@ public class MenuListFrag extends Fragment {
                         final String menu = String.valueOf(nameText.getText());
                         int price = Integer.parseInt(String.valueOf(priceText.getText()));
 
-                        menuList.get(position)._id = position;
+                        menuList.get(position).id = position;
                         menuList.get(position).name = menu;
                         menuList.get(position).price = price;
                         menuList.get(position).category.name = String.valueOf(categorySpinner.getSelectedItem());;

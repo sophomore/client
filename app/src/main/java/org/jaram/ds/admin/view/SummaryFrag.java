@@ -36,7 +36,7 @@ public class SummaryFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.summary_chart,container,false);
-        for(Menu i : Data.menuList){
+        for(Menu i : Data.menuList.values()){
             menuList.add(i.name);
         }
 
@@ -48,11 +48,11 @@ public class SummaryFrag extends Fragment {
         barChartManager.setChart((BarChart)view.findViewById(R.id.chart_container2));
         barChartManager.getChart().setData(barChartManager.getData(menuList,3,start,end));
 
-        TextView moneydata = (TextView) view.findViewById(R.id.moneydata);
+        TextView moneydata = (TextView) view.findViewById(R.id.totalCash);
         moneydata.setText("10000원");
-        TextView creditdata = (TextView) view.findViewById(R.id.creditdata);
-        moneydata.setText("10000원");
-        TextView totaldata = (TextView) view.findViewById(R.id.totaldata);
+        TextView creditdata = (TextView) view.findViewById(R.id.totalCard);
+        creditdata.setText("10000원");
+        TextView totaldata = (TextView) view.findViewById(R.id.totalPrice);
         totaldata.setText("10000원");
 
 //        barChartManager.getChart().setBackgroundColor(Color.BLUE);
@@ -62,9 +62,9 @@ public class SummaryFrag extends Fragment {
             public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
                 Random r = new Random();
                 Toast.makeText(barChartManager.getChart().getContext(), e.getXIndex() + "", Toast.LENGTH_SHORT).show();
-                TextView click_moneydata = (TextView) view.findViewById(R.id.click_moneydata);
-                TextView click_creditdata = (TextView) view.findViewById(R.id.click_creditdata);
-                TextView click_totaldata = (TextView) view.findViewById(R.id.click_totaldata);
+                TextView click_moneydata = (TextView) view.findViewById(R.id.monthCash);
+                TextView click_creditdata = (TextView) view.findViewById(R.id.monthCard);
+                TextView click_totaldata = (TextView) view.findViewById(R.id.monthPrice);
 
                 click_moneydata.setText(e.getVal() + "원");
                 click_creditdata.setText(r.nextInt(45) * 10000 + "원");
