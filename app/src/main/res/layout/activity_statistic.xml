@@ -9,7 +9,8 @@
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#F5F6F7">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
@@ -18,10 +19,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="20dp"
+                android:textSize="30dp"
                 android:id="@+id/startText"
                 android:gravity="center"
-                android:layout_weight="2"/>
+                android:layout_weight="2"
+                android:layout_marginRight="10dp"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -29,6 +31,7 @@
                 android:background="#3E454C"
                 android:textColor="#fff"
                 android:id="@+id/startPeriod"
+                android:textSize="20dp"
                 android:layout_weight="3"/>
             <TextView
                 android:layout_width="match_parent"
@@ -43,7 +46,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/endText"
                 android:gravity="center"
-                android:textSize="20dp"
+                android:textSize="30dp"
                 android:layout_weight="2"/>
             <Button
                 android:layout_width="match_parent"
@@ -52,15 +55,16 @@
                 android:textColor="#fff"
                 android:background="#3E454C"
                 android:id="@+id/endPeriod"
+                android:textSize="20dp"
                 android:layout_weight="3"
                 />
             <Button
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="7dp"
                 android:id="@+id/analysisBtn"
                 android:background="#FF7F66"
                 android:textColor="#fff"
+                android:textSize="20dp"
                 android:text="분석"/>
         </LinearLayout>
 

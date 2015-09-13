@@ -34,7 +34,6 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
     private ArrayList<Order> data;
     private int layout;
     private View view = null;
-    private ArrayList<OrderMenu> creditorder = new ArrayList<OrderMenu>();
 
     public OrderlistAdapter(Context mcontext, int layout, ArrayList<Order> data) {
         super();
@@ -70,6 +69,7 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         HashMap<String, Integer> menus = new HashMap<String, Integer>();
         for (int i = 0; i < data.get(position).menuList.size(); i++) {
             String temp = data.get(position).menuList.get(i).menu.name;
+            Log.d("name", String.valueOf(menus.keySet().size()));
             if (menus.keySet().contains(data.get(position).menuList.get(i).menu.name)) {
                 Log.d("Ok", "~~~~~~~~");
                 int plus = menus.get(temp) + 1;
