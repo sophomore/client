@@ -51,6 +51,7 @@ public class AddOrderAsyncTask extends AsyncTask<URL,Integer,Void> {
             hashMap.put("ordermenus", jsonArray);
             Log.d("testJsonArray",jsonArray+"");
             String responses = Http.get(SERVER_URL+"/order",hashMap);
+            Log.d("testResponse",responses+"");
             responses = Http.get(SERVER_URL+"/order",null);
             Log.d("testResponse",responses+"");
         } catch (JSONException e) {
