@@ -1,12 +1,12 @@
 package org.jaram.ds.data.struct;
 
+import org.jaram.ds.data.Data;
+
 /**
  * Created by kjydiary on 15. 7. 10..
  */
 public class OrderMenu {
     public Menu menu;
-    public enum Pay{CASH, CARD, SERVICE, CREDIT};
-    public Pay pay = Pay.CREDIT;
     public boolean curry;
     public boolean doublei;
 
@@ -29,16 +29,9 @@ public class OrderMenu {
     public Menu getMenu() {
         return menu;
     }
+    public int pay = Data.PAY_CREDIT;
 
-    public Pay getPay() {
-        return pay;
-    }
-
-    public void setPay(Pay pay) {
-        this.pay = pay;
-    }
-
-    public OrderMenu(Menu menu, Pay pay) {
+    public OrderMenu(Menu menu, int pay) {
         this.menu = menu;
         this.pay = pay;
     }

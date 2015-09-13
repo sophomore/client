@@ -152,7 +152,7 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         GridView gridView = (GridView) view.findViewById(R.id.orderModify_list);
 
         for(int i=0; i<Data.orderList.get(position).menuList.size();i++){
-            if(Data.orderList.get(position).menuList.get(i).pay.equals(OrderMenu.Pay.CREDIT)){
+            if(Data.orderList.get(position).menuList.get(i).pay==(Data.PAY_CREDIT)){
                 creditorder.add(Data.orderList.get(position).menuList.get(i));
             }
         }

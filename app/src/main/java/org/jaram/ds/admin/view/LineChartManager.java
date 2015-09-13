@@ -170,7 +170,8 @@ public class LineChartManager implements OnChartGestureListener{
                         if (date2.get(Calendar.YEAR) == orderDate.get(Calendar.YEAR) && date2.get(Calendar.MONTH)==orderDate.get(Calendar.MONTH) && date2.get(Calendar.DATE) == orderDate.get(Calendar.DATE)) {
                             Log.d("suc","성공");
                             for (int k = 0; k < menuName.size(); k++) {
-                                Log.d("testName","@"+menuName.get(k));
+                                Log.d("testName",j.menu.name+"");
+                                Log.d("testName",menuName.get(k)+"@");
                                 if (j.menu.name == menuName.get(k)) {
                                     if(analysisType == true) {
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
