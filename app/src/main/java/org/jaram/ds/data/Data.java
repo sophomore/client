@@ -42,16 +42,15 @@ public class Data {
     static {
         try {
             JSONArray menuJson = new JSONArray(Http.get(SERVER_URL+"/menu", null));
-            Log.d("menuJson", menuJson.toString());
             for (int i=0; i<menuJson.length(); i++) {
                 JSONObject jo = menuJson.getJSONObject(i);
                 Menu menu = new Menu(jo.getInt("id"), categoryList.get(jo.getInt("category_id")), jo.getString("name"), jo.getInt("price"));
                 menuList.put(jo.getInt("id"), menu);
-                Log.d("idid",jo.getInt("id")+"");
+
                 if(menuList.get(jo.getInt("id"))==null){
                     Log.d("id","null");
                 }
-                Log.d("testGetData", menuList.size() + "");
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -60,10 +59,11 @@ public class Data {
             Order order = new Order();
             order._id = i;
             for (int j = random.nextInt(5); j<7; j++) {
-                OrderMenu orderMenu = new OrderMenu(menuList.get(random.nextInt(menuList.size()-2)+1), Data.PAY_CREDIT);
-                if(orderMenu.menu == null){
+                Menu menu = menuList.get(random.nextInt(menuList.size()-2)+1);
+                if(menu == null){
                     Log.d("testGetData","null");
                 } else {
+                    OrderMenu orderMenu = new OrderMenu(menu, Data.PAY_CREDIT);
                     order.menuList.add(orderMenu);
                 }
             }
