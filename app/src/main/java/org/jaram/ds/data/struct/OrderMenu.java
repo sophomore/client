@@ -1,5 +1,7 @@
 package org.jaram.ds.data.struct;
 
+import android.util.Log;
+
 import org.jaram.ds.data.Data;
 
 /**
@@ -7,15 +9,15 @@ import org.jaram.ds.data.Data;
  */
 public class OrderMenu {
     public Menu menu;
-    public enum Pay{CASH, CARD, SERVICE, CREDIT};
-    public Pay pay = Pay.CREDIT;
     public boolean curry = false;
     public boolean doublei = false;
-    public int totalprice = menu.price;
+    public int totalprice = 0;
+    public int pay = Data.PAY_CREDIT;
 
-    public OrderMenu(Menu menu, Pay pay) {
+    public OrderMenu(Menu menu, int pay) {
         this.menu = menu;
         this.pay = pay;
+        this.totalprice = menu.price;
     }
 
     public int setCurry() {
@@ -23,29 +25,30 @@ public class OrderMenu {
         totalprice += Data.CURRY;
         return totalprice;
     }
+
     public int setDoublei() {
-        this.doublei = false;
+        this.doublei = true;
         totalprice += Data.DOULBEI;
         return totalprice;
     }
 
-    public int resetCurry(){
-        this.curry = true;
+    public int resetCurry() {
+        this.curry = false;
         totalprice -= Data.CURRY;
         return totalprice;
     }
 
-    public int resetDoublei(){
-        this.curry = false;
+    public int resetDoublei() {
+        this.doublei = false;
         totalprice -= Data.DOULBEI;
         return totalprice;
     }
 
-    public void setPay(Pay pay) {
+    public void setPay(int pay) {
         this.pay = pay;
     }
 
-    public int getTotalprice(){
+    public int getTotalprice() {
         return totalprice;
     }
 }

@@ -69,10 +69,9 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
             @Override
             public void onClick(View view) {
                 if (!orderMenus.get(pos).curry) {
-                    Log.d("curry", pos + "");
                     holder.priceView.setText(orderMenus.get(pos).setCurry()+"");
                 } else {
-                    holder.priceView.setText(orderMenus.get(pos).setDoublei()+ "");
+                    holder.priceView.setText(orderMenus.get(pos).resetCurry()+ "");
                 }
             }
         });
@@ -80,7 +79,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
             @Override
             public void onClick(View view) {
                 if (!orderMenus.get(pos).doublei){
-                    holder.priceView.setText(orderMenus.get(pos).resetCurry()+ "");
+                    holder.priceView.setText(orderMenus.get(pos).setDoublei()+ "");
                 } else {
                     holder.priceView.setText(orderMenus.get(pos).resetDoublei() + "");
                 }
@@ -97,7 +96,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     public void onItemDismiss(int position,TextView textView) {
         orderMenus.remove(position);
         notifyDataSetChanged();
-        textView.setText(Data.orderList.get(0).getTotalPrice() + "");
+        textView.setText(Data.orderList1.get(0).getTotalPrice() + "");
     }
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
@@ -126,9 +125,12 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
             });
         }
     }
-    public void setPayWay(OrderMenu.Pay pay){
+
+
+    public void setPayWay(int pay){
         for(int i=0;i<selectedMenus.size();i++){
             selectedMenus.get(i).setPay(pay);
         }
+
     }
 }

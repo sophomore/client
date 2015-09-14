@@ -1,154 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    >
-    <TextView
-            android:text = "주문 검색"
-            android:id = "@+id/searchtext"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textColor="#000"
-            android:layout_gravity="center"
-            android:textSize = "20dp"
-            android:layout_marginBottom = "20dp" />
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#F5F6F7"
+        android:padding="30dp">
+
         <TextView
-            android:id = "@+id/periodtext"
-            android:layout_below = "@+id/searchtext"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:text = "기간"
-            android:textSize = "17dp"
-            android:textColor = "#000"
-            android:layout_marginBottom = "10dp"/>
+            android:id="@+id/periodtext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="기간"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
         <TextView
             android:id="@+id/edit_time1"
-            android:textSize="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below = "@+id/periodtext"
-            android:onClick="showDatePickerDialog"
-            android:layout_marginBottom = "10dp"
-            android:layout_marginRight="20dp"
+            android:layout_alignParentStart="false"
+            android:layout_below="@+id/periodtext"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_alignParentStart="false" />
+            android:layout_marginRight="20dp"
+            android:onClick="showDatePickerDialog"
+            android:textSize="20dp" />
+
         <TextView
-            android:id= "@+id/edit_time3"
-            android:textSize="20dp"
-            android:layout_toRightOf="@+id/edit_time1"
+            android:id="@+id/edit_time3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/edit_time1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@+id/edit_time1"
             android:onClick="showTimePickerDialog"
-            android:layout_marginBottom = "10dp"/>
+            android:textSize="20dp" />
+
         <TextView
-            android:id = "@+id/during"
-            android:layout_toRightOf="@+id/edit_time3"
-            android:layout_alignBaseline="@+id/edit_time3"
-            android:layout_height="wrap_content"
+            android:id="@+id/during"
             android:layout_width="wrap_content"
-            android:text= " ~"
-            android:textColor="#000"
-            android:layout_marginBottom = "10dp"/>
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/edit_time3"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/edit_time3"
+            android:text=" ~"
+            android:textColor="#000" />
+
         <TextView
             android:id="@+id/edit_time2"
-            android:textSize="20dp"
-            android:layout_below= "@+id/edit_time1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="showDatePickerDialog"
+            android:layout_below="@+id/edit_time1"
+            android:layout_marginBottom="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom = "50dp"/>
+            android:onClick="showDatePickerDialog"
+            android:textSize="20dp" />
+
         <TextView
-            android:id= "@+id/edit_time4"
-            android:textSize="20dp"
-            android:layout_toRightOf="@+id/edit_time2"
+            android:id="@+id/edit_time4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/edit_time2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:layout_toRightOf="@+id/edit_time2"
             android:onClick="showTimePickerDialog"
-            android:layout_marginBottom = "50dp" />
+            android:textSize="20dp" />
+
         <TextView
-            android:id = "@+id/menutext"
-            android:layout_below = "@+id/edit_time2"
+            android:id="@+id/menutext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text = "메뉴"
-            android:textSize = "17dp"
-            android:textColor = "#000"
+            android:layout_below="@+id/edit_time2"
+            android:layout_marginBottom="50dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="50dp"/>
+            android:text="메뉴"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
         <TextView
-            android:id = "@+id/menublank"
+            android:id="@+id/menublank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint = "메뉴를 선택하세요"
             android:layout_alignBottom="@+id/menutext"
-            android:layout_toRightOf="@+id/menutext"/>
+            android:layout_toRightOf="@+id/menutext"
+            android:hint="메뉴를 선택하세요" />
+
         <TextView
-            android:id = "@+id/checktext"
-            android:layout_below = "@+id/menutext"
-            android:layout_height="wrap_content"
+            android:id="@+id/checktext"
             android:layout_width="wrap_content"
-            android:text= "결제수단"
-            android:textSize = "17dp"
-            android:textColor= "#000"
-            android:layout_marginBottom = "15dp"/>
-        <RadioGroup
-            android:id = "@+id/radiogroup"
-            android:layout_below = "@+id/checktext"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
+            android:layout_below="@+id/menutext"
+            android:layout_marginBottom="15dp"
+            android:text="결제수단"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+        <RadioGroup
+            android:id="@+id/radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/checktext">
 
             <RadioButton
-                android:text = "현금"
-                android:id = "@+id/moneyradio"
-                android:textSize="15dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/moneyradio"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/radiogroup"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="15dp"
+                android:text="현금"
+                android:textSize="15dp" />
 
             <RadioButton
-                android:text = "카드"
-                android:id = "@+id/cardradio"
-                android:textSize="15dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/cardradio"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/moneyradio"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="15dp"
+                android:text="카드"
+                android:textSize="15dp" />
 
             <RadioButton
-                android:text = "외상"
-                android:id = "@+id/creditradio"
-                android:textSize="15dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/creditradio"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/cardradio"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="15dp"
+                android:text="외상"
+                android:textSize="15dp" />
 
             <RadioButton
-                android:text = "서비스"
-                android:id = "@+id/serviceradio"
-                android:layout_height="wrap_content"
+                android:id="@+id/serviceradio"
                 android:layout_width="wrap_content"
-                android:textSize="15dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/creditradio"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="15dp"
+                android:text="서비스"
+                android:textSize="15dp" />
         </RadioGroup>
+
+    </RelativeLayout>
+
         <Button
-            android:id = "@+id/search_button"
-            android:layout_height="match_parent"
+            android:id="@+id/search_button"
             android:layout_width="match_parent"
-            android:text = "검색"
-            android:layout_below = "@+id/radiogroup"
-            android:layout_centerHorizontal="true"
+            android:layout_height="150dp"
             android:background="#FF7F66"
-            android:textSize="25sp"
-            android:textColor= "#fff"
-            android:layout_marginTop="60sp"
-           />
-</RelativeLayout>
+            android:text="검색"
+            android:textColor="#fff"
+            android:textSize="25sp" />
+
+</LinearLayout>

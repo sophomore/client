@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,9 +19,11 @@ import android.widget.TextView;
 import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
+import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 import org.jaram.ds.order.MenuListAdapter;
 import org.jaram.ds.order.SimpleItemTouchHelper;
+import org.jaram.ds.util.MenuAysncTask;
 
 import java.util.ArrayList;
 
@@ -37,6 +40,7 @@ public class OrderView extends Fragment {
     RecyclerView menuListView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Data.orderList1.add(new Order());
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         totalprice = (TextView)view.findViewById(R.id.TotalPay);
 //        totalprice.setText(Data.orderList.get(0).totalPrice+"");
@@ -72,7 +76,9 @@ public class OrderView extends Fragment {
 
         //TODO: 메뉴 목록과 메뉴 선택 fragment 분리해야함. : 결제화면과 메뉴목록 통일
         RecyclerView cutletList = (RecyclerView)view.findViewById(R.id.DonMenuList);
+
         MenuSelectBtnAdapter menuBtnAdapterDon = new MenuSelectBtnAdapter(Data.categoryList.get(1).menus);
+
         cutletList.setAdapter(menuBtnAdapterDon);
         cutletList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
@@ -89,8 +95,10 @@ public class OrderView extends Fragment {
         RecyclerView etcList = (RecyclerView)view.findViewById(R.id.DrinkAndAdd);
         MenuSelectBtnAdapter menuBtnAdapterLast = new MenuSelectBtnAdapter(Data.categoryList.get(4).menus);
         etcList.setAdapter(menuBtnAdapterLast);
-        etcList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        etcList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
+//        MenuAysncTask menuAysncTask = new MenuAysncTask(getActivity());
+//        menuAysncTask.execute(cutletList,riceList,noodleList,etcList);
 
         return view;
     }
@@ -111,10 +119,13 @@ public class OrderView extends Fragment {
         callbacks = null;
     }
 
-    private class MenuSelectBtnAdapter extends RecyclerView.Adapter<MenuSelectBtnAdapter.MenuSelectBtnViewHolder> {
+    public class MenuSelectBtnAdapter extends RecyclerView.Adapter<MenuSelectBtnAdapter.MenuSelectBtnViewHolder> {
 
         ArrayList<Menu> menuList = null;
         public MenuSelectBtnAdapter(ArrayList<Menu> menuList) {
+            this.menuList = menuList;
+        }
+        public void setmenuList(ArrayList<Menu> menuList){
             this.menuList = menuList;
         }
 
@@ -133,12 +144,12 @@ public class OrderView extends Fragment {
             holder.menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Data.orderList.get(0).addMenu(menuList.get(i),OrderMenu.Pay.CREDIT);
-                    totalprice.setText(Data.orderList.get(0).getTotalPrice()+"");
+                    Data.orderList1.get(0).addMenu(menuList.get(i), Data.PAY_CREDIT);
+                    totalprice.setText(Data.orderList1.get(0).getTotalPrice()+"");
                     adapter.notifyDataSetChanged();
                     callbacks.selectMenu(menuList.get(i));
 
-                    orderList.add(new OrderMenu(menuList.get(i), OrderMenu.Pay.CREDIT));
+                    orderList.add(new OrderMenu(menuList.get(i), Data.PAY_CREDIT));
 
                     if (orderList.size() == 0) {
                         menuListView.setVisibility(View.INVISIBLE);
@@ -183,11 +194,8 @@ public class OrderView extends Fragment {
             }
         }
     }
-    public void updateTotal(){
-        totalprice.setText(Data.orderList.get(0).getTotalPrice());
-    }
+
     public interface Callbacks {
         void selectMenu(Menu menu);
-
     }
 }

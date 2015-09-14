@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -21,7 +20,6 @@ import org.jaram.ds.admin.view.ProgressChartFrag;
 import org.jaram.ds.admin.view.SummaryFrag;
 import org.jaram.ds.order.OrderManager;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -43,6 +41,8 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
 
         setContentView(R.layout.activity_statistic);
         if (savedInstanceState == null) {
+
+
 //            tf = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
             summaryFrag = new SummaryFrag();
             drawer = new DrawerFrag();
@@ -78,7 +78,7 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
                     String start = (String) startText.getText();
                     String end = (String) endText.getText();
                     summaryFrag.createChart(start, end);
-                    summaryFrag.getChart().notifyDataSetChanged();
+
                 }
             });
 
@@ -142,43 +142,14 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
     }
 
     @Override
+    public void returnChart() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.chartFrag,summaryFrag).commit();
+    }
+
+    @Override
     public void configChart() {
         progressChartFrag.createChart();
     }
 
-    public class TestAsyncTask extends AsyncTask<URL,Integer,Void>{
 
-
-        @Override
-        protected void onPreExecute() {
-            dialog = new ProgressDialog(getApplicationContext());
-            dialog.setTitle("통계 분석");
-            dialog.setMessage("잠시만 기다리세요...");
-            dialog.setIndeterminate(true);
-            dialog.setCancelable(true);
-            dialog.show();
-
-
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(URL... params) {
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer[] values) {
-            switch(values[0]){
-                case 0:
-                    dialog.setMessage("wj");
-            }
-            dialog.setProgress(values[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
-    }
 }
