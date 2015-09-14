@@ -67,7 +67,8 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
     @Override
     public HashMap<String, Integer> getItem(int position) {
         HashMap<String, Integer> menus = new HashMap<String, Integer>();
-        for (int i = 0; i < data.get(position).menuList.size(); i++) {
+        int count = data.get(position).menuList.size();
+        for (int i = 0; i < count; i++) {
             String temp = data.get(position).menuList.get(i).menu.name;
             Log.d("name", String.valueOf(menus.keySet().size()));
             if (menus.keySet().contains(data.get(position).menuList.get(i).menu.name)) {

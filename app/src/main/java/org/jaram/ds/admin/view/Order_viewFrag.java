@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by cheonyujung on 15. 7. 23..
  */
-public class Order_viewFrag extends Fragment {
+public class Order_viewFrag extends Fragment{
     View view;
     public Order_viewFrag(){
 

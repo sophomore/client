@@ -60,7 +60,7 @@ public class MenuManagementMain extends ActionBarActivity {
         RecyclerView etcList = (RecyclerView)findViewById(R.id.DrinkAndAdd);
         MenuSelectBtnAdapter menuBtnAdapterLast = new MenuSelectBtnAdapter(Data.categoryList.get(4).menus);
         etcList.setAdapter(menuBtnAdapterLast);
-        etcList.setLayoutManager(new LinearLayoutManager(MenuManagementMain.this,LinearLayoutManager.VERTICAL,false));
+        etcList.setLayoutManager(new LinearLayoutManager(MenuManagementMain.this, LinearLayoutManager.VERTICAL, false));
 
 
         TextView don = (TextView)findViewById(R.id.DonGgas);
