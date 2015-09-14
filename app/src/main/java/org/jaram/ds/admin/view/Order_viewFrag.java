@@ -25,14 +25,16 @@ public class Order_viewFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_orderview, container, false);
         ArrayList<Order> orderlist;
-        orderlist = Data.orderList;
+        orderlist = getOrderList();
 
         ListView list = (ListView)view.findViewById(R.id.orderlist);
         final OrderlistAdapter Adapter = new OrderlistAdapter(view.getContext(),R.layout.orderlist_item,orderlist);
         list.setAdapter(Adapter);
-        //list.setAdapter(null);
         return view;
     }
 
+    public ArrayList<Order> getOrderList() {
+        return Data.orderList;
+    }
 }
 

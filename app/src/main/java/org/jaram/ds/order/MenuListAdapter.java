@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,9 +25,7 @@ import java.util.List;
 /**
  * Created by kjydiary on 15. 7. 10..
  */
-interface ItemTouchHelperAdapter{
-    void onItemDismiss(int position,TextView textView);
-}
+
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> implements ItemTouchHelperAdapter{
     private ArrayList<OrderMenu> orderMenus;
     private ArrayList<OrderMenu> selectedMenus;

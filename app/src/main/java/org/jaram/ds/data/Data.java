@@ -49,7 +49,15 @@ public class Data {
                 JSONObject jo = menuJson.getJSONObject(i);
                 Menu menu = new Menu(jo.getInt("id"), categoryList.get(jo.getInt("category_id")), jo.getString("name"), jo.getInt("price"));
                 menuList.put(jo.getInt("id"), menu);
+<<<<<<< HEAD
 
+=======
+                Log.d("idid",jo.getInt("id")+"");
+                if(menuList.get(jo.getInt("id"))==null){
+                    Log.d("id","null");
+                }
+                Log.d("testGetData", menuList.size() + "");
+>>>>>>> d1a65fc7fe137b751b5b483df24730a41f55f297
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -57,11 +65,19 @@ public class Data {
         for (int i = 0; i < 300; i++) {
             Order order = new Order();
             order._id = i;
+<<<<<<< HEAD
             for (int j = random.nextInt(5); j < 7; j++) {
                 Menu menu = menuList.get(random.nextInt(menuList.size() - 2) + 1);
                 if(menu == null){
                 } else {
                     OrderMenu orderMenu = new OrderMenu(menu, Data.PAY_CREDIT);
+=======
+            for (int j = random.nextInt(5); j<7; j++) {
+                OrderMenu orderMenu = new OrderMenu(menuList.get(random.nextInt(menuList.size()-2)+1), Data.PAY_CREDIT);
+                if(orderMenu.menu == null){
+                    Log.d("testGetData","null");
+                } else {
+>>>>>>> d1a65fc7fe137b751b5b483df24730a41f55f297
                     order.menuList.add(orderMenu);
                 }
             }

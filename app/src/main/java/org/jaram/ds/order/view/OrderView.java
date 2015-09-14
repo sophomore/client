@@ -8,7 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,7 +22,6 @@ import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 import org.jaram.ds.order.MenuListAdapter;
 import org.jaram.ds.order.SimpleItemTouchHelper;
-import org.jaram.ds.util.MenuAysncTask;
 
 import java.util.ArrayList;
 
@@ -78,7 +76,10 @@ public class OrderView extends Fragment {
         RecyclerView cutletList = (RecyclerView)view.findViewById(R.id.DonMenuList);
 
         MenuSelectBtnAdapter menuBtnAdapterDon = new MenuSelectBtnAdapter(Data.categoryList.get(1).menus);
+<<<<<<< HEAD
 
+=======
+>>>>>>> d1a65fc7fe137b751b5b483df24730a41f55f297
         cutletList.setAdapter(menuBtnAdapterDon);
         cutletList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
@@ -97,10 +98,17 @@ public class OrderView extends Fragment {
         etcList.setAdapter(menuBtnAdapterLast);
         etcList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
+<<<<<<< HEAD
 //        MenuAysncTask menuAysncTask = new MenuAysncTask(getActivity());
 //        menuAysncTask.execute(cutletList,riceList,noodleList,etcList);
 
+=======
+>>>>>>> d1a65fc7fe137b751b5b483df24730a41f55f297
         return view;
+    }
+
+    public void orderpay(ArrayList<OrderMenu> orderList){
+
     }
 
     @Override
@@ -144,8 +152,13 @@ public class OrderView extends Fragment {
             holder.menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+<<<<<<< HEAD
                     Data.orderList1.get(0).addMenu(menuList.get(i), Data.PAY_CREDIT);
                     totalprice.setText(Data.orderList1.get(0).getTotalPrice()+"");
+=======
+                    Data.orderList.get(0).addMenu(menuList.get(i),Data.PAY_CREDIT);
+                    totalprice.setText((Integer.parseInt((String)totalprice.getText())+menuList.get(i).price)+"");
+>>>>>>> d1a65fc7fe137b751b5b483df24730a41f55f297
                     adapter.notifyDataSetChanged();
                     callbacks.selectMenu(menuList.get(i));
 

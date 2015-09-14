@@ -60,7 +60,7 @@ public class MenuManagementMain extends ActionBarActivity {
         RecyclerView etcList = (RecyclerView)findViewById(R.id.DrinkAndAdd);
         MenuSelectBtnAdapter menuBtnAdapterLast = new MenuSelectBtnAdapter(Data.categoryList.get(4).menus);
         etcList.setAdapter(menuBtnAdapterLast);
-        etcList.setLayoutManager(new LinearLayoutManager(MenuManagementMain.this,LinearLayoutManager.VERTICAL,false));
+        etcList.setLayoutManager(new LinearLayoutManager(MenuManagementMain.this, LinearLayoutManager.VERTICAL, false));
 
 
         TextView don = (TextView)findViewById(R.id.DonGgas);
@@ -405,6 +405,31 @@ public class MenuManagementMain extends ActionBarActivity {
                             }
                         });
                         builder.create().show();
+                    }
+                });
+                item.setOnLongClickListener(new View.OnLongClickListener(){
+
+                    @Override
+                    public boolean onLongClick(View v) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MenuManagementMain.this);
+                        builder.setTitle("메뉴 삭제");
+
+                       builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialog, int which) {
+                               Toast.makeText(getApplicationContext(), "수정되었습니다.", Toast.LENGTH_LONG).show();
+                           }
+                       });
+                        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.create().show();
+
+                        return false;
                     }
                 });
             }

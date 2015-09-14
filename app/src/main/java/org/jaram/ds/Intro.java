@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import org.jaram.ds.admin.view.ManagementIntro;
 import org.jaram.ds.order.OrderManager;
-import org.jaram.ds.util.SearchAsyncTask;
+import org.jaram.ds.util.AddOrderAsyncTask;
 
 public class Intro extends Activity {
 
@@ -28,9 +28,15 @@ public class Intro extends Activity {
         adminButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+<<<<<<< HEAD
 //
 //                SearchAsyncTask searchAsyncTask = new SearchAsyncTask(Intro.this);
 //                searchAsyncTask.execute();
+=======
+
+                AddOrderAsyncTask addOrderAsyncTask = new AddOrderAsyncTask(Intro.this);
+                addOrderAsyncTask.execute();
+>>>>>>> d1a65fc7fe137b751b5b483df24730a41f55f297
                 startActivity(new Intent(Intro.this, ManagementIntro.class));
 
             }
