@@ -9,34 +9,9 @@ import org.jaram.ds.data.Data;
  */
 public class OrderMenu {
     public Menu menu;
-<<<<<<< HEAD
     public boolean curry = false;
     public boolean doublei = false;
     public int totalprice = 0;
-=======
-    public boolean curry;
-    public boolean doublei;
-
-    public void setCurry(boolean curry) {
-        this.curry = curry;
-    }
-
-    public void setDoublei(boolean doublei) {
-        this.doublei = doublei;
-    }
-
-    public boolean isCurry() {
-        return curry;
-    }
-
-    public boolean isDoublei() {
-        return doublei;
-    }
-
-    public Menu getMenu() {
-        return menu;
-    }
->>>>>>> d1a65fc7fe137b751b5b483df24730a41f55f297
     public int pay = Data.PAY_CREDIT;
 
     public OrderMenu(Menu menu, int pay) {
