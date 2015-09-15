@@ -33,12 +33,11 @@ public class OrderView extends Fragment {
     Callbacks callbacks = null;
     MenuListAdapter adapter;
     TextView totalprice;
-    ArrayList<OrderMenu> orderList;
+    Order orderList;
     TextView empty;
     RecyclerView menuListView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Data.orderList1.add(new Order());
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         totalprice = (TextView)view.findViewById(R.id.TotalPay);
 //        totalprice.setText(Data.orderList.get(0).totalPrice+"");
@@ -63,9 +62,9 @@ public class OrderView extends Fragment {
 //        ArrayList<OrderMenu> orderMenus = Data.orderList.get(0).menuList;
 //        orderMenus.add();
 
-        orderList = new ArrayList<OrderMenu>();
+        orderList = new Order();
 
-        adapter = new MenuListAdapter(orderList);
+        adapter = new MenuListAdapter(orderList, totalprice);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelper(adapter,totalprice);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(menuListView);
@@ -143,14 +142,13 @@ public class OrderView extends Fragment {
             holder.menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Data.orderList1.get(0).addMenu(menuList.get(i), Data.PAY_CREDIT);
-                    totalprice.setText(Data.orderList1.get(0).getTotalPrice()+"");
+                    orderList.addMenu(menuList.get(i), Data.PAY_CREDIT);
+                    totalprice.setText(orderList.getTotalPrice()+"");
                     adapter.notifyDataSetChanged();
                     callbacks.selectMenu(menuList.get(i));
 
-                    orderList.add(new OrderMenu(menuList.get(i), Data.PAY_CREDIT));
 
-                    if (orderList.size() == 0) {
+                    if (orderList.menuList.size() == 0) {
                         menuListView.setVisibility(View.INVISIBLE);
                         empty.setVisibility(View.VISIBLE);
                     }

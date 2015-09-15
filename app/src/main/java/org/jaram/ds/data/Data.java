@@ -40,7 +40,7 @@ public class Data {
     /*Test Data*/
     static Random random = new Random();
     public static ArrayList<Order> orderList = new ArrayList<Order>();
-    public static ArrayList<Order> orderList1 = new ArrayList<Order>();
+    public static Order order = new Order();
 
 //    static {
 //        try {

@@ -1,5 +1,7 @@
 package org.jaram.ds.data.struct;
 
+import android.util.Log;
+
 import org.jaram.ds.data.Data;
 import org.jaram.ds.exeption.OrderException;
 

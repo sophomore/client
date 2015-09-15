@@ -69,7 +69,7 @@ public class SearchOrderAsyncTask extends AsyncTask<URL, Integer, Void> {
 
                     OrderMenu orderMenu = new OrderMenu(menu, pay);
                     orderMenu.totalprice = jsonObject1.getInt("totalprice");
-                    Log.d("teststtOrderMenu",orderMenu.menu.name+"@");
+                    
                     if (doublei == true) {
                         orderMenu.setDoublei();
                     }
@@ -77,13 +77,13 @@ public class SearchOrderAsyncTask extends AsyncTask<URL, Integer, Void> {
                         orderMenu.setCurry();
                     }
                     order.menuList.add(orderMenu);
-                    Log.d("teststtOrder",order.menuList+"##@");
+
                 }
                 order.totalPrice = totalprice;
                 Date date = format.parse(orderDate);
                 order.date = date;
                 Data.orderList.add(order);
-                Log.d("teststt", Data.orderList.size() + "@");
+
             }
 
         } catch (JSONException e) {
@@ -98,7 +98,7 @@ public class SearchOrderAsyncTask extends AsyncTask<URL, Integer, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-//        dialog.dismiss();
+        dialog.dismiss();
         super.onPreExecute();
     }
 }
