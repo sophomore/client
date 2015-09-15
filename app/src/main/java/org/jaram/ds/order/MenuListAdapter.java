@@ -1,36 +1,25 @@
 package org.jaram.ds.order;
 
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
-import org.jaram.ds.data.struct.Menu;
+import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.OrderMenu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by kjydiary on 15. 7. 10..
  */
 
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> implements ItemTouchHelperAdapter{
-
-    private SparseBooleanArray selectedItems;
-    int curry = 0;
-    int doublei = 0;
     private ArrayList<OrderMenu> orderMenus;
-    private ArrayList<Menu> menuList;
-    private HashMap<Menu, Integer> menuCount;
     private ArrayList<OrderMenu> selectedMenus;
 
     public MenuListAdapter(ArrayList<OrderMenu> orderMenus) {
@@ -40,34 +29,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         this.orderMenus = orderMenus;
         this.selectedMenus = new ArrayList<>();
     }
-
-    public void toggleSelection(int pos) {
-        if (selectedItems.get(pos, false)) {
-            selectedItems.delete(pos);
-        } else {
-            selectedItems.put(pos, true);
-        }
-        notifyItemChanged(pos);
-    }
-
-    public void clearSelections() {
-        selectedItems.clear();
-        notifyDataSetChanged();
-    }
-
-    public int getSelectedItemCount() {
-        return selectedItems.size();
-    }
-
-    public List<Integer> getSelectedItems() {
-        List<Integer> items =
-                new ArrayList<Integer>(selectedItems.size());
-        for (int i = 0; i < selectedItems.size(); i++) {
-            items.add(selectedItems.keyAt(i));
-        }
-        return items;
-    }
-
 
     @Override
     public MenuViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -79,35 +40,37 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     public void onBindViewHolder(final MenuViewHolder holder, int position) {
         final int pos = position;
         holder.nameView.setText(orderMenus.get(position).menu.name);
-        holder.priceView.setText(orderMenus.get(position).menu.price+"");
+        holder.priceView.setText(orderMenus.get(position).totalprice+"");
         if(selectedMenus.contains(orderMenus.get(position))){
-            holder.menu.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+            holder.menu.setBackgroundColor(Color.parseColor("#2185c5"));
+            holder.curryBtn.setTextColor(Color.parseColor("#ffffff"));
+            holder.doubleBtn.setTextColor(Color.parseColor("#ffffff"));
+            holder.nameView.setTextColor(Color.parseColor("#ffffff"));
         }
         else{
-            holder.menu.getBackground().clearColorFilter();
+            holder.menu.setBackgroundColor(Color.parseColor("#ffffff"));
+            holder.curryBtn.setTextColor(Color.parseColor("#2185C5"));
+            holder.doubleBtn.setTextColor(Color.parseColor("#2185C5"));
+            holder.nameView.setTextColor(Color.parseColor("#3E454C"));
         }
 
         holder.curryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (curry == 0) {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 1000) + "");
-                    curry = 1;
+                if (!orderMenus.get(pos).curry) {
+                    holder.priceView.setText(orderMenus.get(pos).setCurry()+"");
                 } else {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 1000) + "");
-                    curry = 0;
+                    holder.priceView.setText(orderMenus.get(pos).resetCurry()+ "");
                 }
             }
         });
         holder.doubleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (doublei == 0) {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) + 500) + "");
-                    doublei = 1;
+                if (!orderMenus.get(pos).doublei){
+                    holder.priceView.setText(orderMenus.get(pos).setDoublei()+ "");
                 } else {
-                    holder.priceView.setText((Integer.parseInt((String) holder.priceView.getText()) - 500) + "");
-                    doublei = 0;
+                    holder.priceView.setText(orderMenus.get(pos).resetDoublei() + "");
                 }
             }
         });
@@ -120,9 +83,9 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
 
     @Override
     public void onItemDismiss(int position,TextView textView) {
-        textView.setText((Integer.parseInt((String)textView.getText())-orderMenus.get(position).menu.price)+"");
         orderMenus.remove(position);
         notifyDataSetChanged();
+        textView.setText(Data.orderList1.get(0).getTotalPrice() + "");
     }
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
@@ -130,7 +93,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         public TextView nameView, priceView;
         Button curryBtn, doubleBtn;
         View menu;
-        LinearLayout container;
         public MenuViewHolder(final View item) {
             super(item);
             menu = item;
@@ -151,5 +113,13 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
                 }
             });
         }
+    }
+
+
+    public void setPayWay(int pay){
+        for(int i=0;i<selectedMenus.size();i++){
+            selectedMenus.get(i).setPay(pay);
+        }
+
     }
 }

@@ -12,11 +12,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
+import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 import org.jaram.ds.order.MenuListAdapter;
 import org.jaram.ds.order.SimpleItemTouchHelper;
@@ -36,6 +38,7 @@ public class OrderView extends Fragment {
     RecyclerView menuListView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Data.orderList1.add(new Order());
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         totalprice = (TextView)view.findViewById(R.id.TotalPay);
 //        totalprice.setText(Data.orderList.get(0).totalPrice+"");
@@ -46,6 +49,13 @@ public class OrderView extends Fragment {
         menuListView.setLayoutManager(layoutManager);
 
         empty = (TextView)view.findViewById(R.id.list_empty);
+
+        Button cash = (Button)view.findViewById(R.id.Cash);
+        Button card = (Button)view.findViewById(R.id.Card);
+        Button service = (Button)view.findViewById(R.id.Service);
+        Button credit = (Button)view.findViewById(R.id.Credit);
+
+
 
 //        Order order = new Order();
 //        Order order = Data.orderList.get(new Random().nextInt(Data.orderList.size()-1));
@@ -64,6 +74,7 @@ public class OrderView extends Fragment {
 
         //TODO: 메뉴 목록과 메뉴 선택 fragment 분리해야함. : 결제화면과 메뉴목록 통일
         RecyclerView cutletList = (RecyclerView)view.findViewById(R.id.DonMenuList);
+
         MenuSelectBtnAdapter menuBtnAdapterDon = new MenuSelectBtnAdapter(Data.categoryList.get(1).menus);
         cutletList.setAdapter(menuBtnAdapterDon);
         cutletList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
@@ -82,6 +93,7 @@ public class OrderView extends Fragment {
         MenuSelectBtnAdapter menuBtnAdapterLast = new MenuSelectBtnAdapter(Data.categoryList.get(4).menus);
         etcList.setAdapter(menuBtnAdapterLast);
         etcList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
 
         return view;
     }
@@ -131,8 +143,8 @@ public class OrderView extends Fragment {
             holder.menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Data.orderList.get(0).addMenu(menuList.get(i),Data.PAY_CREDIT);
-                    totalprice.setText((Integer.parseInt((String)totalprice.getText())+menuList.get(i).price)+"");
+                    Data.orderList1.get(0).addMenu(menuList.get(i), Data.PAY_CREDIT);
+                    totalprice.setText(Data.orderList1.get(0).getTotalPrice()+"");
                     adapter.notifyDataSetChanged();
                     callbacks.selectMenu(menuList.get(i));
 
@@ -164,7 +176,6 @@ public class OrderView extends Fragment {
             public MenuSelectBtnViewHolder(View item) {
                 super(item);
                 menu = item;
-
                 price = (TextView)item.findViewById(R.id.PriceOfMenu);
                 name = (TextView)item.findViewById(R.id.NameOfMenu);
                 item.setOnTouchListener(new View.OnTouchListener() {

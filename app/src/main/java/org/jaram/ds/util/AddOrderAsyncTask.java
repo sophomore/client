@@ -43,14 +43,14 @@ public class AddOrderAsyncTask extends AsyncTask<URL,Integer,Void> {
             Date date = new Date();
             String date2 = format.format(date);
             hashMap.put("time",date2);
-            String orderMenu = "[{\"id\":"+1+",\"curry\" :"+true+", \"double\" : "+true+", \"pay\" : "+1+"}]";
+            String orderMenu = "[{\"id\":"+3+",\"curry\" :"+true+", \"double\" : "+true+", \"pay\" : "+2+"}]";
             JSONArray jsonArray = new JSONArray(orderMenu);
             hashMap.put("totalprice", 5000);
             hashMap.put("ordermenus", jsonArray);
 
             Log.d("testJsonArray", jsonArray + "");
 
-            String responses = Http.get(SERVER_URL+"/order",null);
+            String responses = Http.get(SERVER_URL+"/order",hashMap);
 
         } catch (JSONException e) {
             e.printStackTrace();
