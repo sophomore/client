@@ -23,12 +23,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.security.auth.callback.Callback;
+
 /**
  * Created by kjydiary on 15. 7. 10..
  */
 
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> implements ItemTouchHelperAdapter{
     private Order orderMenus;
+    HashMap<Integer,OrderMenu> selected;
     private Order selectedMenus;
     private TextView totalPrice;
 
@@ -96,6 +99,8 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         return orderMenus.menuList.size();
     }
 
+
+
     @Override
     public void onItemDismiss(int position,TextView textView) {
         orderMenus.menuList.remove(position);
@@ -128,6 +133,11 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
                     notifyDataSetChanged();
                 }
             });
+        }
+    }
+    public void setpay(int pay){
+        for (int i=0; i<selectedMenus.menuList.size();i++){
+            selectedMenus.menuList.get(i).setPay(pay);
         }
     }
 

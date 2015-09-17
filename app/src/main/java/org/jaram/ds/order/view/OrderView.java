@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 /**
  * Created by kjydiary on 15. 7. 8..
  */
-public class OrderView extends Fragment {
+public class OrderView extends Fragment implements View.OnClickListener{
 
     Callbacks callbacks = null;
     MenuListAdapter adapter;
@@ -36,6 +37,8 @@ public class OrderView extends Fragment {
     Order orderList;
     TextView empty;
     RecyclerView menuListView;
+    LinearLayout frame;
+    LinearLayout buttonsframe;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
@@ -97,9 +100,7 @@ public class OrderView extends Fragment {
         return view;
     }
 
-    public void orderpay(ArrayList<OrderMenu> orderList){
 
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -147,7 +148,6 @@ public class OrderView extends Fragment {
                     adapter.notifyDataSetChanged();
                     callbacks.selectMenu(menuList.get(i));
 
-
                     if (orderList.menuList.size() == 0) {
                         menuListView.setVisibility(View.INVISIBLE);
                         empty.setVisibility(View.VISIBLE);
@@ -194,5 +194,26 @@ public class OrderView extends Fragment {
 
     public interface Callbacks {
         void selectMenu(Menu menu);
+    }
+
+    public void setpayway(int pay){
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if(id == R.id.Cash){
+            adapter.setpay(Data.PAY_CASH);
+        }
+        else if(id == R.id.Card){
+            adapter.setpay(Data.PAY_CARD);
+        }
+        else if(id == R.id.Service){
+            adapter.setpay(Data.PAY_SERVICE);
+        }
+        else{
+            adapter.setpay(Data.PAY_CREDIT);
+        }
     }
 }
