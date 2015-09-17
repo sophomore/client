@@ -1,10 +1,8 @@
 package org.jaram.ds.admin;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -19,6 +17,7 @@ import org.jaram.ds.admin.view.DrawerFrag;
 import org.jaram.ds.admin.view.ProgressChartFrag;
 import org.jaram.ds.admin.view.SummaryFrag;
 import org.jaram.ds.order.OrderManager;
+import org.jaram.ds.util.StatisticAsyncTask;
 
 import java.util.ArrayList;
 
@@ -27,13 +26,13 @@ import java.util.ArrayList;
  */
 public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnalysisListener,ProgressChartFrag.Callbacks {
 
-    Typeface tf;
+
     DrawerFrag drawer;
     SummaryFrag summaryFrag;
     TextView startText;
     TextView endText;
     ProgressChartFrag progressChartFrag;
-    ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -43,7 +42,6 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
         if (savedInstanceState == null) {
 
 
-//            tf = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
             summaryFrag = new SummaryFrag();
             drawer = new DrawerFrag();
             getSupportFragmentManager().beginTransaction().add(R.id.drawer,drawer).commit();
@@ -75,9 +73,24 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
             analysis.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String start = (String) startText.getText();
-                    String end = (String) endText.getText();
-                    summaryFrag.createChart(start, end);
+                    if(drawer.getChecked()) {
+                        if(startText.getText().length()!=0 && endText.getText().length()!=0) {
+                            createBarChart();
+                        }
+                    }else{
+                        Bundle bundle = progressChartFrag.getArguments();
+                        boolean analysisType = bundle.getBoolean("analysisType");
+                        ArrayList<String> menuList = bundle.getStringArrayList("menuList");
+                        int unitType = bundle.getInt("unitType");
+                        createLineChart(analysisType, menuList, unitType);
+                    }
+//                    String start = (String) startText.getText();
+//                    String end = (String) endText.getText();
+//                    Log.d("ttess", start + "@" + end);
+//                    StatisticAsyncTask statisticAsyncTask = new StatisticAsyncTask(StatisticMain.this,start,end);
+//                    statisticAsyncTask.execute();
+//
+//                    summaryFrag.createChart(start, end);
 
                 }
             });
@@ -127,23 +140,39 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
 
     @Override
     public void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType) {
+
         String start = (String) startText.getText();
         String end = (String) endText.getText();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("analysisType", analysisType);
-        bundle.putStringArrayList("menuList", menuList);
-        bundle.putInt("unitType", unitType);
-        bundle.putString("start", start);
-        bundle.putString("end",end);
-        progressChartFrag = new ProgressChartFrag();
-        progressChartFrag.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.chartFrag, progressChartFrag).commit();
+        if(start.length()==0||end.length()==0){
 
+        }else {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("analysisType", analysisType);
+            bundle.putStringArrayList("menuList", menuList);
+            bundle.putInt("unitType", unitType);
+            bundle.putString("start", start);
+            bundle.putString("end", end);
+
+            StatisticAsyncTask statisticAsyncTask = new StatisticAsyncTask(StatisticMain.this,start,end);
+            statisticAsyncTask.execute();
+
+            progressChartFrag = new ProgressChartFrag();
+            progressChartFrag.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.chartFrag, progressChartFrag).commit();
+
+        }
     }
 
     @Override
-    public void returnChart() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.chartFrag,summaryFrag).commit();
+    public void createBarChart() {
+        String start = (String) startText.getText();
+        String end = (String) endText.getText();
+
+        StatisticAsyncTask statisticAsyncTask = new StatisticAsyncTask(StatisticMain.this,start,end);
+        statisticAsyncTask.execute();
+        if(start.length()!=0 && end.length()!=0) {
+            summaryFrag.createChart(start, end);
+        }
     }
 
     @Override

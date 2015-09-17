@@ -69,7 +69,7 @@ public class SearchOrderAsyncTask extends AsyncTask<URL, Integer, Void> {
 
                     OrderMenu orderMenu = new OrderMenu(menu, pay);
                     orderMenu.totalprice = jsonObject1.getInt("totalprice");
-                    
+
                     if (doublei == true) {
                         orderMenu.setDoublei();
                     }

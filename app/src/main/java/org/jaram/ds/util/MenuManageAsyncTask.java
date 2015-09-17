@@ -4,6 +4,7 @@ package org.jaram.ds.util;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
@@ -36,6 +37,7 @@ public class MenuManageAsyncTask extends AsyncTask<Void, Integer, Void> {
     protected Void doInBackground(Void... params) {
 
         String responses = Http.get(SERVER_URL+"/menu",null);
+        Log.d("testt",responses);
         Data.menuList.clear();
 
         try {
@@ -47,9 +49,11 @@ public class MenuManageAsyncTask extends AsyncTask<Void, Integer, Void> {
                 int category_id = jsonObject.getInt("category_id");
                 Menu menu = new Menu(j, Data.categoryList.get(category_id),name,price);
                 Data.menuList.put(jsonObject.getInt("id"),menu);
+                Log.d("testt",Data.menuList.size()+"@");
 
             }
         } catch (JSONException e) {
+            Log.d("testt", "실패");
             e.printStackTrace();
         }
         return null;
