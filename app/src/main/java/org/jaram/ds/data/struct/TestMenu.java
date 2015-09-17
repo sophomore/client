@@ -17,6 +17,7 @@ public class TestMenu extends SugarRecord<TestMenu>{
     private long _id;
 
     public TestMenu(){
+
     }
 
     public TestMenu(String name, int price,TestCategory category, boolean available){

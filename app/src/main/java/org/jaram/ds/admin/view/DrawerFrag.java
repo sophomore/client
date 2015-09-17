@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,8 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
@@ -33,6 +37,7 @@ public class DrawerFrag extends Fragment {
     OnAnalysisListener onAnalysisListener;
     boolean checkedType = true;
     int unitType = 0;
+
     ArrayList<String> selectedMenu = new ArrayList<String>();
 
     public static interface OnAnalysisListener{
@@ -45,9 +50,10 @@ public class DrawerFrag extends Fragment {
         final ExpandableHeightGridView gridView = (ExpandableHeightGridView) view.findViewById(R.id.gridView);
         gridView.setExpanded(true);
         SetGridView(gridView, view);
+        final ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollView);
 
+        final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.analysis_type_group);
 
-        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.analysis_type_group);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -63,19 +69,10 @@ public class DrawerFrag extends Fragment {
         analysisbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                onAnalysisListener.createLineChart(checkedType,selectedMenu,unitType);
-
-
+                onAnalysisListener.createLineChart(checkedType, selectedMenu, unitType);
             }
         });
-        Button returnbtn = (Button) view.findViewById(R.id.reset);
-        returnbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAnalysisListener.returnChart();
-            }
-        });
+
         final String[] items = getMenuList();
         final boolean mbIsSelect[] = new boolean[items.length];
         final ExpandableHeightGridView gridView1 = (ExpandableHeightGridView)view.findViewById(R.id.gridView2);
@@ -109,7 +106,7 @@ public class DrawerFrag extends Fragment {
                         .show();
             }
         });
-        Button selectedCancelbtn = (Button) view.findViewById(R.id.cancel_selected_menu);
+        final Button selectedCancelbtn = (Button) view.findViewById(R.id.cancel_selected_menu);
         selectedCancelbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +115,44 @@ public class DrawerFrag extends Fragment {
                 adapter.notifyDataSetChanged();
                 for(int i=0;i<mbIsSelect.length;i++){
                     mbIsSelect[i]=false;
+                }
+            }
+        });
+        Switch aSwitch = (Switch) view.findViewById(R.id.statistic_switch);
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    gridView.setBackgroundColor(Color.parseColor("#8C8C8C"));
+                    scrollView.setBackgroundColor(Color.parseColor("#8C8C8C"));
+                    gridView1.setBackgroundColor(Color.parseColor("#8C8C8C"));
+                    radioGroup.setBackgroundColor(Color.parseColor("#8C8C8C"));
+                    selectMenubtn.setBackgroundColor(Color.parseColor("#8C8C8C"));
+                    selectedCancelbtn.setBackgroundColor(Color.parseColor("#8C8C8C"));
+                    selectMenubtn.setTextColor(Color.parseColor("#8C8C8C"));
+                    selectedCancelbtn.setTextColor(Color.parseColor("#8C8C8C"));
+                    SimpleAdapter simpleAdapter= (SimpleAdapter) gridView.getAdapter();
+                    simpleAdapter.setCheck(true);
+                    simpleAdapter.notifyDataSetChanged();
+                    radioGroup.clearCheck();
+                    radioGroup.getChildAt(0).setClickable(false);
+                    radioGroup.getChildAt(1).setClickable(false);
+
+                } else{
+                    gridView.setBackgroundColor(Color.parseColor("#F5F6F7"));
+                    scrollView.setBackgroundColor(Color.parseColor("#F5F6F7"));
+                    gridView1.setBackgroundColor(Color.parseColor("#F5F6F7"));
+                    radioGroup.setBackgroundColor(Color.parseColor("#F5F6F7"));
+                    selectMenubtn.setBackgroundColor(Color.parseColor("#FF7F66"));
+                    selectedCancelbtn.setBackgroundColor(Color.parseColor("#FF7F66"));
+                    selectMenubtn.setTextColor(Color.parseColor("#FFFFFF"));
+                    selectedCancelbtn.setTextColor(Color.parseColor("#FFFFFF"));
+                    SimpleAdapter simpleAdapter= (SimpleAdapter) gridView.getAdapter();
+                    simpleAdapter.setCheck(false);
+                    simpleAdapter.notifyDataSetChanged();
+                    radioGroup.getChildAt(0).setClickable(true);
+                    radioGroup.getChildAt(1).setClickable(true);
+
                 }
             }
         });
@@ -162,10 +197,14 @@ public class DrawerFrag extends Fragment {
 
         private Context mContext;
         ArrayList<String> menuList;
+        boolean check = true;
         mSelectedMenuListAdapter(ArrayList<String> menuList,Context c){
             this.mContext = c;
             this.menuList = menuList;
 
+        }
+        public void setCheck(boolean check){
+            this.check = check;
         }
         @Override
         public int getCount() {
@@ -200,6 +239,12 @@ public class DrawerFrag extends Fragment {
         private Context mContext;
         private int mSelectedPosition = -1;
         private RadioButton mSelectRadiobtn = null;
+        boolean check = true;
+
+        public void setCheck(boolean check) {
+            this.check = check;
+        }
+
         SimpleAdapter(Context c){
             mContext = c;
         }
@@ -235,28 +280,34 @@ public class DrawerFrag extends Fragment {
             } else {
                 gridView = convertView;
             }
-            radioButton.setOnClickListener(new View.OnClickListener() {
+            if(check){
+                radioButton.setClickable(false);
+            } else{
+                radioButton.setClickable(true);
+                radioButton.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
+                    @Override
+                    public void onClick(View v) {
 
-                    if ((position != mSelectedPosition && mSelectRadiobtn != null)) {
-                        mSelectRadiobtn.setChecked(false);
+                        if ((position != mSelectedPosition && mSelectRadiobtn != null)) {
+                            mSelectRadiobtn.setChecked(false);
+                        }
+                        unitType = position;
+                        mSelectedPosition = position;
+                        mSelectRadiobtn = (RadioButton) v;
                     }
-                    unitType = position;
-                    mSelectedPosition = position;
-                    mSelectRadiobtn = (RadioButton) v;
-                }
-            });
+                });
 
-            if (mSelectedPosition != position) {
-                radioButton.setChecked(false);
-            } else {
-                radioButton.setChecked(true);
-                if (mSelectRadiobtn != null && radioButton != mSelectRadiobtn) {
-                    mSelectRadiobtn = radioButton;
+                if (mSelectedPosition != position) {
+                    radioButton.setChecked(false);
+                } else {
+                    radioButton.setChecked(true);
+                    if (mSelectRadiobtn != null && radioButton != mSelectRadiobtn) {
+                        mSelectRadiobtn = radioButton;
+                    }
                 }
             }
+
 
 
             return gridView;

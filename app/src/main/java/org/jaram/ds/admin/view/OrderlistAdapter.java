@@ -112,7 +112,10 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
             menu2 = menu2 + i + " " + getItem(position).get(i) + "개, ";
             Log.d("get", getItem(position).get(i) + "");
         }
-        menu2 = menu2.substring(0, menu2.length() - 2);
+        Log.d("menu2",menu2);
+        if(menu2.length()!=0) {
+            menu2 = menu2.substring(0, menu2.length() - 2);
+        }
         o.setText(menu2);
         ol.setText(String.format("%d", getTotal(position)));
         convertView.setTag(position);

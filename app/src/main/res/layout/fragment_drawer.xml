@@ -3,36 +3,55 @@
     android:id="@+id/drawerLayout"
     android:layout_width="360dp"
     android:layout_height="match_parent"
-    android:background="#F5F6F7"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#3E454C">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:background="#3E454C"
+            android:text="통계 설정"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#fff"
+            android:textSize="30dp" />
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5F6F7"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text = "통계 방식"/>
+        <Switch
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/statistic_switch"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:id="@+id/scrollView"
+        android:background="#F5F6F7"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:background="#3E454C">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="20dp"
-                    android:background="#3E454C"
-                    android:text="통계 설정"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#fff"
-                    android:textSize="30dp" />
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView3"
@@ -165,14 +184,6 @@
             android:layout_height="match_parent"
             android:background="#fff" />
 
-        <Button
-            android:id="@+id/reset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FF7F66"
-            android:text="초기화"
-            android:textColor="#fff" />
     </LinearLayout>
 
 

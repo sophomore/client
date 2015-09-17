@@ -20,8 +20,6 @@ import android.widget.Toast;
 
 import org.jaram.ds.Intro;
 import org.jaram.ds.R;
-import org.jaram.ds.admin.view.MenuFrag;
-import org.jaram.ds.admin.view.MenuListFrag;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.order.OrderManager;
@@ -35,12 +33,12 @@ import java.util.ArrayList;
 //메뉴추가 취소 다이얼로그 작성//
 public class MenuManagementMain extends ActionBarActivity {
 
-    MenuListFrag menuListFrag;
-    MenuFrag menuFrag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_management2);
+
 
         RecyclerView cutletList = (RecyclerView)findViewById(R.id.DonMenuList);
         MenuSelectBtnAdapter menuBtnAdapterDon = new MenuSelectBtnAdapter(Data.categoryList.get(1).menus);
@@ -55,12 +53,13 @@ public class MenuManagementMain extends ActionBarActivity {
         RecyclerView noodleList = (RecyclerView)findViewById(R.id.NoodleMenuList);
         MenuSelectBtnAdapter menuBtnAdapterNoodle = new MenuSelectBtnAdapter(Data.categoryList.get(3).menus);
         noodleList.setAdapter(menuBtnAdapterNoodle);
-        noodleList.setLayoutManager(new LinearLayoutManager(MenuManagementMain.this,LinearLayoutManager.VERTICAL,false));
+        noodleList.setLayoutManager(new LinearLayoutManager(MenuManagementMain.this, LinearLayoutManager.VERTICAL, false));
 
         RecyclerView etcList = (RecyclerView)findViewById(R.id.DrinkAndAdd);
         MenuSelectBtnAdapter menuBtnAdapterLast = new MenuSelectBtnAdapter(Data.categoryList.get(4).menus);
         etcList.setAdapter(menuBtnAdapterLast);
         etcList.setLayoutManager(new LinearLayoutManager(MenuManagementMain.this, LinearLayoutManager.VERTICAL, false));
+
 
 
         TextView don = (TextView)findViewById(R.id.DonGgas);
@@ -343,13 +342,16 @@ public class MenuManagementMain extends ActionBarActivity {
         });
     }
 
-    private class MenuSelectBtnAdapter extends RecyclerView.Adapter<MenuSelectBtnAdapter.MenuSelectBtnViewHolder> {
+    public class MenuSelectBtnAdapter extends RecyclerView.Adapter<MenuSelectBtnAdapter.MenuSelectBtnViewHolder> {
 
         ArrayList<Menu> menuList = null;
         public MenuSelectBtnAdapter(ArrayList<Menu> menuList) {
             this.menuList = menuList;
         }
 
+        public void setmenuList(ArrayList<Menu> menuList){
+            this.menuList = menuList;
+        }
 
         @Override
         public MenuSelectBtnViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
