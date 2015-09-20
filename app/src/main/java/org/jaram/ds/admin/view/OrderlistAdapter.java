@@ -3,12 +3,14 @@ package org.jaram.ds.admin.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -28,19 +30,23 @@ import java.util.Set;
 /**
  * Created by cheonyujung on 15. 7. 23..
  */
-public class OrderlistAdapter extends BaseAdapter implements View.OnClickListener, View.OnLongClickListener {
+public class OrderlistAdapter extends BaseAdapter implements View.OnLongClickListener {
     private LayoutInflater inflater;
+    private FrameLayout detail_order;
     private Context mcontext = null;
     private ArrayList<Order> data;
+    int prevPosition = 0;
+    private HashMap<Order,View> selected_order = new HashMap<Order, View>();
     private int layout;
-    private View view = null;
+    public View view = null;
 
-    public OrderlistAdapter(Context mcontext, int layout, ArrayList<Order> data) {
+    public OrderlistAdapter(Context mcontext, int layout, ArrayList<Order> data, FrameLayout detail_order) {
         super();
         this.mcontext = mcontext;
         this.data = data;
         this.inflater = (LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.layout = layout;
+        this.detail_order = detail_order;
 
     }
 
@@ -71,7 +77,7 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         for (int i = 0; i < count; i++) {
             String temp = data.get(position).menuList.get(i).menu.name;
             Log.d("name", String.valueOf(menus.keySet().size()));
-            if (menus.keySet().contains(data.get(position).menuList.get(i).menu.name)) {
+            if (temp != null && menus.keySet().contains(data.get(position).menuList.get(i).menu.name)) {
                 int plus = menus.get(temp) + 1;
                 menus.put(temp, plus);
             } else {
@@ -90,12 +96,9 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         return position;
     }
 
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        if (convertView == null) {
-            convertView = inflater.inflate(layout, parent, false);
-        }
+        convertView = inflater.inflate(layout, parent, false);
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -116,50 +119,83 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
         o.setText(menu2);
         ol.setText(String.format("%d", getTotal(position)));
         convertView.setTag(position);
-        convertView.setOnClickListener(this);
+        if(!selected_order.keySet().isEmpty()){
+            Log.d("what", "##############");
+            if(selected_order.containsKey(data.get(position))){
+                Log.d("what", "!!!!!!!!!!!!!!!!!!!!!");
+                Set<Order> select = selected_order.keySet();
+                for(Order i : select){
+                    convertView.setBackgroundColor(Color.parseColor("#2385C5"));
+                    TextView d2 = (TextView) convertView.findViewById(R.id.date);
+                    TextView o2 = (TextView) convertView.findViewById(R.id.order);
+                    TextView ol2 = (TextView) convertView.findViewById(R.id.orderprice);
+                    d2.setTextColor(Color.parseColor("#ffffff"));
+                    o2.setTextColor(Color.parseColor("#ffffff"));
+                    ol2.setTextColor(Color.parseColor("#ffffff"));
+                    Log.d("what", "color");
+                }
+            }
+
+        }
+        Log.d("what", data.get(position).date+" "+position);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setBackgroundColor(Color.parseColor("#2185C5"));
+                TextView d = (TextView) v.findViewById(R.id.date);
+                TextView o = (TextView) v.findViewById(R.id.order);
+                TextView ol = (TextView) v.findViewById(R.id.orderprice);
+                d.setTextColor(Color.parseColor("#ffffff"));
+                o.setTextColor(Color.parseColor("#ffffff"));
+                ol.setTextColor(Color.parseColor("#ffffff"));
+                if(!selected_order.keySet().isEmpty()){
+                    if(!selected_order.containsKey(data.get(position))){
+                        Set<Order> select = selected_order.keySet();
+                        for(Order i : select){
+                            View v1 = selected_order.get(i);
+                            TextView d1 = (TextView) v1.findViewById(R.id.date);
+                            TextView o1 = (TextView) v1.findViewById(R.id.order);
+                            TextView ol1 = (TextView) v1.findViewById(R.id.orderprice);
+                            d1.setTextColor(Color.parseColor("#000000"));
+                            o1.setTextColor(Color.parseColor("#000000"));
+                            ol1.setTextColor(Color.parseColor("#000000"));
+                            v1.setBackgroundColor(Color.parseColor("#ffffff"));
+                            notifyDataSetInvalidated();
+                        }
+                        selected_order.clear();
+                        selected_order.put(data.get(position), v);
+                    }
+
+                }else{
+                    selected_order.put(data.get(position), v);
+                }
+
+
+                detail_order.removeAllViews();
+
+                view = null;
+                Log.d("where", "1");
+                view = inflater.inflate(R.layout.orderlistmodify_container, detail_order);
+
+                TextView date = (TextView) view.findViewById(R.id.date_dialog);
+
+                date.setText(getDate(position));
+
+                GridView gridView = (GridView) view.findViewById(R.id.orderModify_list);
+
+                OrderModifyAdapter orderModifyAdapter = new OrderModifyAdapter(Data.orderList.get(position).menuList);
+
+                gridView.setAdapter(orderModifyAdapter);
+
+                TextView total_price = (TextView) view.findViewById(R.id.order_price);
+
+                total_price.setText(String.valueOf(getTotal(position)));
+            }
+        });
         convertView.setOnLongClickListener(this);
+        Log.d("where", "2");
         return convertView;
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        int position = (Integer) v.getTag();
-
-        view = inflater.inflate(R.layout.orderlistmodify_container, null);
-
-        TextView date = (TextView) view.findViewById(R.id.date_dialog);
-
-        date.setText(getDate(position));
-
-        GridView gridView = (GridView) view.findViewById(R.id.orderModify_list);
-
-        OrderModifyAdapter orderModifyAdapter = new OrderModifyAdapter(Data.orderList.get(position).menuList);
-
-        gridView.setAdapter(orderModifyAdapter);
-
-        TextView total_price = (TextView) view.findViewById(R.id.order_price);
-
-        total_price.setText(String.valueOf(getTotal(position)));
-
-        AlertDialog.Builder ab = new AlertDialog.Builder(mcontext);
-        ab.setTitle("상세 주문 보기");
-        ab.setView(view);
-        ab.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //확인을 눌렀을 때
-            }
-        });
-        ab.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //취소를 눌렀을 때
-            }
-        });
-        ab.create();
-        ab.show();
-
     }
 
     @Override
@@ -212,25 +248,26 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
             return orderMenu.get(position).menu.name;
         }
 
-        public boolean checkcredit(int position){
-            if(orderMenu.get(position).pay == Data.PAY_CREDIT){
+        public boolean checkcredit(int position) {
+            if (orderMenu.get(position).pay == Data.PAY_CREDIT) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
 
-        public String koreaCredit(int position){
-            if(orderMenu.get(position).pay == Data.PAY_CARD){
+        public String koreaCredit(int position) {
+            if (orderMenu.get(position).pay == Data.PAY_CARD) {
                 return "카드";
-            }else if(orderMenu.get(position).pay == Data.PAY_CASH){
+            } else if (orderMenu.get(position).pay == Data.PAY_CASH) {
                 return "현금";
-            }else if(orderMenu.get(position).pay == Data.PAY_SERVICE){
+            } else if (orderMenu.get(position).pay == Data.PAY_SERVICE) {
                 return "서비스";
-            }else{
+            } else {
                 return "외상";
             }
         }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
@@ -241,14 +278,14 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnClickListene
             String[] chooseitem = {"현금", "카드", "외상", "서비스"};
             TextView menuname = (TextView) convertView.findViewById(R.id.origincredit);
             menuname.setText(getMenu(position));
-            if(checkcredit(position)){
+            if (checkcredit(position)) {
                 Spinner spinner = (Spinner) convertView.findViewById(R.id.changecredit);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(mcontext, R.layout.support_simple_spinner_dropdown_item, chooseitem);
                 spinner.setAdapter(adapter);
                 spinner.setSelection(2);
                 mtextview.setVisibility(LinearLayout.INVISIBLE);
                 mspinner.setVisibility(LinearLayout.VISIBLE);
-            }else{
+            } else {
                 TextView creditview = (TextView) convertView.findViewById(R.id.credit_view);
                 creditview.setText(koreaCredit(position));
                 mspinner.setVisibility(LinearLayout.INVISIBLE);

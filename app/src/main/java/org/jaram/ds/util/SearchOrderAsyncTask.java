@@ -17,24 +17,22 @@ public class SearchOrderAsyncTask extends AsyncTask<URL,Integer,Void> {
         this.mContext  = context;
     }
     ProgressDialog dialog;
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        dialog = ProgressDialog.show(mContext, "", "추가중입니다.", true);
-        super.onPreExecute();
-    }
+
 
     @Override
     protected void onPreExecute() {
+        dialog = ProgressDialog.show(mContext,"","검색중입니다.",true);
         super.onPreExecute();
-    }
-
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
     }
 
     @Override
     protected Void doInBackground(URL... params) {
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        dialog.dismiss();
+        super.onPostExecute(aVoid);
     }
 }

@@ -6,10 +6,12 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import org.jaram.ds.Intro;
 import org.jaram.ds.R;
@@ -31,11 +33,16 @@ public class OrderManagerMain extends FragmentActivity {
 
         setContentView(R.layout.activity_ordermanager);
         if (savedInstanceState == null) {
+            FrameLayout detail_order = (FrameLayout)findViewById(R.id.detail_order);
             search_orderFrag = new Search_orderFrag();
-            order_viewFrag = new Order_viewFrag();
+            order_viewFrag = new Order_viewFrag(detail_order);
+
             getSupportFragmentManager().beginTransaction().add(R.id.order_search,search_orderFrag).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.order_view, order_viewFrag).commit();
 
+            if(detail_order == null){
+                Log.d("null", "detail_order1");
+            }
             Button refund = (Button) findViewById(R.id.refund);
             refund.setText("주문");
             refund.setOnClickListener(new View.OnClickListener() {
