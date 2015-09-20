@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
+import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 import org.jaram.ds.order.MenuListAdapter;
 import org.jaram.ds.order.SimpleItemTouchHelper;
@@ -26,14 +29,16 @@ import java.util.ArrayList;
 /**
  * Created by kjydiary on 15. 7. 8..
  */
-public class OrderView extends Fragment {
+public class OrderView extends Fragment implements View.OnClickListener{
 
     Callbacks callbacks = null;
     MenuListAdapter adapter;
     TextView totalprice;
-    ArrayList<OrderMenu> orderList;
+    Order orderList;
     TextView empty;
     RecyclerView menuListView;
+    LinearLayout frame;
+    LinearLayout buttonsframe;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
@@ -47,15 +52,22 @@ public class OrderView extends Fragment {
 
         empty = (TextView)view.findViewById(R.id.list_empty);
 
+        Button cash = (Button)view.findViewById(R.id.Cash);
+        Button card = (Button)view.findViewById(R.id.Card);
+        Button service = (Button)view.findViewById(R.id.Service);
+        Button credit = (Button)view.findViewById(R.id.Credit);
+
+
+
 //        Order order = new Order();
 //        Order order = Data.orderList.get(new Random().nextInt(Data.orderList.size()-1));
 //        MenuListAdapter adapter = new MenuListAdapter(order.menuList);
 //        ArrayList<OrderMenu> orderMenus = Data.orderList.get(0).menuList;
 //        orderMenus.add();
 
-        orderList = new ArrayList<OrderMenu>();
+        orderList = new Order();
 
-        adapter = new MenuListAdapter(orderList);
+        adapter = new MenuListAdapter(orderList, totalprice);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelper(adapter,totalprice);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(menuListView);
@@ -64,6 +76,7 @@ public class OrderView extends Fragment {
 
         //TODO: 메뉴 목록과 메뉴 선택 fragment 분리해야함. : 결제화면과 메뉴목록 통일
         RecyclerView cutletList = (RecyclerView)view.findViewById(R.id.DonMenuList);
+
         MenuSelectBtnAdapter menuBtnAdapterDon = new MenuSelectBtnAdapter(Data.categoryList.get(1).menus);
         cutletList.setAdapter(menuBtnAdapterDon);
         cutletList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
@@ -83,12 +96,11 @@ public class OrderView extends Fragment {
         etcList.setAdapter(menuBtnAdapterLast);
         etcList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
+
         return view;
     }
 
-    public void orderpay(ArrayList<OrderMenu> orderList){
 
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -131,14 +143,12 @@ public class OrderView extends Fragment {
             holder.menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Data.orderList.get(0).addMenu(menuList.get(i),Data.PAY_CREDIT);
-                    totalprice.setText((Integer.parseInt((String)totalprice.getText())+menuList.get(i).price)+"");
+                    orderList.addMenu(menuList.get(i), Data.PAY_CREDIT);
+                    totalprice.setText(orderList.getTotalPrice()+"");
                     adapter.notifyDataSetChanged();
                     callbacks.selectMenu(menuList.get(i));
 
-                    orderList.add(new OrderMenu(menuList.get(i), Data.PAY_CREDIT));
-
-                    if (orderList.size() == 0) {
+                    if (orderList.menuList.size() == 0) {
                         menuListView.setVisibility(View.INVISIBLE);
                         empty.setVisibility(View.VISIBLE);
                     }
@@ -164,7 +174,6 @@ public class OrderView extends Fragment {
             public MenuSelectBtnViewHolder(View item) {
                 super(item);
                 menu = item;
-
                 price = (TextView)item.findViewById(R.id.PriceOfMenu);
                 name = (TextView)item.findViewById(R.id.NameOfMenu);
                 item.setOnTouchListener(new View.OnTouchListener() {
@@ -185,5 +194,26 @@ public class OrderView extends Fragment {
 
     public interface Callbacks {
         void selectMenu(Menu menu);
+    }
+
+    public void setpayway(int pay){
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if(id == R.id.Cash){
+            adapter.setpay(Data.PAY_CASH);
+        }
+        else if(id == R.id.Card){
+            adapter.setpay(Data.PAY_CARD);
+        }
+        else if(id == R.id.Service){
+            adapter.setpay(Data.PAY_SERVICE);
+        }
+        else{
+            adapter.setpay(Data.PAY_CREDIT);
+        }
     }
 }

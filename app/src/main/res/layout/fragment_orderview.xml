@@ -12,6 +12,5 @@
 
         android:choiceMode="singleChoice"
         android:dividerHeight="1.5dp"
-        android:listSelector="@drawable/listselector"
         android:cacheColorHint="#ffffff"></ListView>
 </LinearLayout>

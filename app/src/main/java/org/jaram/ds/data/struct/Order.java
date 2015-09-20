@@ -1,5 +1,7 @@
 package org.jaram.ds.data.struct;
 
+import android.util.Log;
+
 import org.jaram.ds.data.Data;
 import org.jaram.ds.exeption.OrderException;
 
@@ -17,7 +19,13 @@ public class Order {
 
     public void addMenu(Menu menu, int pay) {
         menuList.add(new OrderMenu(menu, pay));
-        totalPrice += menu.price;
+    }
+    public int getTotalPrice(){
+        totalPrice = 0;
+        for(int i=0;i<menuList.size();i++){
+            totalPrice += menuList.get(i).totalprice;
+        }
+        return totalPrice;
     }
 
     public void removeMenu(Menu menu) throws OrderException {
@@ -25,7 +33,6 @@ public class Order {
             OrderMenu orderMenu = menuList.get(i);
             if (orderMenu.menu.equals(menu) && orderMenu.pay == Data.PAY_CREDIT) {
                 menuList.remove(i);
-                totalPrice -= menu.price;
                 return;
             }
         }

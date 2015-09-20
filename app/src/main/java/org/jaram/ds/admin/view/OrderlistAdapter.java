@@ -113,16 +113,15 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnLongClickLis
         String menu2 = "";
         for (Object i : menu1) {
             menu2 = menu2 + i + " " + getItem(position).get(i) + "개, ";
-            Log.d("get", getItem(position).get(i) + "");
         }
-        menu2 = menu2.substring(0, menu2.length() - 2);
+        if(menu2.length()!=0) {
+            menu2 = menu2.substring(0, menu2.length() - 2);
+        }
         o.setText(menu2);
         ol.setText(String.format("%d", getTotal(position)));
         convertView.setTag(position);
         if(!selected_order.keySet().isEmpty()){
-            Log.d("what", "##############");
             if(selected_order.containsKey(data.get(position))){
-                Log.d("what", "!!!!!!!!!!!!!!!!!!!!!");
                 Set<Order> select = selected_order.keySet();
                 for(Order i : select){
                     convertView.setBackgroundColor(Color.parseColor("#2385C5"));
@@ -132,7 +131,6 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnLongClickLis
                     d2.setTextColor(Color.parseColor("#ffffff"));
                     o2.setTextColor(Color.parseColor("#ffffff"));
                     ol2.setTextColor(Color.parseColor("#ffffff"));
-                    Log.d("what", "color");
                 }
             }
 
@@ -175,7 +173,6 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnLongClickLis
                 detail_order.removeAllViews();
 
                 view = null;
-                Log.d("where", "1");
                 view = inflater.inflate(R.layout.orderlistmodify_container, detail_order);
 
                 TextView date = (TextView) view.findViewById(R.id.date_dialog);
@@ -194,7 +191,6 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnLongClickLis
             }
         });
         convertView.setOnLongClickListener(this);
-        Log.d("where", "2");
         return convertView;
     }
 

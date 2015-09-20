@@ -8,29 +8,20 @@ import com.orm.SugarRecord;
 public class TestCategory extends SugarRecord<TestCategory> {
 
     private static Integer increment = 0;
-    private long _id;
+    private Integer id;
 
     private String name;
 
 
-    public TestCategory(){
-
-    }
-    public TestCategory(String name){
+    public TestCategory(int id,String name){
         super();
         this.name = name;
-        this._id = ++increment;
+        this.id = id;
     }
 
     public String getName(){
         return this.name;
     }
 
-    public void setName(String name){
-        this.name = name;
-    }
 
-    public long get_id() {
-        return _id;
-    }
 }

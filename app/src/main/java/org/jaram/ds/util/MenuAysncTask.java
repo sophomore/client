@@ -36,9 +36,7 @@ public class MenuAysncTask extends AsyncTask<RecyclerView, Integer, Void> {
             OrderView.MenuSelectBtnAdapter menuListAdapters = (OrderView.MenuSelectBtnAdapter) params[i].getAdapter();
             menuListAdapters.setmenuList(Data.categoryList.get(i+1).menus);
             menuListAdapters.notifyDataSetChanged();
-
         }
-
         return null;
     }
 
