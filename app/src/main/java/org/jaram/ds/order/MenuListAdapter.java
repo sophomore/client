@@ -20,7 +20,6 @@ import javax.security.auth.callback.Callback;
 
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> implements ItemTouchHelperAdapter {
     private Order orderMenus;
-    HashMap<Integer,OrderMenu> selected;
     private Order selectedMenus;
     private TextView totalPrice;
 
@@ -54,6 +53,12 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
             holder.curryBtn.setTextColor(Color.parseColor("#2185C5"));
             holder.doubleBtn.setTextColor(Color.parseColor("#2185C5"));
             holder.nameView.setTextColor(Color.parseColor("#3E454C"));
+        }
+        if (orderMenus.menuList.get(position).getComplete()){
+            holder.menu.setBackgroundColor(Color.parseColor("#A6A6A6"));
+            holder.curryBtn.setTextColor(Color.parseColor("#ffffff"));
+            holder.doubleBtn.setTextColor(Color.parseColor("#ffffff"));
+            holder.nameView.setTextColor(Color.parseColor("#4c4c4c"));
         }
 
         holder.curryBtn.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +99,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         orderMenus.menuList.remove(position);
         notifyDataSetChanged();
         textView.setText(orderMenus.getTotalPrice() + "");
-        Log.d("totalpriced", orderMenus.getTotalPrice() + "");
     }
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
@@ -127,6 +131,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     public void setpay(int pay){
         for (int i=0; i<selectedMenus.menuList.size();i++){
             selectedMenus.menuList.get(i).setPay(pay);
+            selectedMenus.menuList.get(i).setComplete();
         }
     }
 

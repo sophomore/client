@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
@@ -37,12 +38,14 @@ public class OrderView extends Fragment implements View.OnClickListener{
     Order orderList;
     TextView empty;
     RecyclerView menuListView;
+    RelativeLayout buttonsframe;
     LinearLayout frame;
-    LinearLayout buttonsframe;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         totalprice = (TextView)view.findViewById(R.id.TotalPay);
+        frame = (LinearLayout)view.findViewById(R.id.buttons);
+        buttonsframe = (RelativeLayout)view.findViewById(R.id.isitOK);
 //        totalprice.setText(Data.orderList.get(0).totalPrice+"");
 
         menuListView = (RecyclerView)view.findViewById(R.id.menuListView);
@@ -196,14 +199,11 @@ public class OrderView extends Fragment implements View.OnClickListener{
         void selectMenu(Menu menu);
     }
 
-    public void setpayway(int pay){
-
-    }
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.Cash){
+            frame.setVisibility(LinearLayout.VISIBLE);
             adapter.setpay(Data.PAY_CASH);
         }
         else if(id == R.id.Card){

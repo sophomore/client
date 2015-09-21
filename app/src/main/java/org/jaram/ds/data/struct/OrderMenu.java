@@ -11,6 +11,7 @@ public class OrderMenu {
     public boolean doublei = false;
     public int totalprice = 0;
     public int pay = Data.PAY_CREDIT;
+    public boolean complete = false;
 
     public OrderMenu(Menu menu, int pay) {
         this.menu = menu;
@@ -48,5 +49,11 @@ public class OrderMenu {
 
     public int getTotalprice() {
         return totalprice;
+    }
+    public void setComplete(){
+        this.complete = true;
+    }
+    public boolean getComplete(){
+        return complete;
     }
 }
