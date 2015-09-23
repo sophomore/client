@@ -33,7 +33,6 @@ public class SearchOrderAsyncTask extends AsyncTask<URL, Integer, Void> {
     }
 
     ProgressDialog dialog;
-
     @Override
     protected void onPreExecute() {
         dialog = ProgressDialog.show(mContext, "", "추가중입니다.", true);

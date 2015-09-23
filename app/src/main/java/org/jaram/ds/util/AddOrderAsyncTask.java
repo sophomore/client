@@ -34,10 +34,7 @@ public class AddOrderAsyncTask extends AsyncTask<URL,Integer,Void> {
 
         HashMap<String,Object> hashMap = new HashMap<>();
 
-
         try {
-
-
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd H:mm:ss", Locale.KOREA);
             String date = "2015-10-16 13:20:22";
             hashMap.put("time",date);

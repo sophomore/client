@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:id = "@+id/order"
             android:textSize = "18sp"
+            android:singleLine="true"
             android:layout_below="@+id/date"/>
         <TextView
             android:layout_height="wrap_content"
