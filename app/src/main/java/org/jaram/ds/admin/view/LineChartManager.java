@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 
 
 /**
@@ -28,7 +29,7 @@ import java.util.Date;
  */
 
 
-public class LineChartManager implements OnChartGestureListener{
+public class LineChartManager implements OnChartGestureListener {
 
 
     Typeface tf;
@@ -40,66 +41,71 @@ public class LineChartManager implements OnChartGestureListener{
     String start;
     String end;
 
-    public LineChartManager(){
+    public LineChartManager() {
     }
 
-    public LineChart getChart(){
+    public LineChart getChart() {
         return mChart;
     }
 
-    public void setChart(LineChart lineChart){
+    public void setChart(LineChart lineChart) {
         this.mChart = lineChart;
     }
 
-    public ArrayList<String> getMenuNameList(){
+    public ArrayList<String> getMenuNameList() {
         return menuList;
     }
 
     public Calendar getStartDate() throws ParseException {
         Calendar cal = Calendar.getInstance();
-        String []date = start.split("-");
+        String[] date = start.split("-");
         cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
         return cal;
     }
 
-    public Calendar getFinishDate(){
+    public Calendar getFinishDate() {
         Calendar cal = Calendar.getInstance();
-        String []date = end.split("-");
-        cal.set(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2]));
+        String[] date = end.split("-");
+        cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
         return cal;
     }
+
     private Date getStartDate(String startDate) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.parse(startDate);
     }
+
     private Date getFinishDate(String finishDate) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.parse(finishDate);
     }
+
     public long lengthOfDate(String startDate, String finishDate) throws ParseException {
 
 
         Date start = getStartDate(startDate);
         Date finish = getFinishDate(finishDate);
         long diff = finish.getTime() - start.getTime();
-        long diffDays = diff/(24*60*60*1000);
+        long diffDays = diff / (24 * 60 * 60 * 1000);
 
         return diffDays;
     }
-    public int getQuarter(int month){
-        int quarter =0;
-        if(month>=0 && month<=2){
+
+    public int getQuarter(int month) {
+        int quarter = 0;
+        if (month >= 0 && month <= 2) {
             quarter = 0;
-        } else if(month>=3 && month<=5){
+        } else if (month >= 3 && month <= 5) {
             quarter = 1;
-        } else if(month>=6 && month<=8){
+        } else if (month >= 6 && month <= 8) {
             quarter = 2;
-        } else{
+        } else {
             quarter = 3;
         }
         return quarter;
     }
-    public LineData getData(boolean analysisType,ArrayList<String> menuList,int unitType,String startDate,String finishDate){
+
+    public LineData getData(boolean analysisType, ArrayList<String> menuList, int unitType, String startDate, String finishDate) {
 
         this.analysisType = analysisType;
         this.menuList = menuList;
@@ -107,7 +113,7 @@ public class LineChartManager implements OnChartGestureListener{
         this.start = startDate;
         this.end = finishDate;
 
-        switch (unitType){
+        switch (unitType) {
             case 0:
 
                 return generateTimeChart(menuList);
@@ -116,7 +122,7 @@ public class LineChartManager implements OnChartGestureListener{
                 try {
                     int diffDays = (int) lengthOfDate(startDate, finishDate);
 
-                    return generateDateChart(menuList,diffDays);
+                    return generateDateChart(menuList, diffDays);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -135,7 +141,7 @@ public class LineChartManager implements OnChartGestureListener{
 
             case 5:
 
-                return generateYearChart(menuList,startDate,finishDate);
+                return generateYearChart(menuList, startDate, finishDate);
 
 
         }
@@ -144,7 +150,7 @@ public class LineChartManager implements OnChartGestureListener{
     }
 
 
-    public LineData generateDateChart(ArrayList<String> menuName, int diffDays){
+    public LineData generateDateChart(ArrayList<String> menuName, int diffDays) {
         Calendar date = null;
 
         try {
@@ -154,7 +160,7 @@ public class LineChartManager implements OnChartGestureListener{
 
             e.printStackTrace();
         }
-        if(date != null) {
+        if (date != null) {
             Calendar date2;
             ArrayList<Order> orderList = Data.orderList;
 
@@ -167,17 +173,17 @@ public class LineChartManager implements OnChartGestureListener{
 
                     for (int l = 0; l < diffDays; l++) {
 
-                        if (date2.get(Calendar.YEAR) == orderDate.get(Calendar.YEAR) && date2.get(Calendar.MONTH)==orderDate.get(Calendar.MONTH) && date2.get(Calendar.DATE) == orderDate.get(Calendar.DATE)) {
-                            Log.d("suc","성공");
+                        if (date2.get(Calendar.YEAR) == orderDate.get(Calendar.YEAR) && date2.get(Calendar.MONTH) == orderDate.get(Calendar.MONTH) && date2.get(Calendar.DATE) == orderDate.get(Calendar.DATE)) {
+                            Log.d("suc", "성공");
                             for (int k = 0; k < menuName.size(); k++) {
-                                Log.d("testName",j.menu.name+"");
-                                Log.d("testName",menuName.get(k)+"@");
+                                Log.d("testName", j.menu.name + "");
+                                Log.d("testName", menuName.get(k) + "@");
                                 if (j.menu.name == menuName.get(k)) {
-                                    if(analysisType == true) {
+                                    if (analysisType == true) {
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
 
-                                    } else if(analysisType == false){
-                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] +1;
+                                    } else if (analysisType == false) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
 
                                     }
                                 }
@@ -215,23 +221,22 @@ public class LineChartManager implements OnChartGestureListener{
 
             for (int i = 0; i < diffDays; i++) {
 
-                xVals[i] = date.getTime().getMonth()+"/"+date.getTime().getDate() + "";
-                Log.d("date",date.getTime().getMonth()+"");
-                date.add(Calendar.DATE,1);
+                xVals[i] = date.getTime().getMonth() + "/" + date.getTime().getDate() + "";
+                Log.d("date", date.getTime().getMonth() + "");
+                date.add(Calendar.DATE, 1);
 
             }
             LineData lineData = new LineData(xVals, lineDataSets);
             return lineData;
-        }
-        else{
-            Log.d("asd","실패");
+        } else {
+            Log.d("asd", "실패");
             return null;
         }
     }
 
-    public LineData generateTimeChart(ArrayList<String> menuList){
+    public LineData generateTimeChart(ArrayList<String> menuList) {
         Calendar date = null;
-        int timeList[] ={9,10,11,12,13,14,15,16,17,18,19,20,21,22};
+        int timeList[] = {9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22};
         try {
             date = getStartDate();
 
@@ -239,7 +244,7 @@ public class LineChartManager implements OnChartGestureListener{
 
             e.printStackTrace();
         }
-        if(date != null) {
+        if (date != null) {
             Calendar date2;
 
             ArrayList<Order> orderList = Data.orderList;
@@ -256,10 +261,10 @@ public class LineChartManager implements OnChartGestureListener{
 
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
-                                    if(analysisType == true) {
+                                    if (analysisType == true) {
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
 
-                                    } else if(analysisType == false){
+                                    } else if (analysisType == false) {
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
 
                                     }
@@ -298,17 +303,17 @@ public class LineChartManager implements OnChartGestureListener{
 
             for (int i = 0; i < timeList.length; i++) {
 
-                xVals[i] = String.format("%s",timeList[i]);
+                xVals[i] = String.format("%s", timeList[i]);
             }
             LineData lineData = new LineData(xVals, lineDataSets);
             return lineData;
-        }
-        else{
-            Log.d("asd","실패");
+        } else {
+            Log.d("asd", "실패");
             return null;
         }
     }
-    public LineData generateDayChart(ArrayList<String> menuList){
+
+    public LineData generateDayChart(ArrayList<String> menuList) {
         Calendar date = null;
 
         try {
@@ -318,10 +323,10 @@ public class LineChartManager implements OnChartGestureListener{
 
             e.printStackTrace();
         }
-        if(date != null) {
+        if (date != null) {
             Calendar date2;
 
-            String Days[] = {"일","화","수","목","금","토","월"};
+            String Days[] = {"일", "화", "수", "목", "금", "토", "월"};
 
             ArrayList<Order> orderList = Data.orderList;
             int totalPricePerMenu[][] = new int[menuList.size()][Days.length];
@@ -332,16 +337,16 @@ public class LineChartManager implements OnChartGestureListener{
 
                         Calendar orderDate = Calendar.getInstance();
                         orderDate.setTime(i.date);
-                        Log.d("days",orderDate.get(Calendar.DAY_OF_WEEK)+"");
-                        if (orderDate.get(Calendar.DAY_OF_WEEK) == l+1) {
-                            Log.d("suc","성공");
+                        Log.d("days", orderDate.get(Calendar.DAY_OF_WEEK) + "");
+                        if (orderDate.get(Calendar.DAY_OF_WEEK) == l + 1) {
+                            Log.d("suc", "성공");
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
-                                    if(analysisType == true) {
+                                    if (analysisType == true) {
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
 
-                                    } else if(analysisType == false){
-                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] +1;
+                                    } else if (analysisType == false) {
+                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
 
                                     }
                                 }
@@ -376,13 +381,13 @@ public class LineChartManager implements OnChartGestureListener{
 
             LineData lineData = new LineData(Days, lineDataSets);
             return lineData;
-        }
-        else{
-            Log.d("asd","실패");
+        } else {
+            Log.d("asd", "실패");
             return null;
         }
     }
-    public LineData generateMonthChart(ArrayList<String> menuList){
+
+    public LineData generateMonthChart(ArrayList<String> menuList) {
         Calendar startDate = null;
         Calendar endDate = null;
         Calendar cloneStart = null;
@@ -395,55 +400,41 @@ public class LineChartManager implements OnChartGestureListener{
 
             e.printStackTrace();
         }
-        if(startDate != null) {
+        if (startDate != null) {
             Calendar date2;
             cloneStart = (Calendar) startDate.clone();
-            while(!((cloneStart.get(Calendar.YEAR) == endDate.get(Calendar.YEAR)) && (cloneStart.get(Calendar.MONTH) == endDate.get(Calendar.MONTH)))){
-                String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+            while (!((cloneStart.get(Calendar.YEAR) == endDate.get(Calendar.YEAR)) && (cloneStart.get(Calendar.MONTH) == endDate.get(Calendar.MONTH)))) {
+                String month = cloneStart.get(Calendar.YEAR) + "." + cloneStart.get(Calendar.MONTH);
                 months.add(month);
-                cloneStart.add(Calendar.MONTH,1);
+                cloneStart.add(Calendar.MONTH, 1);
             }
-            String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+            String month = cloneStart.get(Calendar.YEAR) + "." + cloneStart.get(Calendar.MONTH);
             months.add(month);
 
-            ArrayList<Order> orderList = Data.orderList;
-            int totalPricePerMenu[][] = new int[menuList.size()][months.size()];
-            for (Order i : orderList) {
-                for (OrderMenu j : i.menuList) {
-                    date2 = (Calendar) startDate.clone();
-                    for (int l = 0; l < months.size(); l++) {
 
-                        Calendar orderDate = Calendar.getInstance();
-                        orderDate.setTime(i.date);
-                        if ((orderDate.get(Calendar.YEAR)+"."+orderDate.get(Calendar.MONTH)).equals(months.get(l))) {
-                            Log.d("suc","성공");
-                            for (int k = 0; k < menuList.size(); k++) {
-                                if (j.menu.name == menuList.get(k)) {
-                                    if(analysisType == true) {
-                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
-
-                                    } else if(analysisType == false){
-                                        totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
-
-                                    }
-                                }
-                            }
-                            break;
-                        } else {
-                            date2.add(Calendar.DATE, 1);
-                        }
-                    }
-                }
-            }
             ArrayList<LineDataSet> lineDataSets = new ArrayList<LineDataSet>();
+            Entry[][] entries = new Entry[menuList.size()][months.size()];
 
+            for (int i = 0; i < Data.menusOfMonth.size(); i++) {
+                Iterator<Integer> iterator = Data.menusOfMonth.get(i).keySet().iterator();
+                int menu_index = 0;
 
-            for (int j = 0; j < menuList.size(); j++) {
-                ArrayList<Entry> entries = new ArrayList<Entry>();
-                for (int k = 0; k < months.size(); k++) {
-                    entries.add(new Entry(totalPricePerMenu[j][k], k));
+                while(iterator.hasNext()){
+                    int menu_id = iterator.next();
+                    float data = (float) Data.menusOfMonth.get(i).get(menu_id);
+                    entries[menu_index][i] = new Entry(data,i);
+
+                    menu_index++;
                 }
-                LineDataSet lineDataSet = new LineDataSet(entries, menuList.get(j));
+
+            }
+            for(int  j = 0; j< entries.length;j++){
+
+                ArrayList<Entry> entries1 = new ArrayList<>();
+                for(int i =0; i< entries[j].length;i++){
+                    entries1.add(entries[j][i]);
+                }
+                LineDataSet lineDataSet = new LineDataSet(entries1,menuList.get(j));
                 lineDataSet.enableDashedLine(10f, 5f, 0f);
                 lineDataSet.setColor(Color.BLACK);
                 lineDataSet.setCircleColor(Color.BLACK);
@@ -456,27 +447,26 @@ public class LineChartManager implements OnChartGestureListener{
                 lineDataSets.add(lineDataSet);
             }
 
-
             String xVals[] = new String[months.size()];
 
             for (int i = 0; i < months.size(); i++) {
 
                 xVals[i] = months.get(i);
-                startDate.add(Calendar.DATE,1);
+                startDate.add(Calendar.DATE, 1);
 
             }
             LineData lineData = new LineData(xVals, lineDataSets);
             return lineData;
-        }
-        else{
-            Log.d("asd","실패");
+        } else {
+            Log.d("asd", "실패");
             return null;
         }
     }
-    public LineData generateQuarterChart(ArrayList<String> menuList){
+
+    public LineData generateQuarterChart(ArrayList<String> menuList) {
         Calendar date = null;
 
-        String []quarters = {"1분기","2분기","3분기","4분기"};
+        String[] quarters = {"1분기", "2분기", "3분기", "4분기"};
         try {
             date = getStartDate();
 
@@ -484,7 +474,7 @@ public class LineChartManager implements OnChartGestureListener{
 
             e.printStackTrace();
         }
-        if(date != null) {
+        if (date != null) {
             Calendar date2;
 
             ArrayList<Order> orderList = Data.orderList;
@@ -495,13 +485,13 @@ public class LineChartManager implements OnChartGestureListener{
                     for (int l = 0; l < quarters.length; l++) {
                         Calendar orderDate = Calendar.getInstance();
                         orderDate.setTime(i.date);
-                        int quarter  = getQuarter(orderDate.get(Calendar.MONTH));
-                        Log.d("quarter",quarter+"");
+                        int quarter = getQuarter(orderDate.get(Calendar.MONTH));
+                        Log.d("quarter", quarter + "");
                         for (int k = 0; k < menuList.size(); k++) {
                             if (j.menu.name == menuList.get(k)) {
-                                if(analysisType == true) {
+                                if (analysisType == true) {
                                     totalPricePerMenu[k][quarter] += totalPricePerMenu[k][quarter] + j.menu.price;
-                                } else if(analysisType ==false){
+                                } else if (analysisType == false) {
                                     totalPricePerMenu[k][quarter] += totalPricePerMenu[k][quarter] + 1;
                                 }
                             }
@@ -534,13 +524,13 @@ public class LineChartManager implements OnChartGestureListener{
 
             LineData lineData = new LineData(quarters, lineDataSets);
             return lineData;
-        }
-        else{
-            Log.d("asd","실패");
+        } else {
+            Log.d("asd", "실패");
             return null;
         }
     }
-    public LineData generateYearChart(ArrayList<String> menuList,String startDate, String finishDate){
+
+    public LineData generateYearChart(ArrayList<String> menuList, String startDate, String finishDate) {
         Calendar start = null;
         Calendar finish = null;
         try {
@@ -550,10 +540,10 @@ public class LineChartManager implements OnChartGestureListener{
 
             e.printStackTrace();
         }
-        if(start != null) {
+        if (start != null) {
             Calendar date2;
 
-            int diffYear = finish.get(Calendar.YEAR) - start.get(Calendar.YEAR)+1;
+            int diffYear = finish.get(Calendar.YEAR) - start.get(Calendar.YEAR) + 1;
             ArrayList<Order> orderList = Data.orderList;
             int totalPricePerMenu[][] = new int[menuList.size()][diffYear];
             for (Order i : orderList) {
@@ -564,13 +554,13 @@ public class LineChartManager implements OnChartGestureListener{
 
                         Calendar orderDate = Calendar.getInstance();
                         orderDate.setTime(i.date);
-                        if (orderDate.get(Calendar.YEAR) == start.get(Calendar.YEAR)+ l) {
-                            Log.d("suc","성공");
+                        if (orderDate.get(Calendar.YEAR) == start.get(Calendar.YEAR) + l) {
+                            Log.d("suc", "성공");
                             for (int k = 0; k < menuList.size(); k++) {
                                 if (j.menu.name == menuList.get(k)) {
-                                    if(analysisType == true) {
+                                    if (analysisType == true) {
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
-                                    } else if(analysisType ==false){
+                                    } else if (analysisType == false) {
                                         totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + 1;
                                     }
                                 }
@@ -608,17 +598,17 @@ public class LineChartManager implements OnChartGestureListener{
 
             for (int i = 0; i < diffYear; i++) {
 
-                xVals[i] = String.format("%d",start.get(Calendar.YEAR)+i);
+                xVals[i] = String.format("%d", start.get(Calendar.YEAR) + i);
             }
             LineData lineData = new LineData(xVals, lineDataSets);
             return lineData;
-        }
-        else{
-            Log.d("asd","실패");
+        } else {
+            Log.d("asd", "실패");
             return null;
         }
     }
-    public LineData generateChart(ArrayList<String> menuName,int diffDays){
+
+    public LineData generateChart(ArrayList<String> menuName, int diffDays) {
         Calendar date = null;
 
         try {
@@ -628,7 +618,7 @@ public class LineChartManager implements OnChartGestureListener{
 
             e.printStackTrace();
         }
-        if(date != null) {
+        if (date != null) {
             Calendar date2;
 
             ArrayList<Order> orderList = Data.orderList;
@@ -640,8 +630,8 @@ public class LineChartManager implements OnChartGestureListener{
 
                         Calendar orderDate = Calendar.getInstance();
 
-                        if (date2.get(Calendar.YEAR) == orderDate.get(Calendar.YEAR) && date2.get(Calendar.MONTH)==orderDate.get(Calendar.MONTH) && date2.get(Calendar.DATE) == orderDate.get(Calendar.DATE)) {
-                            Log.d("suc","성공");
+                        if (date2.get(Calendar.YEAR) == orderDate.get(Calendar.YEAR) && date2.get(Calendar.MONTH) == orderDate.get(Calendar.MONTH) && date2.get(Calendar.DATE) == orderDate.get(Calendar.DATE)) {
+                            Log.d("suc", "성공");
                             for (int k = 0; k < menuName.size(); k++) {
                                 if (j.menu.name == menuName.get(k)) {
                                     totalPricePerMenu[k][l] += totalPricePerMenu[k][l] + j.menu.price;
@@ -681,15 +671,14 @@ public class LineChartManager implements OnChartGestureListener{
             for (int i = 0; i < diffDays; i++) {
 
                 xVals[i] = String.format("%d/%d", date.getTime().getMonth() + 1, date.getTime().getDate());
-                Log.d("date",(date.getTime().getMonth()+1)+"");
-                date.add(Calendar.DATE,1);
+                Log.d("date", (date.getTime().getMonth() + 1) + "");
+                date.add(Calendar.DATE, 1);
 
             }
             LineData lineData = new LineData(xVals, lineDataSets);
             return lineData;
-        }
-        else{
-            Log.d("asd","실패");
+        } else {
+            Log.d("asd", "실패");
             return null;
         }
     }

@@ -61,7 +61,7 @@ public class SearchOrderAsyncTask extends AsyncTask<URL, Integer, Void> {
                 JSONArray jsonArray1 = jsonObject.getJSONArray("ordermenus");
                 for (int j = 0; j < jsonArray1.length(); j++) {
                     JSONObject jsonObject1 = jsonArray1.getJSONObject(j);
-                    Boolean doublei = jsonObject1.getBoolean("double");
+                    Boolean doublei = jsonObject1.getBoolean("twice");
                     int pay = jsonObject1.getInt("pay");
                     Boolean curry = jsonObject1.getBoolean("curry");
                     int menu_id = jsonObject1.getInt("menu_id");

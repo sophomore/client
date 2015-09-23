@@ -10,7 +10,6 @@ import org.json.JSONException;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -40,10 +39,9 @@ public class AddOrderAsyncTask extends AsyncTask<URL,Integer,Void> {
 
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd H:mm:ss", Locale.KOREA);
-            Date date = new Date();
-            String date2 = format.format(date);
-            hashMap.put("time",date2);
-            String orderMenu = "[{\"id\":"+3+",\"curry\" :"+true+", \"double\" : "+true+", \"pay\" : "+2+"}]";
+            String date = "2015-10-16 13:20:22";
+            hashMap.put("time",date);
+            String orderMenu = "[{\"id\":"+3+",\"curry\" :"+true+", \"twice\" : "+true+", \"pay\" : "+2+"}]";
             JSONArray jsonArray = new JSONArray(orderMenu);
             hashMap.put("totalprice", 5000);
             hashMap.put("ordermenus", jsonArray);

@@ -26,7 +26,7 @@ public class OrderMenu {
 
     public int setDoublei() {
         this.doublei = true;
-        totalprice += Data.DOULBEI;
+        totalprice += Data.TWICE;
         return totalprice;
     }
 
@@ -38,7 +38,7 @@ public class OrderMenu {
 
     public int resetDoublei() {
         this.doublei = false;
-        totalprice -= Data.DOULBEI;
+        totalprice -= Data.TWICE;
         return totalprice;
     }
 

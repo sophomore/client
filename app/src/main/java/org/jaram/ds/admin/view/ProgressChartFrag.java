@@ -27,7 +27,7 @@ public class ProgressChartFrag extends Fragment {
         view = inflater.inflate(R.layout.sales_progress,container,false);
         lineChartManager = new LineChartManager();
         lineChartManager.setChart((LineChart) view.findViewById(R.id.progressChart));
-        callbacks.configChart();
+
         return view;
     }
 

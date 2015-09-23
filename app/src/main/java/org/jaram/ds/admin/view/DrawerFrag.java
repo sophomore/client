@@ -25,6 +25,7 @@ import org.jaram.ds.data.struct.Menu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by ka123ak on 2015-07-09.
@@ -38,21 +39,31 @@ public class DrawerFrag extends Fragment {
     boolean checkedType = true;
     int unitType = 0;
     Switch aSwitch;
+    ArrayList<Integer> menuIds = new ArrayList<>();
     ArrayList<String> selectedMenu = new ArrayList<String>();
-
+    ArrayList<Integer> selectedMenuId = new ArrayList<>();
     public static interface OnAnalysisListener{
-        void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType);
+        void createLineChart(boolean analysisType, ArrayList<String> menuList, ArrayList<Integer> menuIds,int unitType);
         void createBarChart();
     }
-
+    public void getMenuIds(){
+        Iterator<Integer> iterator= Data.menuList.keySet().iterator();
+        while(iterator.hasNext()){
+            menuIds.add(iterator.next());
+        }
+    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_drawer, container, false);
+        aSwitch = (Switch) view.findViewById(R.id.statistic_switch);
+        aSwitch.setTextOff("꺽은선");
+        aSwitch.setTextOn("막대");
         //단위 1.시간 2.일 3.요일 4.월 5.분기 6.년
         final ExpandableHeightGridView gridView = (ExpandableHeightGridView) view.findViewById(R.id.gridView);
         gridView.setExpanded(true);
         SetGridView(gridView, view);
         final ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollView);
-
+        getMenuIds();
         final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.analysis_type_group);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -70,7 +81,12 @@ public class DrawerFrag extends Fragment {
         analysisbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onAnalysisListener.createLineChart(checkedType, selectedMenu, unitType);
+                if (aSwitch.isChecked()) {
+                    onAnalysisListener.createBarChart();
+                } else{
+                    Data.reDataForStatistic();
+                    onAnalysisListener.createLineChart(checkedType,selectedMenu, selectedMenuId, unitType);
+                }
             }
         });
 
@@ -91,6 +107,7 @@ public class DrawerFrag extends Fragment {
                         .setMultiChoiceItems(items, mbIsSelect, new DialogInterface.OnMultiChoiceClickListener() {
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                 mbIsSelect[which] = isChecked;
+                                selectedMenuId.add(menuIds.get(which));
                             }
                         })
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -116,35 +133,16 @@ public class DrawerFrag extends Fragment {
                 adapter.notifyDataSetChanged();
                 for (int i = 0; i < mbIsSelect.length; i++) {
                     mbIsSelect[i] = false;
+                    selectedMenuId.remove(i);
                 }
             }
         });
-        aSwitch = (Switch) view.findViewById(R.id.statistic_switch);
-        aSwitch.setTextOff("꺽은선");
-        aSwitch.setTextOn("막대");
+
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     scrollView.setVisibility(View.INVISIBLE);
-//                    gridView.setBackgroundColor(Color.parseColor("#8C8C8C"));
-//                    scrollView.setBackgroundColor(Color.parseColor("#8C8C8C"));
-//                    gridView1.setBackgroundColor(Color.parseColor("#8C8C8C"));
-//                    radioGroup.setBackgroundColor(Color.parseColor("#8C8C8C"));
-//                    selectMenubtn.setBackgroundColor(Color.parseColor("#8C8C8C"));
-//                    selectedCancelbtn.setBackgroundColor(Color.parseColor("#8C8C8C"));
-//                    selectMenubtn.setTextColor(Color.parseColor("#8C8C8C"));
-//                    selectedCancelbtn.setTextColor(Color.parseColor("#8C8C8C"));
-//                    view1.setBackgroundColor(Color.parseColor("#8C8C8C"));
-//                    SimpleAdapter simpleAdapter = (SimpleAdapter) gridView.getAdapter();
-//                    simpleAdapter.setCheck(true);
-//                    simpleAdapter.notifyDataSetChanged();
-//                    radioGroup.clearCheck();
-//                    radioGroup.getChildAt(0).setClickable(false);
-//                    radioGroup.getChildAt(1).setClickable(false);
-//                    selectMenubtn.setClickable(false);
-//                    selectedCancelbtn.setClickable(false);
-
 
                 } else {
                     scrollView.setVisibility(View.VISIBLE);
@@ -174,6 +172,7 @@ public class DrawerFrag extends Fragment {
     public boolean getChecked(){
         return aSwitch.isChecked();
     }
+
     public void setChecked(Switch aSwitch, boolean bool){
         aSwitch.setChecked(bool);
     }
