@@ -24,7 +24,7 @@ import java.util.Locale;
 /**
  * Created by ohyongtaek on 15. 9. 13..
  */
-public class SearchOrderAsyncTask extends AsyncTask<Void, Integer, Void> {
+public class SearchOrderAsyncTask extends AsyncTask<Void, Void, Void> {
 
     public static final String SERVER_URL = "http://61.77.77.20";
     Context mContext;
@@ -50,12 +50,6 @@ public class SearchOrderAsyncTask extends AsyncTask<Void, Integer, Void> {
         dialog = ProgressDialog.show(mContext, "", "추가중입니다.", true);
         super.onPreExecute();
     }
-
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-
-    }
-
     @Override
     protected Void doInBackground(Void... params) {
 
@@ -124,6 +118,6 @@ public class SearchOrderAsyncTask extends AsyncTask<Void, Integer, Void> {
     protected void onPostExecute(Void aVoid) {
         dialog.dismiss();
         adapter.notifyDataSetChanged();
-        super.onPreExecute();
+        super.onPostExecute(aVoid);
     }
 }
