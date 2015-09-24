@@ -3,6 +3,7 @@ package org.jaram.ds.admin.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 public class Order_viewFrag extends Fragment {
     View view;
     FrameLayout detail_order;
+    static ListView list;
     public Order_viewFrag(FrameLayout detail_order){
         this.detail_order = detail_order;
     }
@@ -28,16 +30,24 @@ public class Order_viewFrag extends Fragment {
         view = inflater.inflate(R.layout.fragment_orderview, container, false);
         ArrayList<Order> orderlist;
         orderlist = getOrderList();
-
-        ListView list = (ListView)view.findViewById(R.id.orderlist);
+        if(orderlist == null){
+            Log.d("null", null);
+        }
+        Log.d("null", String.valueOf(orderlist));
+        list = (ListView)view.findViewById(R.id.orderlist);
 
         final OrderlistAdapter Adapter = new OrderlistAdapter(view.getContext(),R.layout.orderlist_item,orderlist, detail_order);
         list.setAdapter(Adapter);
         return view;
     }
+    public static ListView getList(){
+        return list;
+    }
 
     public ArrayList<Order> getOrderList() {
+
         return Data.orderList;
     }
+
 }
 

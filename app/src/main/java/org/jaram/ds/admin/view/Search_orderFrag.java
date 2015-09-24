@@ -1,12 +1,15 @@
 package org.jaram.ds.admin.view;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,7 @@ import org.jaram.ds.data.Data;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 
 /**
  * Created by cheonyujung on 15. 7. 23..
@@ -41,10 +45,17 @@ public class Search_orderFrag extends Fragment {
     static final int DATE_DIALOG_ID = 0;
     private int mode = 0;
     private String selectedIndex;
+    private OnSearchListener onSearchListener;
+    private ArrayList<Integer> selectMenuId = new ArrayList<>();
     View view;
     public Search_orderFrag(){
 
     }
+
+    public static interface OnSearchListener{
+        void createListview(Context mcontext, String startDate, String endDate, ArrayList<Integer> menus, int pay);
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_search, container, false);
@@ -64,16 +75,18 @@ public class Search_orderFrag extends Fragment {
             public void onClick(View v) {
                 int radioButtonID = mRadioGroup.getCheckedRadioButtonId();
                 View radioButton = mRadioGroup.findViewById(radioButtonID);
-                int checkway = mRadioGroup.indexOfChild(radioButton);
-                if(selectedIndex == null){
-                    String checkmenu[] = null;
-                }else{
-                    String checkmenu[] = selectedIndex.split("!");
-                }
+                int checkway = mRadioGroup.indexOfChild(radioButton)+1;
+
                 String date1 = String.valueOf(mDateDisplay.getText());
                 String date2 = String.valueOf(mDateDisplay2.getText());
                 String time1 = String.valueOf(mDateDisplay3.getText());
                 String time2 = String.valueOf(mDateDisplay4.getText());
+                String startTime = date1+time1+":00";
+                String endTime = date2+time2+":00";
+
+
+                Toast.makeText(view.getContext(), String.valueOf(checkway), Toast.LENGTH_LONG).show();
+                onSearchListener.createListview(view.getContext(), startTime, endTime, selectMenuId, checkway);
                 //Toast.makeText(view.getContext(), time2, Toast.LENGTH_LONG).show();
             }
         });
@@ -82,9 +95,17 @@ public class Search_orderFrag extends Fragment {
             public void onClick(View v) {
                 int size = Data.menuList.size();
                 String[] menuitem = new String[size];
+                final int[] menu_id=  new int[size];
+
                 selectmenu.clear();
-                for(int i=0;i< Data.menuList.size(); i++){
-                    menuitem[i] = Data.menuList.get(i).name;
+                Iterator<Integer> interator = Data.menuList.keySet().iterator();
+                int count = 0;
+                while(interator.hasNext()){
+                    int menu = interator.next();
+                    menuitem[count] = Data.menuList.get(menu).name;
+                    menu_id[count] = Data.menuList.get(menu).id;
+
+                    count++;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("메뉴 선택");
@@ -96,10 +117,13 @@ public class Search_orderFrag extends Fragment {
                         if (isChecked) {
                             // if the user checked the item, add it to the selected items
                             selectmenu.add(which);
+                            Log.d("menu_id", menu_id[which] + "");
+                            selectMenuId.add(menu_id[which]);
                         }
                         else if (selectmenu.contains(which)) {
                             // else if the item is already in the array, remove it
                             selectmenu.remove(Integer.valueOf(which));
+                            selectMenuId.remove(which); // 오류
                         }
                     }
                 }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -109,10 +133,11 @@ public class Search_orderFrag extends Fragment {
                         selectedIndex = "";//선택된 메뉴 String
                         String selectedText = "";//edittext에 보여줄 메뉴
 
-                        for(Integer i : selectmenu){
-                            selectedIndex += Data.menuList.get(i).name + "!";
+                        for(Integer i : selectMenuId){
+//                            selectedIndex += Data.menuList.get(i).name + "!";
                             selectedText += Data.menuList.get(i).name+ ", ";
                         }
+
                         if(selectedText.equals("")){
 
                         }else {
@@ -172,14 +197,14 @@ public class Search_orderFrag extends Fragment {
         mMinute = c.get(Calendar.MINUTE);
         mDateDisplay.setText(
                 new StringBuilder()
-                        .append(mYear).append(".")
-                        .append(mMonth + 1).append(".")
+                        .append(mYear).append("-")
+                        .append(mMonth + 1).append("-")
                         .append(mDay).append(" ")
         );
         mDateDisplay2.setText(
                 new StringBuilder()
-                        .append(mYear).append(".")
-                        .append(mMonth + 1).append(".")
+                        .append(mYear).append("-")
+                        .append(mMonth + 1).append("-")
                         .append(mDay+1).append(" ")
         );
         mDateDisplay3.setText(
@@ -220,15 +245,15 @@ public class Search_orderFrag extends Fragment {
         if(mode == 1) {
             mDateDisplay.setText(
                     new StringBuilder()
-                            .append(mYear).append(".")
-                            .append(mMonth + 1).append(".")
+                            .append(mYear).append("-")
+                            .append(mMonth + 1).append("-")
                             .append(mDay).append(" ")
             );
         }else if(mode == 2){
             mDateDisplay2.setText(
                     new StringBuilder()
-                            .append(mYear).append(".")
-                            .append(mMonth + 1).append(".")
+                            .append(mYear).append("-")
+                            .append(mMonth + 1).append("-")
                             .append(mDay).append(" ")
             );
         }else if(mode == 3){
@@ -246,4 +271,13 @@ public class Search_orderFrag extends Fragment {
         }
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try{
+            onSearchListener = (OnSearchListener) getActivity();
+        } catch (Exception e){
+            throw new ClassCastException(activity.toString() +" must implement OnSearchListener");
+        }
+    }
 }
