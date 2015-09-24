@@ -12,7 +12,6 @@ import org.jaram.ds.data.Data;
 import org.jaram.ds.order.OrderManager;
 import org.jaram.ds.util.AddOrderAsyncTask;
 import org.jaram.ds.util.MenuManageAsyncTask;
-import org.jaram.ds.util.SearchOrderAsyncTask;
 
 public class Intro extends Activity {
 
@@ -43,9 +42,6 @@ public class Intro extends Activity {
         adminButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                SearchOrderAsyncTask asyncTask1 = new SearchOrderAsyncTask(Intro.this);
-                asyncTask1.execute();
 
                 startActivity(new Intent(Intro.this, ManagementIntro.class));
 

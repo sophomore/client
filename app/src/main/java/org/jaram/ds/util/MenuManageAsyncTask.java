@@ -47,7 +47,7 @@ public class MenuManageAsyncTask extends AsyncTask<Void, Integer, Void> {
                 String name = jsonObject.getString("name");
                 int price = jsonObject.getInt("price");
                 int category_id = jsonObject.getInt("category_id");
-                Menu menu = new Menu(j, Data.categoryList.get(category_id),name,price);
+                Menu menu = new Menu(jsonObject.getInt("id"), Data.categoryList.get(category_id),name,price);
                 Data.menuList.put(jsonObject.getInt("id"),menu);
                 Log.d("testt",Data.menuList.size()+"@");
 
@@ -63,6 +63,7 @@ public class MenuManageAsyncTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         dialog.dismiss();
+        Log.d("suc","suc");
         super.onPostExecute(aVoid);
     }
 }

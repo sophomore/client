@@ -1,5 +1,6 @@
 package org.jaram.ds.admin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -12,18 +13,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 
 import org.jaram.ds.Intro;
 import org.jaram.ds.R;
 import org.jaram.ds.admin.view.Order_viewFrag;
+import org.jaram.ds.admin.view.OrderlistAdapter;
 import org.jaram.ds.admin.view.Search_orderFrag;
 import org.jaram.ds.order.OrderManager;
+import org.jaram.ds.util.SearchOrderAsyncTask;
+
+import java.util.ArrayList;
 
 /**
  * Created by cheonyujung on 15. 7. 23..
  */
 
-public class OrderManagerMain extends FragmentActivity {
+public class OrderManagerMain extends FragmentActivity implements Search_orderFrag.OnSearchListener{
     Search_orderFrag search_orderFrag;
     Order_viewFrag order_viewFrag;
     @Override
@@ -110,6 +116,19 @@ public class OrderManagerMain extends FragmentActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void createListview(Context mcontext, String startDate, String endDate, ArrayList<Integer> menus, int pay) {
+
+        ListView orderList = Order_viewFrag.getList();
+        OrderlistAdapter adapter = (OrderlistAdapter) orderList.getAdapter();
+        adapter.getData().clear();
+        SearchOrderAsyncTask asyncTask1 = new SearchOrderAsyncTask(OrderManagerMain.this, startDate, endDate, menus ,pay);
+        asyncTask1.setAdapter(adapter);
+        asyncTask1.execute();
+
     }
 }
 
