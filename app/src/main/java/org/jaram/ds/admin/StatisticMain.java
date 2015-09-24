@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -57,6 +58,7 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
 
                     DatePickerFrag startPicker = new DatePickerFrag(startText);
                     startPicker.show(getFragmentManager(), "startPicker");
+
                 }
             });
             Button endButton = (Button) findViewById(R.id.endPeriod);
@@ -74,6 +76,7 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
             analysis.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d("ttsssss", (String) startText.getText());
                     if(drawer.getChecked()) {
                         if(startText.getText().length()!=0 && endText.getText().length()!=0) {
                             createBarChart();
@@ -148,10 +151,10 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
             bundle.putIntegerArrayList("menuIds", menuIds);
             progressChartFrag = new ProgressChartFrag();
             progressChartFrag.setArguments(bundle);
-            StatisticAsyncTask asyncTask = new StatisticAsyncTask(StatisticMain.this,start,end,progressChartFrag,menuIds,false);
+            getSupportFragmentManager().beginTransaction().replace(R.id.chartFrag, progressChartFrag).commit();
+            StatisticAsyncTask asyncTask = new StatisticAsyncTask(StatisticMain.this,progressChartFrag,false);
             asyncTask.execute();
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.chartFrag, progressChartFrag).commit();
 
         }
     }
@@ -162,14 +165,15 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
         String end = (String) endText.getText();
         Data.reDataForStatistic();
         if(start.length()!=0 && end.length()!=0) {
-            StatisticAsyncTask statisticAsyncTask = new StatisticAsyncTask(StatisticMain.this, start, end, summaryFrag,true);
+            summaryFrag.resetTextView();
+            StatisticAsyncTask statisticAsyncTask = new StatisticAsyncTask(StatisticMain.this, start, end,4, summaryFrag,true);
             statisticAsyncTask.execute();
         }
     }
 
     @Override
     public void configChart() {
-        progressChartFrag.createChart();
+        progressChartFrag.getLineChartManager().getChart().notifyDataSetChanged();
     }
 
 

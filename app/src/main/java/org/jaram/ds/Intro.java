@@ -11,6 +11,7 @@ import org.jaram.ds.admin.view.ManagementIntro;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.order.OrderManager;
 import org.jaram.ds.util.AddOrderAsyncTask;
+import org.jaram.ds.util.MenuAysncTask;
 import org.jaram.ds.util.MenuManageAsyncTask;
 
 public class Intro extends Activity {
@@ -39,6 +40,7 @@ public class Intro extends Activity {
         /*if(TestCategory.findAll(TestCategory.class)==null){
             TestCategory.deleteAll(TestCategory.class);
         }*/
+        MenuAysncTask menuAysncTask = new MenuAysncTask(Intro.this);
 
 
         Button orderButton = (Button) findViewById(R.id.orderBtn);

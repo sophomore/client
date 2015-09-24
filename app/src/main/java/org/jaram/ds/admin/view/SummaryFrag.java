@@ -28,8 +28,9 @@ public class SummaryFrag extends Fragment {
     BarChartManager barChartManager;
     View view;
     ArrayList<String> menuList = new ArrayList<String>();
-
-
+    TextView click_totaldata;
+    TextView click_creditdata;
+    TextView click_moneydata;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,7 +38,9 @@ public class SummaryFrag extends Fragment {
         for(Menu i : Data.menuList.values()){
             menuList.add(i.name);
         }
-
+        click_moneydata = (TextView) view.findViewById(R.id.monthCash);
+        click_creditdata = (TextView) view.findViewById(R.id.monthCard);
+        click_totaldata = (TextView) view.findViewById(R.id.monthPrice);
         return view;
     }
 
@@ -68,12 +71,10 @@ public class SummaryFrag extends Fragment {
             public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
 
 
-                TextView click_moneydata = (TextView) view.findViewById(R.id.monthCash);
-                TextView click_creditdata = (TextView) view.findViewById(R.id.monthCard);
-                TextView click_totaldata = (TextView) view.findViewById(R.id.monthPrice);
-                click_moneydata.setText(Data.cashOfMonth.get(e.getXIndex()) + "원");
-                click_creditdata.setText(Data.cardOfMonth.get(e.getXIndex()) + "원");
-                click_totaldata.setText(Data.totalOfMonth.get(e.getXIndex()) + "원");
+
+                click_moneydata.setText(Data.cashs.get(e.getXIndex()) + "원");
+                click_creditdata.setText(Data.cards.get(e.getXIndex()) + "원");
+                click_totaldata.setText(Data.totals.get(e.getXIndex()) + "원");
             }
 
             @Override
@@ -81,6 +82,11 @@ public class SummaryFrag extends Fragment {
 
             }
         });
+    }
+    public void resetTextView(){
+        click_moneydata.setText(0+"");
+        click_creditdata.setText(0+"");
+        click_totaldata.setText(0+"");
     }
     public BarChart getChart(){
         return this.barChartManager.getChart();

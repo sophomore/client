@@ -21,10 +21,10 @@ public class Data {
     public static final int TWICE = 500;
     public static HashMap<Integer, Menu> menuList = new HashMap<Integer, Menu>();
     public static HashMap<Integer, Category> categoryList = new HashMap<Integer, Category>();
-    public static ArrayList<Integer> totalOfMonth = new ArrayList<Integer>();
-    public static ArrayList<Integer> cardOfMonth = new ArrayList<Integer>();
-    public static ArrayList<Integer> cashOfMonth = new ArrayList<Integer>();
-    public static ArrayList<HashMap> menusOfMonth = new ArrayList<>();
+    public static ArrayList<Integer> totals = new ArrayList<Integer>();
+    public static ArrayList<Integer> cards = new ArrayList<Integer>();
+    public static ArrayList<Integer> cashs = new ArrayList<Integer>();
+    public static ArrayList<HashMap> menus = new ArrayList<>();
     public static int totalPrice = 0;
     public static int totalCard = 0;
     public static int totalCash = 0;
@@ -36,10 +36,10 @@ public class Data {
         categoryList.put(4, new Category(4, "기타"));
     }
     public static void reDataForStatistic(){
-        totalOfMonth = new ArrayList<>();
-        cashOfMonth = new ArrayList<>();
-        cashOfMonth = new ArrayList<>();
-        menusOfMonth = new ArrayList<>();
+        totals = new ArrayList<>();
+        cards = new ArrayList<>();
+        cashs = new ArrayList<>();
+        menus = new ArrayList<>();
         totalPrice = 0;
         totalCash = 0;
         totalCard = 0;

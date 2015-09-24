@@ -3,6 +3,7 @@ package org.jaram.ds.admin.view;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +41,10 @@ public class ProgressChartFrag extends Fragment {
         int unitType = getArguments().getInt("unitType");
         String start = getArguments().getString("start");
         String end = getArguments().getString("end");
+        Log.d("testtt", anaylsisType+"!"+unitType + "#" + start + "$" + end+"^^"+menuList);
         lineChartManager.getChart().setData(lineChartManager.getData(anaylsisType,menuList,unitType,start,end));
         lineChartManager.getChart().notifyDataSetChanged();
+        callbacks.configChart();
     }
 
     public static interface Callbacks{

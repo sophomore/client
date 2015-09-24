@@ -30,7 +30,6 @@ public class MenuAysncTask extends AsyncTask<RecyclerView, Integer, Void> {
 
     @Override
     protected Void doInBackground(RecyclerView... params) {
-        int count = params.length;
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("name","메뉴 1");
         hashMap.put("price", 7000);

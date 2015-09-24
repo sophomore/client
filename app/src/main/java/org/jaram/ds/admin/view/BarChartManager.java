@@ -57,10 +57,10 @@ public class BarChartManager implements OnChartGestureListener {
         this.activity = activity;
     }
     public void setData(){
-        totalOfMonth = Data.totalOfMonth;
-        cashOfMonth = Data.cashOfMonth;
-        cardOfMonth = Data.cardOfMonth;
-        menusOfMonth = Data.menusOfMonth;
+        totalOfMonth = Data.totals;
+        cashOfMonth = Data.cashs;
+        cardOfMonth = Data.cards;
+        menusOfMonth = Data.menus;
     }
     public BarChart getChart() {
         return mChart;

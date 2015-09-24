@@ -107,7 +107,11 @@ public class DrawerFrag extends Fragment {
                         .setMultiChoiceItems(items, mbIsSelect, new DialogInterface.OnMultiChoiceClickListener() {
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                 mbIsSelect[which] = isChecked;
-                                selectedMenuId.add(menuIds.get(which));
+                                if(isChecked) {
+                                    selectedMenuId.add(menuIds.get(which));
+                                }else{
+                                    selectedMenuId.remove(menuIds.get(which));
+                                }
                             }
                         })
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
