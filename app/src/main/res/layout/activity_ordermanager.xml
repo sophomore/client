@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <FrameLayout
-        android:id="@+id/order_search"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3"
-        ></FrameLayout>
+        android:orientation="horizontal"
+        android:background="#F5F6F7">
 
-    <FrameLayout
-        android:id="@+id/order_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#F5F6F7"
-        >
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/order_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/order_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2.5"
+            android:background="#F5F6F7">
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/detail_order"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2.5"
+            android:background="#fff"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp">
+
+        </FrameLayout>
     </LinearLayout>
 
     <include layout="@layout/drawer_right" />

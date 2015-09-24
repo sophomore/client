@@ -3,11 +3,14 @@
     android:id="@+id/drawerLayout"
     android:layout_width="360dp"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="#ffffff"
+    android:orientation="vertical"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:orientation="horizontal"
         android:background="#3E454C">
         <TextView
             android:layout_width="wrap_content"
@@ -19,27 +22,14 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#fff"
             android:textSize="30dp" />
-        </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F5F6F7"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:text = "통계 방식"/>
         <Switch
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
             android:id="@+id/statistic_switch"
             android:layout_marginTop="10dp" />
-    </LinearLayout>
+        </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -108,7 +98,9 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="15dp"
                 android:background="#F5F6F7"
-                android:numColumns="3"></org.jaram.ds.admin.view.ExpandableHeightGridView>
+                android:numColumns="3">
+
+            </org.jaram.ds.admin.view.ExpandableHeightGridView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -138,6 +130,7 @@
 
                 <View
                     android:layout_width="0.5dp"
+                    android:id="@+id/statistic_div"
                     android:layout_height="match_parent"
                     android:background="#fff" />
 

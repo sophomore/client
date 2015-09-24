@@ -22,8 +22,10 @@ public class Order {
     }
     public int getTotalPrice(){
         totalPrice = 0;
-        for(int i=0;i<menuList.size();i++){
-            totalPrice += menuList.get(i).totalprice;
+        for(int i=0;i<menuList.size();i++) {
+            if (!menuList.get(i).complete) {
+                totalPrice += menuList.get(i).totalprice;
+            }
         }
         return totalPrice;
     }

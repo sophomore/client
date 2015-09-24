@@ -37,16 +37,17 @@ public class DrawerFrag extends Fragment {
     OnAnalysisListener onAnalysisListener;
     boolean checkedType = true;
     int unitType = 0;
-
+    Switch aSwitch;
     ArrayList<String> selectedMenu = new ArrayList<String>();
 
     public static interface OnAnalysisListener{
         void createLineChart(boolean analysisType, ArrayList<String> menuList, int unitType);
-        void returnChart();
+        void createBarChart();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_drawer, container, false);
+        //단위 1.시간 2.일 3.요일 4.월 5.분기 6.년
         final ExpandableHeightGridView gridView = (ExpandableHeightGridView) view.findViewById(R.id.gridView);
         gridView.setExpanded(true);
         SetGridView(gridView, view);
@@ -76,8 +77,7 @@ public class DrawerFrag extends Fragment {
         final String[] items = getMenuList();
         final boolean mbIsSelect[] = new boolean[items.length];
         final ExpandableHeightGridView gridView1 = (ExpandableHeightGridView)view.findViewById(R.id.gridView2);
-        gridView1.setAdapter(new mSelectedMenuListAdapter(setSelectedMenuList(mbIsSelect,items),getActivity()));
-
+        gridView1.setAdapter(new mSelectedMenuListAdapter(setSelectedMenuList(mbIsSelect, items), getActivity()));
         final Button selectMenubtn = (Button) view.findViewById(R.id.select_menu);
         selectMenubtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,39 +106,48 @@ public class DrawerFrag extends Fragment {
                         .show();
             }
         });
+        final View view1 = view.findViewById(R.id.statistic_div);
         final Button selectedCancelbtn = (Button) view.findViewById(R.id.cancel_selected_menu);
         selectedCancelbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSelectedMenuListAdapter adapter =(mSelectedMenuListAdapter) gridView1.getAdapter();
+                mSelectedMenuListAdapter adapter = (mSelectedMenuListAdapter) gridView1.getAdapter();
                 adapter.menuList.clear();
                 adapter.notifyDataSetChanged();
-                for(int i=0;i<mbIsSelect.length;i++){
-                    mbIsSelect[i]=false;
+                for (int i = 0; i < mbIsSelect.length; i++) {
+                    mbIsSelect[i] = false;
                 }
             }
         });
-        Switch aSwitch = (Switch) view.findViewById(R.id.statistic_switch);
+        aSwitch = (Switch) view.findViewById(R.id.statistic_switch);
+        aSwitch.setTextOff("꺽은선");
+        aSwitch.setTextOn("막대");
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    gridView.setBackgroundColor(Color.parseColor("#8C8C8C"));
-                    scrollView.setBackgroundColor(Color.parseColor("#8C8C8C"));
-                    gridView1.setBackgroundColor(Color.parseColor("#8C8C8C"));
-                    radioGroup.setBackgroundColor(Color.parseColor("#8C8C8C"));
-                    selectMenubtn.setBackgroundColor(Color.parseColor("#8C8C8C"));
-                    selectedCancelbtn.setBackgroundColor(Color.parseColor("#8C8C8C"));
-                    selectMenubtn.setTextColor(Color.parseColor("#8C8C8C"));
-                    selectedCancelbtn.setTextColor(Color.parseColor("#8C8C8C"));
-                    SimpleAdapter simpleAdapter= (SimpleAdapter) gridView.getAdapter();
-                    simpleAdapter.setCheck(true);
-                    simpleAdapter.notifyDataSetChanged();
-                    radioGroup.clearCheck();
-                    radioGroup.getChildAt(0).setClickable(false);
-                    radioGroup.getChildAt(1).setClickable(false);
+                    scrollView.setVisibility(View.INVISIBLE);
+//                    gridView.setBackgroundColor(Color.parseColor("#8C8C8C"));
+//                    scrollView.setBackgroundColor(Color.parseColor("#8C8C8C"));
+//                    gridView1.setBackgroundColor(Color.parseColor("#8C8C8C"));
+//                    radioGroup.setBackgroundColor(Color.parseColor("#8C8C8C"));
+//                    selectMenubtn.setBackgroundColor(Color.parseColor("#8C8C8C"));
+//                    selectedCancelbtn.setBackgroundColor(Color.parseColor("#8C8C8C"));
+//                    selectMenubtn.setTextColor(Color.parseColor("#8C8C8C"));
+//                    selectedCancelbtn.setTextColor(Color.parseColor("#8C8C8C"));
+//                    view1.setBackgroundColor(Color.parseColor("#8C8C8C"));
+//                    SimpleAdapter simpleAdapter = (SimpleAdapter) gridView.getAdapter();
+//                    simpleAdapter.setCheck(true);
+//                    simpleAdapter.notifyDataSetChanged();
+//                    radioGroup.clearCheck();
+//                    radioGroup.getChildAt(0).setClickable(false);
+//                    radioGroup.getChildAt(1).setClickable(false);
+//                    selectMenubtn.setClickable(false);
+//                    selectedCancelbtn.setClickable(false);
 
-                } else{
+
+                } else {
+                    scrollView.setVisibility(View.VISIBLE);
                     gridView.setBackgroundColor(Color.parseColor("#F5F6F7"));
                     scrollView.setBackgroundColor(Color.parseColor("#F5F6F7"));
                     gridView1.setBackgroundColor(Color.parseColor("#F5F6F7"));
@@ -147,19 +156,27 @@ public class DrawerFrag extends Fragment {
                     selectedCancelbtn.setBackgroundColor(Color.parseColor("#FF7F66"));
                     selectMenubtn.setTextColor(Color.parseColor("#FFFFFF"));
                     selectedCancelbtn.setTextColor(Color.parseColor("#FFFFFF"));
-                    SimpleAdapter simpleAdapter= (SimpleAdapter) gridView.getAdapter();
+                    view1.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    SimpleAdapter simpleAdapter = (SimpleAdapter) gridView.getAdapter();
                     simpleAdapter.setCheck(false);
                     simpleAdapter.notifyDataSetChanged();
                     radioGroup.getChildAt(0).setClickable(true);
                     radioGroup.getChildAt(1).setClickable(true);
 
+
                 }
             }
         });
-
+        aSwitch.setChecked(true);
         return view;
     }
 
+    public boolean getChecked(){
+        return aSwitch.isChecked();
+    }
+    public void setChecked(Switch aSwitch, boolean bool){
+        aSwitch.setChecked(bool);
+    }
     private ArrayList<String> setSelectedMenuList(boolean[] mbisSelect, String[] menuList){
 
         for(int i=0;i<mbisSelect.length;i++){

@@ -33,7 +33,6 @@ public class SearchOrderAsyncTask extends AsyncTask<URL, Integer, Void> {
     }
 
     ProgressDialog dialog;
-
     @Override
     protected void onPreExecute() {
         dialog = ProgressDialog.show(mContext, "", "추가중입니다.", true);
@@ -69,7 +68,7 @@ public class SearchOrderAsyncTask extends AsyncTask<URL, Integer, Void> {
 
                     OrderMenu orderMenu = new OrderMenu(menu, pay);
                     orderMenu.totalprice = jsonObject1.getInt("totalprice");
-                    
+
                     if (doublei == true) {
                         orderMenu.setDoublei();
                     }

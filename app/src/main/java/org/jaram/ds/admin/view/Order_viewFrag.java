@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import org.jaram.ds.R;
@@ -19,8 +20,9 @@ import java.util.ArrayList;
  */
 public class Order_viewFrag extends Fragment {
     View view;
-    public Order_viewFrag(){
-
+    FrameLayout detail_order;
+    public Order_viewFrag(FrameLayout detail_order){
+        this.detail_order = detail_order;
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_orderview, container, false);
@@ -28,7 +30,8 @@ public class Order_viewFrag extends Fragment {
         orderlist = getOrderList();
 
         ListView list = (ListView)view.findViewById(R.id.orderlist);
-        final OrderlistAdapter Adapter = new OrderlistAdapter(view.getContext(),R.layout.orderlist_item,orderlist);
+
+        final OrderlistAdapter Adapter = new OrderlistAdapter(view.getContext(),R.layout.orderlist_item,orderlist, detail_order);
         list.setAdapter(Adapter);
         return view;
     }

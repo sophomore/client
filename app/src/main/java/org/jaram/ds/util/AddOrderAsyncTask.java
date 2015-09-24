@@ -5,8 +5,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.jaram.ds.data.struct.Order;
+import org.jaram.ds.data.struct.OrderMenu;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -17,7 +20,7 @@ import java.util.Locale;
 /**
  * Created by ohyongtaek on 15. 9. 9..
  */
-public class AddOrderAsyncTask extends AsyncTask<URL,Integer,Void> {
+public class AddOrderAsyncTask extends AsyncTask<Order,Integer,Void> {
     public static final String SERVER_URL = "http://61.77.77.20";
     Context mContext;
     public AddOrderAsyncTask(Context context){
@@ -31,26 +34,33 @@ public class AddOrderAsyncTask extends AsyncTask<URL,Integer,Void> {
     }
 
     @Override
-    protected Void doInBackground(URL... params) {
+    protected Void doInBackground(Order... params) {
 
         HashMap<String,Object> hashMap = new HashMap<>();
 
-
         try {
-
-
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd H:mm:ss", Locale.KOREA);
             Date date = new Date();
             String date2 = format.format(date);
             hashMap.put("time",date2);
-            String orderMenu = "[{\"id\":"+3+",\"curry\" :"+true+", \"double\" : "+true+", \"pay\" : "+2+"}]";
-            JSONArray jsonArray = new JSONArray(orderMenu);
-            hashMap.put("totalprice", 5000);
-            hashMap.put("ordermenus", jsonArray);
+            JSONArray array = new JSONArray();
+            JSONObject object = new JSONObject();
+            for(int i=0; i<params[0].menuList.size(); i++){
+                OrderMenu ordermenu = params[0].menuList.get(i);
+                object.put("id",ordermenu.menu.id);
+                object.put("pay",ordermenu.pay);
+                object.put("curry",ordermenu.curry);
+                object.put("twice",ordermenu.doublei);
+                array.put(object);
+            }
+//            String orderMenu = "[{\"id\":"+3+",\"curry\" :"+true+", \"double\" : "+true+", \"pay\" : "+2+"}]";
+//            JSONArray jsonArray = new JSONArray(orderMenu);
+            hashMap.put("totalprice", params[0].getTotalPrice());
+            hashMap.put("ordermenus", array);
 
-            Log.d("testJsonArray", jsonArray + "");
+            Log.d("testJsonArray", array + "");
 
-            String responses = Http.get(SERVER_URL+"/order",hashMap);
+            String responses = Http.post(SERVER_URL+"/order",hashMap);
 
         } catch (JSONException e) {
             e.printStackTrace();

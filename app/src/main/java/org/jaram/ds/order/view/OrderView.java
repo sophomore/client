@@ -1,6 +1,9 @@
 package org.jaram.ds.order.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,13 +28,14 @@ import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 import org.jaram.ds.order.MenuListAdapter;
 import org.jaram.ds.order.SimpleItemTouchHelper;
+import org.jaram.ds.util.AddOrderAsyncTask;
 
 import java.util.ArrayList;
 
 /**
  * Created by kjydiary on 15. 7. 8..
  */
-public class OrderView extends Fragment implements View.OnClickListener{
+public class OrderView extends Fragment implements View.OnClickListener {
 
     Callbacks callbacks = null;
     MenuListAdapter adapter;
@@ -38,14 +43,22 @@ public class OrderView extends Fragment implements View.OnClickListener{
     Order orderList;
     TextView empty;
     RecyclerView menuListView;
-    RelativeLayout buttonsframe;
-    LinearLayout frame;
+    RelativeLayout frame;
+    LinearLayout buttonsframe;
+    int payway;
+    boolean doingpay = false;
+    MenuSelectBtnAdapter menuBtnAdapterDon;
+    MenuSelectBtnAdapter menuBtnAdapterDup;
+    MenuSelectBtnAdapter menuBtnAdapterNoodle;
+    MenuSelectBtnAdapter menuBtnAdapterLast;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         totalprice = (TextView)view.findViewById(R.id.TotalPay);
-        frame = (LinearLayout)view.findViewById(R.id.buttons);
-        buttonsframe = (RelativeLayout)view.findViewById(R.id.isitOK);
+        buttonsframe = (LinearLayout)view.findViewById(R.id.buttons);
+        frame = (RelativeLayout)view.findViewById(R.id.isitOK);
+        frame.setVisibility(RelativeLayout.INVISIBLE);
 //        totalprice.setText(Data.orderList.get(0).totalPrice+"");
 
         menuListView = (RecyclerView)view.findViewById(R.id.menuListView);
@@ -56,10 +69,64 @@ public class OrderView extends Fragment implements View.OnClickListener{
         empty = (TextView)view.findViewById(R.id.list_empty);
 
         Button cash = (Button)view.findViewById(R.id.Cash);
+        cash.setOnClickListener(this);
         Button card = (Button)view.findViewById(R.id.Card);
+        card.setOnClickListener(this);
         Button service = (Button)view.findViewById(R.id.Service);
+        service.setOnClickListener(this);
         Button credit = (Button)view.findViewById(R.id.Credit);
+        credit.setOnClickListener(this);
 
+        Button Ok = (Button)view.findViewById(R.id.accept);
+        Ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.setpay(payway);
+                frame.setVisibility(RelativeLayout.INVISIBLE);
+                adapter.resetDoingpay();
+                resetDoingPay();
+                adapter.notifyDataSetChanged();
+                totalprice.setText(orderList.getTotalPrice()+"");
+            }
+        });
+        Button cancel = (Button)view.findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                frame.setVisibility(RelativeLayout.INVISIBLE);
+                adapter.resetDoingpay();
+                resetDoingPay();
+                if(adapter.selectedMenus == adapter.orderMenus){
+                    adapter.selectedMenus = new Order();
+                }
+            }
+        });
+
+        Button paybtn = (Button)view.findViewById(R.id.payBtn);
+        paybtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int count = 0;
+                for(int i=0; i<orderList.menuList.size(); i++){
+                    if(orderList.menuList.get(i).complete){
+                        count++;
+                    }
+                }
+                if(count>0){
+                    new AlertDialog.Builder(getActivity())
+                            .setMessage("모든 결제를 완료해주세요.")
+                            .setNeutralButton("확인",new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                }
+
+                AddOrderAsyncTask task = new AddOrderAsyncTask(getActivity());
+                task.execute(orderList);
+            }
+        });
 
 
 //        Order order = new Order();
@@ -80,22 +147,22 @@ public class OrderView extends Fragment implements View.OnClickListener{
         //TODO: 메뉴 목록과 메뉴 선택 fragment 분리해야함. : 결제화면과 메뉴목록 통일
         RecyclerView cutletList = (RecyclerView)view.findViewById(R.id.DonMenuList);
 
-        MenuSelectBtnAdapter menuBtnAdapterDon = new MenuSelectBtnAdapter(Data.categoryList.get(1).menus);
+        menuBtnAdapterDon = new MenuSelectBtnAdapter(Data.categoryList.get(1).menus);
         cutletList.setAdapter(menuBtnAdapterDon);
         cutletList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
         RecyclerView riceList = (RecyclerView)view.findViewById(R.id.DupMenuList);
-        MenuSelectBtnAdapter menuBtnAdapterDup = new MenuSelectBtnAdapter(Data.categoryList.get(2).menus);
+        menuBtnAdapterDup = new MenuSelectBtnAdapter(Data.categoryList.get(2).menus);
         riceList.setAdapter(menuBtnAdapterDup);
         riceList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
         RecyclerView noodleList = (RecyclerView)view.findViewById(R.id.NoodleMenuList);
-        MenuSelectBtnAdapter menuBtnAdapterNoodle = new MenuSelectBtnAdapter(Data.categoryList.get(3).menus);
+        menuBtnAdapterNoodle = new MenuSelectBtnAdapter(Data.categoryList.get(3).menus);
         noodleList.setAdapter(menuBtnAdapterNoodle);
         noodleList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
         RecyclerView etcList = (RecyclerView)view.findViewById(R.id.DrinkAndAdd);
-        MenuSelectBtnAdapter menuBtnAdapterLast = new MenuSelectBtnAdapter(Data.categoryList.get(4).menus);
+        menuBtnAdapterLast = new MenuSelectBtnAdapter(Data.categoryList.get(4).menus);
         etcList.setAdapter(menuBtnAdapterLast);
         etcList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
@@ -161,6 +228,12 @@ public class OrderView extends Fragment implements View.OnClickListener{
                     }
                 }
             });
+            if(doingpay){
+                holder.menu.setClickable(false);
+            }
+            else{
+                holder.menu.setClickable(true);
+            }
         }
 
         @Override
@@ -202,18 +275,37 @@ public class OrderView extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id == R.id.Cash){
-            frame.setVisibility(LinearLayout.VISIBLE);
-            adapter.setpay(Data.PAY_CASH);
+        frame.setVisibility(RelativeLayout.VISIBLE);
+        adapter.setDoingpay();
+        setDoingPay();
+        if(adapter.selectedMenus.menuList.size() == 0){
+            adapter.selectedMenus = adapter.orderMenus;
         }
-        else if(id == R.id.Card){
-            adapter.setpay(Data.PAY_CARD);
+        if (id == R.id.Cash) {
+            payway = Data.PAY_CASH;
         }
-        else if(id == R.id.Service){
-            adapter.setpay(Data.PAY_SERVICE);
+        else if (id == R.id.Card) {
+            payway = Data.PAY_CARD;
         }
-        else{
-            adapter.setpay(Data.PAY_CREDIT);
+        else if (id == R.id.Service) {
+            payway = Data.PAY_SERVICE;
         }
+        else {
+            payway = Data.PAY_CREDIT;
+        }
+    }
+    public void setDoingPay(){
+        doingpay = true;
+        menuBtnAdapterDon.notifyDataSetChanged();
+        menuBtnAdapterDup.notifyDataSetChanged();
+        menuBtnAdapterNoodle.notifyDataSetChanged();
+        menuBtnAdapterLast.notifyDataSetChanged();
+    }
+    public void resetDoingPay(){
+        doingpay = false;
+        menuBtnAdapterDon.notifyDataSetChanged();
+        menuBtnAdapterDup.notifyDataSetChanged();
+        menuBtnAdapterNoodle.notifyDataSetChanged();
+        menuBtnAdapterLast.notifyDataSetChanged();
     }
 }

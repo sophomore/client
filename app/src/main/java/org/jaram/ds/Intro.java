@@ -9,16 +9,13 @@ import android.widget.Button;
 
 import org.jaram.ds.admin.view.ManagementIntro;
 import org.jaram.ds.data.Data;
-import org.jaram.ds.data.struct.TestCategory;
 import org.jaram.ds.order.OrderManager;
+import org.jaram.ds.util.AddOrderAsyncTask;
 import org.jaram.ds.util.MenuManageAsyncTask;
 import org.jaram.ds.util.SearchOrderAsyncTask;
 
 public class Intro extends Activity {
 
-    static{
-
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,15 +26,16 @@ public class Intro extends Activity {
         asyncTask.execute();
 
         Log.d("tstett", Data.orderList+"");
-        if(TestCategory.findAll(TestCategory.class)==null){
+        /*if(TestCategory.findAll(TestCategory.class)==null){
             TestCategory.deleteAll(TestCategory.class);
-        }
+        }*/
 
 
         Button orderButton = (Button) findViewById(R.id.orderBtn);
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(new Intent(Intro.this, OrderManager.class));
             }
         });

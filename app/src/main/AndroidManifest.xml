@@ -26,11 +26,15 @@
             android:name=".admin.OrderManagerMain"
             android:label="OrderManager">
         </activity>
-
+        <activity
+            android:name = ".admin.view.MainShow"
+            android:label = "MainShow">
+        </activity>
         <activity
 
             android:name=".order.OrderManager"
             android:label="orderManager">
+
         </activity>
 
         <activity
