@@ -49,7 +49,13 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnLongClickLis
         this.detail_order = detail_order;
 
     }
-
+    public void setData(ArrayList<Order> data){
+        Log.d("null", "!"+data);
+        this.data = data;
+    }
+    public ArrayList<Order> getData(){
+        return this.data;
+    }
     @Override
     public int getCount() {
         return data.size();
@@ -74,14 +80,18 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnLongClickLis
     public HashMap<String, Integer> getItem(int position) {
         HashMap<String, Integer> menus = new HashMap<String, Integer>();
         int count = data.get(position).menuList.size();
+        Log.d("menu_name", String.valueOf(count));
         for (int i = 0; i < count; i++) {
             String temp = data.get(position).menuList.get(i).menu.name;
-            Log.d("name", String.valueOf(menus.keySet().size()));
+            int id = data.get(position).menuList.get(i).menu.id;// i 에다가  menuid
+            Log.d("menu_name", id+"id");
             if (temp != null && menus.keySet().contains(data.get(position).menuList.get(i).menu.name)) {
                 int plus = menus.get(temp) + 1;
                 menus.put(temp, plus);
+                Log.d("menu_name", "size"+menus.size());
             } else {
                 menus.put(temp, 1);
+                Log.d("menu_name", temp+"!");
             }
         }
         return menus;
@@ -112,11 +122,13 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnLongClickLis
         Set menu1 = getItem(position).keySet();
         String menu2 = "";
         for (Object i : menu1) {
+            Log.d("menu_name", "!"+i);
             menu2 = menu2 + i + " " + getItem(position).get(i) + "개, ";
         }
         if(menu2.length()!=0) {
             menu2 = menu2.substring(0, menu2.length() - 2);
         }
+        Log.d("menu_name", "되긴되나");
         o.setText(menu2);
         ol.setText(String.format("%d", getTotal(position)));
         convertView.setTag(position);
@@ -215,6 +227,7 @@ public class OrderlistAdapter extends BaseAdapter implements View.OnLongClickLis
         ab.show();
         return true;
     }
+
 
     class OrderModifyAdapter extends BaseAdapter {
         ArrayList<OrderMenu> orderMenu;
