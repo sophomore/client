@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 
 /**
@@ -43,6 +44,10 @@ public class BarChartManager implements OnChartGestureListener {
     public static int cartPrice = 0;
     public static int cashPrice = 0;
 
+    ArrayList<Integer> totalOfMonth ;
+    ArrayList<Integer> cardOfMonth;
+    ArrayList<Integer> cashOfMonth;
+    ArrayList<HashMap> menusOfMonth ;
     public BarChartManager(Activity activity, boolean analysisType, ArrayList<String> menuList, int unitType, String start, String end) {
         this.analysisType = analysisType;
         this.menuList = menuList;
@@ -51,7 +56,12 @@ public class BarChartManager implements OnChartGestureListener {
         this.end = end;
         this.activity = activity;
     }
-
+    public void setData(){
+        totalOfMonth = Data.totals;
+        cashOfMonth = Data.cashs;
+        cardOfMonth = Data.cards;
+        menusOfMonth = Data.menus;
+    }
     public BarChart getChart() {
         return mChart;
     }
@@ -358,35 +368,14 @@ public class BarChartManager implements OnChartGestureListener {
             String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
             months.add(month);
 
-            ArrayList<Order> orderList = Data.orderList;
-            int totalPricePerMenu[] = new int[months.size()];
-            for (Order i : orderList) {
-                date2 = (Calendar) startDate.clone();
-
-                Calendar orderDate = Calendar.getInstance();
-                orderDate.setTime(i.date);
-                for (int l = 0; l < months.size(); l++) {
-
-                    if ((orderDate.get(Calendar.YEAR)+"."+orderDate.get(Calendar.MONTH)).equals(months.get(l))) {
-                        totalPricePerMenu[l] += totalPricePerMenu[l] + i.totalPrice;
-
-                    } else {
-                        date2.add(Calendar.DATE, 1);
-                    }
-                }
-            }
-
             ArrayList<BarDataSet> barDataSets = new ArrayList<BarDataSet>();
 
             ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
             for (int k = 0; k < months.size(); k++) {
-
-                entries.add(new BarEntry(totalPricePerMenu[k], k));
-
+                entries.add(new BarEntry(totalOfMonth.get(k), k));
             }
 
             BarDataSet barDataSet = new BarDataSet(entries, "매출액");
-//            barDataSet.setColor(Color.rgb(255, 128, 128));
             barDataSets.add(barDataSet);
 
             String xVals[] = new String[months.size()];
