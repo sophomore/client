@@ -16,6 +16,7 @@ public class Order {
     public Date date;
     public ArrayList<OrderMenu> menuList = new ArrayList<OrderMenu>();
     public int totalPrice = 0;
+    public int server;
 
     public void addMenu(Menu menu, int pay) {
         menuList.add(new OrderMenu(menu, pay));
@@ -28,6 +29,13 @@ public class Order {
             }
         }
         return totalPrice;
+    }
+    public int getTotalForServer(){
+        server =0;
+        for(int i=0; i<menuList.size(); i++){
+            server += menuList.get(i).totalprice;
+        }
+        return server;
     }
 
     public void removeMenu(Menu menu) throws OrderException {

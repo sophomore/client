@@ -106,13 +106,7 @@ public class OrderView extends Fragment implements View.OnClickListener {
         paybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int count = 0;
-                for(int i=0; i<orderList.menuList.size(); i++){
-                    if(orderList.menuList.get(i).complete){
-                        count++;
-                    }
-                }
-                if(count>0){
+                if(orderList.totalPrice>0){
                     new AlertDialog.Builder(getActivity())
                             .setMessage("모든 결제를 완료해주세요.")
                             .setNeutralButton("확인",new DialogInterface.OnClickListener() {
@@ -120,11 +114,16 @@ public class OrderView extends Fragment implements View.OnClickListener {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     dialogInterface.dismiss();
                                 }
-                            });
+                            }).show();
+                }
+                else{
+                    AddOrderAsyncTask task = new AddOrderAsyncTask(getActivity());
+                    task.execute(orderList);
+                    orderList = new Order();
+                    adapter = new MenuListAdapter(orderList,totalprice);
+                    menuListView.setAdapter(adapter);
                 }
 
-                AddOrderAsyncTask task = new AddOrderAsyncTask(getActivity());
-                task.execute(orderList);
             }
         });
 

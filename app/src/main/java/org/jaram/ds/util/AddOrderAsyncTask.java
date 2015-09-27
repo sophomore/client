@@ -44,18 +44,18 @@ public class AddOrderAsyncTask extends AsyncTask<Order,Integer,Void> {
             String date2 = format.format(date);
             hashMap.put("time",date2);
             JSONArray array = new JSONArray();
-            JSONObject object = new JSONObject();
             for(int i=0; i<params[0].menuList.size(); i++){
+                JSONObject object = new JSONObject();
                 OrderMenu ordermenu = params[0].menuList.get(i);
-                object.put("id",ordermenu.menu.id);
-                object.put("pay",ordermenu.pay);
-                object.put("curry",ordermenu.curry);
-                object.put("twice",ordermenu.doublei);
+                object.put("id", ordermenu.menu.id);
+                object.put("pay", ordermenu.pay);
+                object.put("curry", ordermenu.curry);
+                object.put("twice", ordermenu.doublei);
                 array.put(object);
             }
 //            String orderMenu = "[{\"id\":"+3+",\"curry\" :"+true+", \"double\" : "+true+", \"pay\" : "+2+"}]";
 //            JSONArray jsonArray = new JSONArray(orderMenu);
-            hashMap.put("totalprice", params[0].getTotalPrice());
+            hashMap.put("totalprice", params[0].getTotalForServer());
             hashMap.put("ordermenus", array);
 
             Log.d("testJsonArray", array + "");
