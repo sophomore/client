@@ -15,17 +15,6 @@ import org.jaram.ds.util.MenuManageAsyncTask;
 
 public class Intro extends Activity {
 
-    /*static{
-        TestCategory category = new TestCategory(1,"돈까스");
-        category.save();
-        TestCategory category1 = new TestCategory(2,"덮밥");
-        category1.save();
-        TestCategory category2 = new TestCategory(3,"면류");
-        category2.save();
-        TestCategory category3 = new TestCategory(4,"기타");
-        category3.save();
-
-    }*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +35,7 @@ public class Intro extends Activity {
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(new Intent(Intro.this, OrderManager.class));
             }
         });

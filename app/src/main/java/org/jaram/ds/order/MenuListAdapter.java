@@ -20,10 +20,10 @@ import java.util.HashMap;
  */
 
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> implements ItemTouchHelperAdapter {
-    private Order orderMenus;
-    HashMap<Integer,OrderMenu> selected;
-    private Order selectedMenus;
+    public Order orderMenus;
+    public Order selectedMenus;
     private TextView totalPrice;
+    private boolean doingpay = false;
 
     public MenuListAdapter(Order orderMenus, TextView totalPrice) {
         if (orderMenus == null) {
@@ -56,7 +56,12 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
             holder.doubleBtn.setTextColor(Color.parseColor("#2185C5"));
             holder.nameView.setTextColor(Color.parseColor("#3E454C"));
         }
-
+        if (orderMenus.menuList.get(position).getComplete()){
+            holder.menu.setBackgroundColor(Color.parseColor("#A6A6A6"));
+            holder.curryBtn.setTextColor(Color.parseColor("#ffffff"));
+            holder.doubleBtn.setTextColor(Color.parseColor("#ffffff"));
+            holder.nameView.setTextColor(Color.parseColor("#4c4c4c"));
+        }
         holder.curryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,6 +86,13 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
                 }
             }
         });
+        if(doingpay){
+            holder.menu.setClickable(false);
+
+        } else{
+            holder.menu.setClickable(true);
+
+        }
     }
 
     @Override
@@ -95,7 +107,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         orderMenus.menuList.remove(position);
         notifyDataSetChanged();
         textView.setText(orderMenus.getTotalPrice() + "");
-        Log.d("totalpriced", orderMenus.getTotalPrice() + "");
     }
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
@@ -111,24 +122,49 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
             doubleBtn = (Button) item.findViewById(R.id.Double);
             nameView = (TextView) item.findViewById(R.id.menu_name);
             priceView = (TextView) item.findViewById(R.id.menu_price);
-
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (selectedMenus.menuList.contains(orderMenus.menuList.get(getLayoutPosition()))) {
                         selectedMenus.menuList.remove(orderMenus.menuList.get(getLayoutPosition()));
+                        if(selectedMenus.menuList.size()==0){
+                            totalPrice.setText(orderMenus.getTotalPrice()+"");
+                        }
+                        else{
+                            totalPrice.setText(selectedMenus.getTotalPrice()+"");
+                        }
                     } else {
                         selectedMenus.menuList.add(orderMenus.menuList.get(getLayoutPosition()));
+                        totalPrice.setText(selectedMenus.getTotalPrice()+"");
                     }
                     notifyDataSetChanged();
                 }
             });
+            if(doingpay) {
+                menu.setClickable(false);
+                Log.d("clickable",menu.isClickable()+"#");
+            }
+            else{
+                menu.setClickable(true);
+            }
+
         }
     }
     public void setpay(int pay){
         for (int i=0; i<selectedMenus.menuList.size();i++){
             selectedMenus.menuList.get(i).setPay(pay);
+            selectedMenus.menuList.get(i).setComplete();
         }
+        selectedMenus = new Order();
+    }
+
+    public void setDoingpay(){
+        doingpay = true;
+        notifyDataSetChanged();
+    }
+    public void resetDoingpay(){
+        doingpay = false;
+        notifyDataSetChanged();
     }
 
 }
