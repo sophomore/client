@@ -10,7 +10,6 @@ import android.widget.Button;
 import org.jaram.ds.admin.view.ManagementIntro;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.order.OrderManager;
-import org.jaram.ds.util.AddOrderAsyncTask;
 import org.jaram.ds.util.MenuAysncTask;
 import org.jaram.ds.util.MenuManageAsyncTask;
 
@@ -47,8 +46,6 @@ public class Intro extends Activity {
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddOrderAsyncTask addOrderAsyncTask = new AddOrderAsyncTask(Intro.this);
-                addOrderAsyncTask.execute();
                 startActivity(new Intent(Intro.this, OrderManager.class));
             }
         });

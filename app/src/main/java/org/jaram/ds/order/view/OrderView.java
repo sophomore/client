@@ -14,13 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.data.struct.Order;
-import org.jaram.ds.data.struct.OrderMenu;
 import org.jaram.ds.order.MenuListAdapter;
 import org.jaram.ds.order.SimpleItemTouchHelper;
 
@@ -37,13 +37,16 @@ public class OrderView extends Fragment implements View.OnClickListener{
     Order orderList;
     TextView empty;
     RecyclerView menuListView;
-    LinearLayout frame;
+    RelativeLayout frame;
     LinearLayout buttonsframe;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         totalprice = (TextView)view.findViewById(R.id.TotalPay);
 //        totalprice.setText(Data.orderList.get(0).totalPrice+"");
+        frame = (RelativeLayout)view.findViewById(R.id.isitOK);
+        buttonsframe = (LinearLayout)view.findViewById(R.id.frame);
+        frame.setVisibility(View.INVISIBLE);
 
         menuListView = (RecyclerView)view.findViewById(R.id.menuListView);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -56,8 +59,19 @@ public class OrderView extends Fragment implements View.OnClickListener{
         Button card = (Button)view.findViewById(R.id.Card);
         Button service = (Button)view.findViewById(R.id.Service);
         Button credit = (Button)view.findViewById(R.id.Credit);
-
-
+        cash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frame.setVisibility(View.VISIBLE);
+            }
+        });
+        Button accept = (Button)view.findViewById(R.id.accept);
+        accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frame.setVisibility(View.INVISIBLE);
+            }
+        });
 
 //        Order order = new Order();
 //        Order order = Data.orderList.get(new Random().nextInt(Data.orderList.size()-1));

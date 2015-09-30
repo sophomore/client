@@ -70,15 +70,6 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
         super.onPreExecute();
     }
 
-    public int getXvalue(Date date, int unit) {
-        if (unit == 2) {
-            return date.getDate();
-        } else if (unit == 4) {
-            return date.getMonth() + 1;
-        } else {
-            return 1;
-        }
-    }
     public void setHourData(JSONObject jsonObject) throws JSONException{
         ArrayList<Integer> totals = Data.totals;
         ArrayList<Integer> cards = Data.cards;
@@ -86,15 +77,20 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
         ArrayList<HashMap> menus = Data.menus;
         Iterator<String> keys = jsonObject.keys();
         while(keys.hasNext()){
-            JSONObject object = jsonObject.getJSONObject(keys.next());
+            String hour = keys.next();
+            JSONObject object = jsonObject.getJSONObject(hour);
             JSONObject menuObject = object.getJSONObject("menu");
             Iterator<String> menuKeys = menuObject.keys();
-            HashMap<String,Integer> hashMap = new HashMap<>();
+            HashMap<String,Float> hashMap = new HashMap<>();
+            Log.d("hour",hour);
             while(menuKeys.hasNext()){
                 String id =menuKeys.next();
-                int price = menuObject.getInt(id);
-                hashMap.put(id,price);
+                Log.d("id",id);
+                float price = (float)menuObject.getJSONObject(id).getInt("price");
+                float count = (float)menuObject.getJSONObject(id).getInt("count");
+                hashMap.put(id, price);
             }
+
             menus.add(hashMap);
             int cardtotal = object.getInt("cardtotal");
             int cashtotal = object.getInt("cashtotal");
@@ -104,7 +100,7 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
             cashs.add(cashtotal);
         }
     }
-    public void setMonthData(JSONObject jsonObject, Date start, Date end) throws JSONException {
+    public void setMonthData(JSONObject jsonObject) throws JSONException {
         ArrayList<Integer> totals = Data.totals;
         ArrayList<Integer> cards = Data.cards;
         ArrayList<Integer> cashs = Data.cashs;
@@ -114,44 +110,77 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
             JSONArray jsonArray = jsonObject.getJSONArray(keys.next());
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
-                int value = start.getMonth() + 1;
+                Iterator<String> months = object.keys();
+                while(months.hasNext()) {
+                    String month = months.next();
+                    JSONObject jsonObject1 = object.getJSONObject(month);
+                    int cardTotal = jsonObject1.getInt("cardtotal");
+                    int cashTotal = jsonObject1.getInt("cashtotal");
+                    int total = cardTotal + cashTotal;
+                    Data.totalCard += cardTotal;
+                    Data.totalCash += cashTotal;
+                    Data.totalPrice += total;
+                    HashMap<Integer, Float> hashMap1 = new HashMap<>();
+                    JSONObject object1;
+                    object1 = jsonObject1.getJSONObject("menu");
 
-                if (object.has(String.valueOf(value))) {
-                    JSONObject jsonObject1 = object.getJSONObject(String.valueOf(value));
-
-                        int cardTotal = jsonObject1.getInt("cardtotal");
-                        int cashTotal = jsonObject1.getInt("cashtotal");
-                        int total = cardTotal + cashTotal;
-                        Data.totalCard += cardTotal;
-                        Data.totalCash += cashTotal;
-                        Data.totalPrice += total;
-
-                        HashMap<Integer, Float> hashMap1 = new HashMap<>();
-                        JSONObject object1;
-                        object1 = object.getJSONObject("menu");
-
-                        Iterator<String> keys2 = object1.keys();
-                        while (keys2.hasNext()) {
-                            String menuId = keys2.next();
-                            int id = Integer.parseInt(menuId);
-                            float price = (float) object1.getInt(menuId);
-                            hashMap1.put(id, price);
-                        }
-                        menus.add(hashMap1);
-                        totals.add(total);
-                        cards.add(cardTotal);
-                        cashs.add(cashTotal);
-
-
+                    Iterator<String> keys2 = object1.keys();
+                    while (keys2.hasNext()) {
+                        String menuId = keys2.next();
+                        int id = Integer.parseInt(menuId);
+                        float price = (float) object1.getInt(menuId);
+                        hashMap1.put(id, price);
+                    }
+                    menus.add(hashMap1);
+                    totals.add(total);
+                    cards.add(cardTotal);
+                    cashs.add(cashTotal);
                 }
-                start.setMonth(start.getMonth() + 1);
-
 
             }
 
         }
     }
+    public void setQuarterData(JSONObject jsonObject) throws JSONException{
+        ArrayList<Integer> totals = Data.totals;
+        ArrayList<Integer> cards = Data.cards;
+        ArrayList<Integer> cashs = Data.cashs;
+        ArrayList<HashMap> menus = Data.menus;
+        Iterator<String> keys = jsonObject.keys();
+        while(keys.hasNext()){
+            String key = keys.next();
+            JSONArray jsonArray = jsonObject.getJSONArray(key);
+            for(int i =0; i< jsonArray.length();i++){
+                JSONObject object = jsonArray.getJSONObject(i);
+                Iterator<String> quarters = object.keys();
+                while(quarters.hasNext()) {
+                    String quarter = quarters.next();
+                    JSONObject jsonObject1 = object.getJSONObject(quarter);
+                    int cashtotal = jsonObject1.getInt("cashtotal");
+                    int cardtotal = jsonObject1.getInt("cardtotal");
+                    int total = cashtotal + cardtotal;
+                    Data.totalCash += cashtotal;
+                    Data.totalCard += cardtotal;
+                    Data.totalPrice += total;
+                    JSONObject menuObject = jsonObject1.getJSONObject("menu");
+                    JSONObject countObject = jsonObject1.getJSONObject("count");
+                    Iterator<String> keys2 = countObject.keys();
+                    HashMap<Integer, Float> hashMap = new HashMap<>();
+                    while (keys2.hasNext()) {
+                        String menu = keys2.next();
+                        int id = Integer.parseInt(menu);
 
+                        float price = (float) menuObject.getInt(menu);
+                        hashMap.put(id, price);
+                    }
+                    cards.add(cardtotal);
+                    cashs.add(cashtotal);
+                    menus.add(hashMap);
+                    totals.add(total);
+                }
+            }
+        }
+    }
     public void setDateData(JSONObject jsonObject, Date start, Date end) throws JSONException {
         ArrayList<Integer> totals = Data.totals;
         ArrayList<Integer> cards = Data.cards;
@@ -163,7 +192,7 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
             JSONArray jsonArray = jsonObject.getJSONArray(key);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
-                Iterator<String> iterator = object.keys();
+
                 int value = start.getMonth()+1;
                 if(object.has(String.valueOf(value))){
                     JSONObject jsonObject1 = object.getJSONObject(String.valueOf(value));
@@ -200,7 +229,64 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
             }
         }
     }
-
+    public void setYearData(JSONObject jsonObject) throws JSONException {
+        ArrayList<Integer> totals = Data.totals;
+        ArrayList<Integer> cards = Data.cards;
+        ArrayList<Integer> cashs = Data.cashs;
+        ArrayList<HashMap> menus = Data.menus;
+        Iterator<String> keys = jsonObject.keys();
+        while(keys.hasNext()){
+            JSONObject object = jsonObject.getJSONObject(keys.next());
+            int cardtotal = object.getInt("cardtotal");
+            int cashtotal = object.getInt("cashtotal");
+            int total = cardtotal+cashtotal;
+            Data.totalCard = cardtotal;
+            Data.totalCash = cashtotal;
+            Data.totalPrice = total;
+            JSONObject menuObject = object.getJSONObject("menu");
+            Iterator<String> menusIds = menuObject.keys();
+            HashMap<Integer,Float> hashMap = new HashMap<>();
+            while(menusIds.hasNext()){
+                String menu = menusIds.next();
+                int id = Integer.parseInt(menu);
+                float price = (float)menuObject.getInt(menu);
+                hashMap.put(id,price);
+            }
+            menus.add(hashMap);
+            totals.add(total);
+            cards.add(cardtotal);
+            cashs.add(cashtotal);
+        }
+    }
+    public void setDayData(JSONObject jsonObject) throws JSONException {
+        ArrayList<Integer> totals = Data.totals;
+        ArrayList<Integer> cards = Data.cards;
+        ArrayList<Integer> cashs = Data.cashs;
+        ArrayList<HashMap> menus = Data.menus;
+        Iterator<String> keys = jsonObject.keys();
+        while(keys.hasNext()){
+            JSONObject object = jsonObject.getJSONObject(keys.next());
+            int cardtotal = object.getInt("cardtotal");
+            int cashtotal = object.getInt("cashtotal");
+            int total = cardtotal + cashtotal;
+            Data.totalCard = cardtotal;
+            Data.totalCash = cashtotal;
+            Data.totalPrice = total;
+            JSONObject menuObject = object.getJSONObject("menu");
+            Iterator<String> menusIds = menuObject.keys();
+            HashMap<Integer,Float> hashMap = new HashMap<>();
+            while(menusIds.hasNext()){
+                String menu = menusIds.next();
+                int id = Integer.parseInt(menu);
+                float price = (float)menuObject.getInt(menu);
+                hashMap.put(id,price);
+            }
+            menus.add(hashMap);
+            totals.add(total);
+            cards.add(cardtotal);
+            cashs.add(cashtotal);
+        }
+    }
     @Override
     protected Void doInBackground(Void... params) {
 
@@ -234,8 +320,14 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
                     setHourData(jsonObject);
                 } else if(unit == 2){
                     setDateData(jsonObject,start,end);
+                } else if(unit == 3){
+                    setDayData(jsonObject);
                 } else if(unit == 4){
-                    setMonthData(jsonObject,start,end);
+                    setMonthData(jsonObject);
+                } else if(unit == 5){
+                    setQuarterData(jsonObject);
+                } else if(unit == 6){
+                    setYearData(jsonObject);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -36,7 +36,7 @@ public class AddOrderAsyncTask extends AsyncTask<URL,Integer,Void> {
 
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd H:mm:ss", Locale.KOREA);
-            String date = "2015-10-16 13:20:22";
+            String date = "2015-10-20 13:20:22";
             hashMap.put("time",date);
             String orderMenu = "[{\"id\":"+3+",\"curry\" :"+true+", \"twice\" : "+true+", \"pay\" : "+2+"}]";
             JSONArray jsonArray = new JSONArray(orderMenu);
