@@ -75,23 +75,24 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
         ArrayList<Integer> cards = Data.cards;
         ArrayList<Integer> cashs = Data.cashs;
         ArrayList<HashMap> menus = Data.menus;
+        ArrayList<HashMap> counts = Data.counts;
         Iterator<String> keys = jsonObject.keys();
         while(keys.hasNext()){
             String hour = keys.next();
             JSONObject object = jsonObject.getJSONObject(hour);
             JSONObject menuObject = object.getJSONObject("menu");
             Iterator<String> menuKeys = menuObject.keys();
-            HashMap<String,Float> hashMap = new HashMap<>();
-            Log.d("hour",hour);
+            HashMap<String,Float> priceMap = new HashMap<>();
+            HashMap<String,Float> countMap = new HashMap<>();
             while(menuKeys.hasNext()){
                 String id =menuKeys.next();
-                Log.d("id",id);
                 float price = (float)menuObject.getJSONObject(id).getInt("price");
                 float count = (float)menuObject.getJSONObject(id).getInt("count");
-                hashMap.put(id, price);
+                priceMap.put(id, price);
+                countMap.put(id,count);
             }
-
-            menus.add(hashMap);
+            counts.add(countMap);
+            menus.add(priceMap);
             int cardtotal = object.getInt("cardtotal");
             int cashtotal = object.getInt("cashtotal");
             int total = cardtotal+cashtotal;
@@ -105,6 +106,7 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
         ArrayList<Integer> cards = Data.cards;
         ArrayList<Integer> cashs = Data.cashs;
         ArrayList<HashMap> menus = Data.menus;
+        ArrayList<HashMap> counts = Data.counts;
         Iterator<String> keys = jsonObject.keys();
         while (keys.hasNext()) {
             JSONArray jsonArray = jsonObject.getJSONArray(keys.next());
@@ -121,17 +123,20 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
                     Data.totalCash += cashTotal;
                     Data.totalPrice += total;
                     HashMap<Integer, Float> hashMap1 = new HashMap<>();
-                    JSONObject object1;
-                    object1 = jsonObject1.getJSONObject("menu");
-
+                    HashMap<Integer, Float> countMap = new HashMap<>();
+                    JSONObject object1 = jsonObject1.getJSONObject("menu");
+                    JSONObject countObject = jsonObject1.getJSONObject("count");
                     Iterator<String> keys2 = object1.keys();
                     while (keys2.hasNext()) {
                         String menuId = keys2.next();
                         int id = Integer.parseInt(menuId);
+                        float count = (float) countObject.getInt(menuId);
                         float price = (float) object1.getInt(menuId);
                         hashMap1.put(id, price);
+                        countMap.put(id,count);
                     }
                     menus.add(hashMap1);
+                    counts.add(countMap);
                     totals.add(total);
                     cards.add(cardTotal);
                     cashs.add(cashTotal);
@@ -146,6 +151,7 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
         ArrayList<Integer> cards = Data.cards;
         ArrayList<Integer> cashs = Data.cashs;
         ArrayList<HashMap> menus = Data.menus;
+        ArrayList<HashMap> counts = Data.counts;
         Iterator<String> keys = jsonObject.keys();
         while(keys.hasNext()){
             String key = keys.next();
@@ -166,13 +172,16 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
                     JSONObject countObject = jsonObject1.getJSONObject("count");
                     Iterator<String> keys2 = countObject.keys();
                     HashMap<Integer, Float> hashMap = new HashMap<>();
+                    HashMap<Integer, Float> countMap = new HashMap<>();
                     while (keys2.hasNext()) {
                         String menu = keys2.next();
                         int id = Integer.parseInt(menu);
-
+                        float count = (float) countObject.getInt(menu);
                         float price = (float) menuObject.getInt(menu);
                         hashMap.put(id, price);
+                        countMap.put(id,count);
                     }
+                    counts.add(countMap);
                     cards.add(cardtotal);
                     cashs.add(cashtotal);
                     menus.add(hashMap);
@@ -186,6 +195,7 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
         ArrayList<Integer> cards = Data.cards;
         ArrayList<Integer> cashs = Data.cashs;
         ArrayList<HashMap> menus = Data.menus;
+        ArrayList<HashMap> counts = Data.counts;
         Iterator<String> keys = jsonObject.keys();
         while (keys.hasNext()) {
             String key = keys.next();
@@ -207,16 +217,19 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
                             Data.totalPrice += total;
 
                             HashMap<Integer, Float> hashMap1 = new HashMap<>();
-                            JSONObject object1;
-                            object1 = days.getJSONObject("menu");
-
+                            HashMap<Integer, Float> countMap = new HashMap<>();
+                            JSONObject object1 = days.getJSONObject("menu");
+                            JSONObject countObject = days.getJSONObject("count");
                             Iterator<String> keys2 = object1.keys();
                             while (keys2.hasNext()) {
                                 String menuId = keys2.next();
                                 int id = Integer.parseInt(menuId);
+                                float count = (float) countObject.getInt(menuId);
                                 float price = (float) object1.getInt(menuId);
                                 hashMap1.put(id, price);
+                                countMap.put(id,price);
                             }
+                            counts.add(countMap);
                             menus.add(hashMap1);
                             totals.add(total);
                             cards.add(cardTotal);
@@ -234,6 +247,7 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
         ArrayList<Integer> cards = Data.cards;
         ArrayList<Integer> cashs = Data.cashs;
         ArrayList<HashMap> menus = Data.menus;
+        ArrayList<HashMap> counts = Data.counts;
         Iterator<String> keys = jsonObject.keys();
         while(keys.hasNext()){
             JSONObject object = jsonObject.getJSONObject(keys.next());
@@ -244,14 +258,19 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
             Data.totalCash = cashtotal;
             Data.totalPrice = total;
             JSONObject menuObject = object.getJSONObject("menu");
+            JSONObject countObject = object.getJSONObject("count");
             Iterator<String> menusIds = menuObject.keys();
             HashMap<Integer,Float> hashMap = new HashMap<>();
+            HashMap<Integer,Float> countMap = new HashMap<>();
             while(menusIds.hasNext()){
                 String menu = menusIds.next();
                 int id = Integer.parseInt(menu);
+                float count = (float) countObject.getInt(menu);
                 float price = (float)menuObject.getInt(menu);
                 hashMap.put(id,price);
+                countMap.put(id,count);
             }
+            counts.add(countMap);
             menus.add(hashMap);
             totals.add(total);
             cards.add(cardtotal);
@@ -263,6 +282,7 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
         ArrayList<Integer> cards = Data.cards;
         ArrayList<Integer> cashs = Data.cashs;
         ArrayList<HashMap> menus = Data.menus;
+        ArrayList<HashMap> counts = Data.counts;
         Iterator<String> keys = jsonObject.keys();
         while(keys.hasNext()){
             JSONObject object = jsonObject.getJSONObject(keys.next());
@@ -273,14 +293,20 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
             Data.totalCash = cashtotal;
             Data.totalPrice = total;
             JSONObject menuObject = object.getJSONObject("menu");
+            JSONObject countObject = object.getJSONObject("count");
             Iterator<String> menusIds = menuObject.keys();
             HashMap<Integer,Float> hashMap = new HashMap<>();
+            HashMap<Integer,Float> countMap = new HashMap<>();
+
             while(menusIds.hasNext()){
                 String menu = menusIds.next();
                 int id = Integer.parseInt(menu);
                 float price = (float)menuObject.getInt(menu);
+                float count = (float)countObject.getInt(menu);
                 hashMap.put(id,price);
+                countMap.put(id,count);
             }
+            counts.add(countMap);
             menus.add(hashMap);
             totals.add(total);
             cards.add(cardtotal);

@@ -35,6 +35,10 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
     TextView endText;
     ProgressChartFrag progressChartFrag;
 
+    boolean analysisType;
+    ArrayList<String> menuList;
+    int unitType;
+    ArrayList<Integer> menuIds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
