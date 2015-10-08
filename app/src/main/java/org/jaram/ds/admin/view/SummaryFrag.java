@@ -58,11 +58,11 @@ public class SummaryFrag extends Fragment {
     public void setListener(){
 
         TextView moneydata = (TextView) view.findViewById(R.id.totalCash);
-        moneydata.setText(Data.totalPrice+"원");
+        moneydata.setText(Data.totalCash+"원");
         TextView creditdata = (TextView) view.findViewById(R.id.totalCard);
         creditdata.setText(Data.totalCard+"원");
         TextView totaldata = (TextView) view.findViewById(R.id.totalPrice);
-        totaldata.setText(Data.totalCash+"원");
+        totaldata.setText(Data.totalPrice+"원");
 
 
 
