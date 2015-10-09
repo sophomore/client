@@ -29,7 +29,7 @@ public class SummaryFrag extends Fragment {
     View view;
     ArrayList<String> menuList = new ArrayList<String>();
     TextView click_totaldata;
-    TextView click_creditdata;
+    TextView click_carddata;
     TextView click_moneydata;
     @Nullable
     @Override
@@ -39,7 +39,7 @@ public class SummaryFrag extends Fragment {
             menuList.add(i.name);
         }
         click_moneydata = (TextView) view.findViewById(R.id.monthCash);
-        click_creditdata = (TextView) view.findViewById(R.id.monthCard);
+        click_carddata = (TextView) view.findViewById(R.id.monthCard);
         click_totaldata = (TextView) view.findViewById(R.id.monthPrice);
         return view;
     }
@@ -59,8 +59,8 @@ public class SummaryFrag extends Fragment {
 
         TextView moneydata = (TextView) view.findViewById(R.id.totalCash);
         moneydata.setText(Data.totalPrice+"원");
-        TextView creditdata = (TextView) view.findViewById(R.id.totalCard);
-        creditdata.setText(Data.totalCard+"원");
+        TextView carddata = (TextView) view.findViewById(R.id.totalCard);
+        carddata.setText(Data.totalCard+"원");
         TextView totaldata = (TextView) view.findViewById(R.id.totalPrice);
         totaldata.setText(Data.totalCash+"원");
 
@@ -73,7 +73,7 @@ public class SummaryFrag extends Fragment {
 
 
                 click_moneydata.setText(Data.cashs.get(e.getXIndex()) + "원");
-                click_creditdata.setText(Data.cards.get(e.getXIndex()) + "원");
+                click_carddata.setText(Data.cards.get(e.getXIndex()) + "원");
                 click_totaldata.setText(Data.totals.get(e.getXIndex()) + "원");
             }
 
@@ -85,7 +85,7 @@ public class SummaryFrag extends Fragment {
     }
     public void resetTextView(){
         click_moneydata.setText(0+"");
-        click_creditdata.setText(0+"");
+        click_carddata.setText(0+"");
         click_totaldata.setText(0+"");
     }
     public BarChart getChart(){
