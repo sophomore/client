@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,6 +43,7 @@ public class DrawerFrag extends Fragment {
     ArrayList<Integer> menuIds = new ArrayList<>();
     ArrayList<String> selectedMenu = new ArrayList<String>();
     ArrayList<Integer> selectedMenuId = new ArrayList<>();
+    SharedPreferences pref;
     public static interface OnAnalysisListener{
         void createLineChart(boolean analysisType, ArrayList<String> menuList, ArrayList<Integer> menuIds,int unitType);
         void createBarChart();
@@ -58,6 +60,7 @@ public class DrawerFrag extends Fragment {
         aSwitch = (Switch) view.findViewById(R.id.statistic_switch);
         aSwitch.setTextOff("꺽은선");
         aSwitch.setTextOn("막대");
+
         //단위 1.시간 2.일 3.요일 4.월 5.분기 6.년
         final ExpandableHeightGridView gridView = (ExpandableHeightGridView) view.findViewById(R.id.gridView);
         gridView.setExpanded(true);
@@ -73,6 +76,7 @@ public class DrawerFrag extends Fragment {
                     checkedType = false;
                 } else if (checkedId == R.id.salesbtn || checkedId != R.id.countbtn) {
                     checkedType = true;
+
                 }
             }
         });
@@ -121,6 +125,7 @@ public class DrawerFrag extends Fragment {
                                 adapter.menuList.clear();
                                 adapter.notifyDataSetChanged();
                                 SetSelectedMenuAdapter(gridView1, view, setSelectedMenuList(mbIsSelect, items), mbIsSelect);
+
                             }
                         })
                         .setNegativeButton("Cancel", null)
@@ -164,7 +169,6 @@ public class DrawerFrag extends Fragment {
                     simpleAdapter.notifyDataSetChanged();
                     radioGroup.getChildAt(0).setClickable(true);
                     radioGroup.getChildAt(1).setClickable(true);
-
 
                 }
             }

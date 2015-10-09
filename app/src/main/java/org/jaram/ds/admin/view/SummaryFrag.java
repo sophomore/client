@@ -62,7 +62,7 @@ public class SummaryFrag extends Fragment {
         TextView carddata = (TextView) view.findViewById(R.id.totalCard);
         carddata.setText(Data.totalCard+"원");
         TextView totaldata = (TextView) view.findViewById(R.id.totalPrice);
-        totaldata.setText(Data.totalCash+"원");
+        totaldata.setText(Data.totalPrice+"원");
 
 
 

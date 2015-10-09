@@ -50,6 +50,7 @@ public class AddOrderAsyncTask extends AsyncTask<Order,Integer,Void> {
                 object.put("pay", ordermenu.pay);
                 object.put("curry", ordermenu.curry);
                 object.put("twice", ordermenu.doublei);
+                object.put("takeout",false);
                 array.put(object);
             }
             hashMap.put("totalprice", params[0].getTotalForServer());
