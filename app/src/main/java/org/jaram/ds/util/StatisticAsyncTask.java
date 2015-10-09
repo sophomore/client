@@ -43,6 +43,10 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
         this.summaryFrag = summaryFrag;
         this.aSwitch = aSwitch;
         menus = new ArrayList<>();
+//        Iterator<Integer> iterator =  Data.menuList.keySet().iterator();
+//        while(iterator.hasNext()){
+//            menus.add(iterator.next());
+//        }
         this.unit = unit;
     }
 
@@ -149,7 +153,7 @@ public class StatisticAsyncTask extends AsyncTask<Void, Void, Void> {
         while (keys.hasNext()) {
             String key = keys.next();
             JSONArray jsonArray = jsonObject.getJSONArray(key);
-            for (int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 1; i <= jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
                 Iterator<String> quarters = object.keys();
                 while (quarters.hasNext()) {
