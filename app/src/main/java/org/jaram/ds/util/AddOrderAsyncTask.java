@@ -3,29 +3,39 @@ package org.jaram.ds.util;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 
+import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Order;
 import org.jaram.ds.data.struct.OrderMenu;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Created by ohyongtaek on 15. 9. 9..
  */
-public class AddOrderAsyncTask extends AsyncTask<Order,Integer,Void> {
+public class AddOrderAsyncTask extends AsyncTask<Order, Integer, Void> {
     public static final String SERVER_URL = "http://61.77.77.20";
     Context mContext;
-    public AddOrderAsyncTask(Context context){
-        this.mContext  = context;
+
+    public AddOrderAsyncTask(Context context) {
+        this.mContext = context;
     }
+
     ProgressDialog dialog;
+
     @Override
     protected void onPreExecute() {
         dialog = ProgressDialog.show(mContext, "", "추가중입니다.", true);
@@ -35,44 +45,51 @@ public class AddOrderAsyncTask extends AsyncTask<Order,Integer,Void> {
     @Override
     protected Void doInBackground(Order... params) {
 
-        HashMap<String,Object> hashMap = new HashMap<>();
+//        HashMap<String,Object> hashMap = new HashMap<>();
 
+        HashMap<Integer, Integer> hashMap = new HashMap<>();
+        HashMap<String,Object> billMap = new HashMap<>();
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd H:mm:ss", Locale.KOREA);
-<<<<<<< HEAD
             Date date = new Date();
             String date2 = format.format(date);
-            hashMap.put("time",date2);
-            JSONArray array = new JSONArray();
-            for(int i=0; i<params[0].menuList.size(); i++){
-                JSONObject object = new JSONObject();
-                OrderMenu ordermenu = params[0].menuList.get(i);
-                object.put("id", ordermenu.menu.id);
-                object.put("pay", ordermenu.pay);
-                object.put("curry", ordermenu.curry);
-                object.put("twice", ordermenu.doublei);
-                array.put(object);
+            String st = "";
+            int curry = 0;
+            int twice = 0;
+            Order orderlist = params[0];
+            for (int i = 0; i < orderlist.menuList.size(); i++) {
+                if (orderlist.menuList.get(i).curry) {
+                    curry++;
+                }
+                if (orderlist.menuList.get(i).doublei) {
+                    twice++;
+                }
+                if (hashMap.containsKey(orderlist.menuList.get(i).menu.id)) {
+                    int count = hashMap.get(orderlist.menuList.get(i).menu.id);
+                    hashMap.put(orderlist.menuList.get(i).menu.id, count + 1);
+                } else {
+                    hashMap.put(orderlist.menuList.get(i).menu.id, 1);
+                }
             }
-//            String orderMenu = "[{\"id\":"+3+",\"curry\" :"+true+", \"double\" : "+true+", \"pay\" : "+2+"}]";
-//            JSONArray jsonArray = new JSONArray(orderMenu);
-            hashMap.put("totalprice", params[0].getTotalForServer());
-            hashMap.put("ordermenus", array);
-=======
-            String date = "2015-10-16 13:20:22";
-            hashMap.put("time",date);
-            String orderMenu = "[{\"id\":"+3+",\"curry\" :"+true+", \"twice\" : "+true+", \"pay\" : "+2+"}]";
-            JSONArray jsonArray = new JSONArray(orderMenu);
-            hashMap.put("totalprice", 5000);
-            hashMap.put("ordermenus", jsonArray);
->>>>>>> c6d2842d45a53b49f6c722a9d624624ec585e6f5
-
-            Log.d("testJsonArray", array + "");
-
-            String responses = Http.post(SERVER_URL+"/order",hashMap);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            Iterator<Integer> key = hashMap.keySet().iterator();
+            while (key.hasNext()) {
+                int key2 = key.next();
+                st += Data.menuList.get(key2).name;
+                st += "\\x09"+hashMap.get(key2);
+                st += "\\x09"+Data.menuList.get(key2).price;
+                st += "\\x09"+Data.menuList.get(key2).price * hashMap.get(key2)+"\\n";
+            }
+            if (curry > 0) {
+                st += "카레추가\\x09"+curry+"\\x2500\\x"+curry * 2500+"\\n";
+            }
+            if (twice > 0) {
+                st += "곱추가\\x09"+twice+"\\x2500\\x"+twice * 2500+"\\n";
+            }
+            billMap.put("order",st);
+            billMap.put("date",date);
+            Log.d("string",st);
+            String responses = Http.post(SERVER_URL+"/util/print_statement",billMap);
+        }catch (Exception e){}
         return null;
     }
 

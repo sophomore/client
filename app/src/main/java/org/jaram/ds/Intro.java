@@ -11,10 +11,7 @@ import org.jaram.ds.admin.view.ManagementIntro;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.order.OrderManager;
 import org.jaram.ds.util.AddOrderAsyncTask;
-<<<<<<< HEAD
-=======
 import org.jaram.ds.util.MenuAysncTask;
->>>>>>> c6d2842d45a53b49f6c722a9d624624ec585e6f5
 import org.jaram.ds.util.MenuManageAsyncTask;
 
 public class Intro extends Activity {
@@ -39,12 +36,8 @@ public class Intro extends Activity {
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< HEAD
-
-=======
                 AddOrderAsyncTask addOrderAsyncTask = new AddOrderAsyncTask(Intro.this);
                 addOrderAsyncTask.execute();
->>>>>>> c6d2842d45a53b49f6c722a9d624624ec585e6f5
                 startActivity(new Intent(Intro.this, OrderManager.class));
             }
         });
