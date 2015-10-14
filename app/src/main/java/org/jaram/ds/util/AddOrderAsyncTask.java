@@ -12,10 +12,6 @@ import org.jaram.ds.data.struct.OrderMenu;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;

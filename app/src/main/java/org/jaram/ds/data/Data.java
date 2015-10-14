@@ -25,6 +25,7 @@ public class Data {
     public static ArrayList<Integer> cards = new ArrayList<Integer>();
     public static ArrayList<Integer> cashs = new ArrayList<Integer>();
     public static ArrayList<HashMap> menus = new ArrayList<>();
+    public static ArrayList<HashMap> counts = new ArrayList<>();
     public static int totalPrice = 0;
     public static int totalCard = 0;
     public static int totalCash = 0;
@@ -40,6 +41,7 @@ public class Data {
         cards = new ArrayList<>();
         cashs = new ArrayList<>();
         menus = new ArrayList<>();
+        counts = new ArrayList<>();
         totalPrice = 0;
         totalCash = 0;
         totalCard = 0;

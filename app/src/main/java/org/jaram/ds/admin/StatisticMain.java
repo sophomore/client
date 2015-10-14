@@ -1,6 +1,7 @@
 package org.jaram.ds.admin;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
@@ -34,6 +35,7 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
     TextView startText;
     TextView endText;
     ProgressChartFrag progressChartFrag;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,17 +79,17 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
                 @Override
                 public void onClick(View v) {
                     Log.d("ttsssss", (String) startText.getText());
-                    if(drawer.getChecked()) {
-                        if(startText.getText().length()!=0 && endText.getText().length()!=0) {
+                    if (drawer.getChecked()) {
+                        if (startText.getText().length() != 0 && endText.getText().length() != 0) {
                             createBarChart();
                         }
-                    }else{
+                    } else {
                         Bundle bundle = progressChartFrag.getArguments();
                         boolean analysisType = bundle.getBoolean("analysisType");
                         ArrayList<String> menuList = bundle.getStringArrayList("menuList");
                         int unitType = bundle.getInt("unitType");
                         ArrayList<Integer> menuIds = bundle.getIntegerArrayList("menuIds");
-                        createLineChart(analysisType, menuList, menuIds,unitType);
+                        createLineChart(analysisType, menuList, menuIds, unitType);
                     }
 
                 }
@@ -133,6 +135,11 @@ public class StatisticMain extends FragmentActivity implements DrawerFrag.OnAnal
                     moveTaskToBack(true);
                 }
             });
+
+            SharedPreferences pref = getSharedPreferences("statistic", 0);
+            SharedPreferences.Editor ed = pref.edit();
+            ed.commit();
+
         }
     }
 

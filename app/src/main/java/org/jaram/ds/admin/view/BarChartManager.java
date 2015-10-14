@@ -151,14 +151,14 @@ public class BarChartManager implements OnChartGestureListener {
     public Calendar getStartDate() throws ParseException {
         Calendar cal = Calendar.getInstance();
         String[] date = start.split("-");
-        cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
+        cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1])-1, Integer.parseInt(date[2]));
         return cal;
     }
 
     public Calendar getFinishDate() {
         Calendar cal = Calendar.getInstance();
         String[] date = end.split("-");
-        cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
+        cal.set(Integer.parseInt(date[0]), Integer.parseInt(date[1])-1, Integer.parseInt(date[2]));
         return cal;
     }
 
@@ -263,7 +263,6 @@ public class BarChartManager implements OnChartGestureListener {
 
             }
 
-
             ArrayList<BarDataSet> barDataSets = new ArrayList<BarDataSet>();
 
             ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
@@ -358,26 +357,34 @@ public class BarChartManager implements OnChartGestureListener {
             e.printStackTrace();
         }
         if (startDate != null) {
-            Calendar date2;
             cloneStart = (Calendar) startDate.clone();
             while(!((cloneStart.get(Calendar.YEAR) == endDate.get(Calendar.YEAR)) && (cloneStart.get(Calendar.MONTH) == endDate.get(Calendar.MONTH)))){
-                String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+                String month = cloneStart.get(Calendar.YEAR)+"."+(cloneStart.get(Calendar.MONTH)+1);
                 months.add(month);
                 cloneStart.add(Calendar.MONTH,1);
             }
-            String month = cloneStart.get(Calendar.YEAR)+"."+cloneStart.get(Calendar.MONTH);
+            String month = cloneStart.get(Calendar.YEAR)+"."+(cloneStart.get(Calendar.MONTH)+1);
             months.add(month);
 
             ArrayList<BarDataSet> barDataSets = new ArrayList<BarDataSet>();
 
             ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+            Log.d("ttss",totalOfMonth.size()+"@");
             for (int k = 0; k < months.size(); k++) {
-                entries.add(new BarEntry(totalOfMonth.get(k), k));
+                Log.d("ttss",k+"");
+                float[] data = new float[2];
+                data[0] = cardOfMonth.get(k);
+                data[1] = cashOfMonth.get(k);
+                BarEntry entry = new BarEntry(data,k);
+                entries.add(entry);
+
             }
+            int rgb = 100;
 
             BarDataSet barDataSet = new BarDataSet(entries, "매출액");
+            barDataSet.addColor(Color.parseColor("#213"+String.valueOf(rgb)));
             barDataSets.add(barDataSet);
-
+            barDataSet.setBarSpacePercent(20);
             String xVals[] = new String[months.size()];
 
             for (int i = 0; i < months.size(); i++) {

@@ -25,7 +25,6 @@ import org.jaram.ds.R;
 import org.jaram.ds.data.Data;
 import org.jaram.ds.data.struct.Menu;
 import org.jaram.ds.data.struct.Order;
-import org.jaram.ds.data.struct.OrderMenu;
 import org.jaram.ds.order.MenuListAdapter;
 import org.jaram.ds.order.SimpleItemTouchHelper;
 import org.jaram.ds.util.AddOrderAsyncTask;
